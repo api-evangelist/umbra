@@ -1,0 +1,73 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.canopy.umbra.space/docs/versioning-policy
+docs: https://docs.canopy.umbra.space/docs/versioning-policy
+versioning:
+  scheme: semver
+  spec: https://semver.org/
+  current_major: '1'
+  default_when_unspecified: MAJOR version 1
+  in_url: false
+  policy:
+  - Backwards compatible within a MAJOR version.
+  - Backwards-compatible feature additions and behavior changes ship in MINOR releases.
+  - Non-breaking bug fixes ship in PATCH releases.
+  - Breaking changes ship only in MAJOR releases.
+  docs: https://docs.canopy.umbra.space/docs/versioning-policy
+support_window:
+  policy: >-
+    Umbra supports at minimum the two most recent MAJOR versions of the Canopy API.
+  source: https://docs.canopy.umbra.space/docs/versioning-policy
+deprecation:
+  policy_url: https://docs.canopy.umbra.space/docs/versioning-policy
+  policy: >-
+    Umbra states it will make all attempts to avoid introducing breaking changes, will notify users
+    of upcoming MAJOR releases via the documentation and standard support channels, and will
+    provide a clear deprecation timeline as part of those notifications.
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    The policy is prose only. No Sunset or Deprecation response header (RFC 8594) is documented,
+    and no operation in any of the six OpenAPI documents carries `deprecated: true` — so a client
+    cannot detect deprecation programmatically.
+  announced_deprecations:
+  - subject: STAC API (v1)
+    announced: '2024-07-17'
+    superseded_by: STAC API v2
+    migration_guide: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+    source: https://docs.canopy.umbra.space/changelog/2024-07-17
+    note: >-
+      Announced in the changelog as "Deprecated STAC API in favor of STAC API v2". The successor
+      is captured at openapi/umbra-stac-api-v2-openapi.yml.
+deprecated_operations: []
+changelog:
+  url: https://docs.canopy.umbra.space/docs/changelog
+  policy: >-
+    Umbra commits to maintaining an API changelog for all MAJOR, MINOR and PATCH releases.
+  artifact: changelog/umbra-changelog.yml
+documentation_policy: >-
+  Umbra commits to maintaining documentation for the most recent MAJOR version of the Canopy API
+  at https://docs.canopy.umbra.space
+status_page:
+  published: false
+  note: >-
+    No status page was found. status.umbra.space and status.canopy.umbra.space do not resolve
+    (DNS failure, curl exit code 6), and neither the documentation, the llms.txt index nor
+    umbra.space links one. Incident and degradation communication appears to run through a Canopy
+    representative — the rate-limiting guide tells customers to "contact your Canopy
+    representative" when status transitions are delayed beyond an hour.
+sla:
+  published: false
+  note: No public SLA or uptime target was found on umbra.space or the Canopy documentation.
+current_spec_versions:
+  tasking: 3.13.0
+  delivery: 5.1.0
+  admin: 3.1.0
+  stac-archive: 2.1.0
+  tiles: 1.0.3
+  stac-api-v2: 0.1.5
+  note: >-
+    Each Canopy service document versions independently in info.version; these do not track the
+    "MAJOR version 1" of the Canopy API as a whole described by the versioning policy.
+support: https://help.umbra.space/

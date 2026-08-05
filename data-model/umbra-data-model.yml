@@ -1,0 +1,184 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/ (all six documents), cross-checked against the Canopy tasking and collects guides
+docs: https://docs.canopy.umbra.space/docs/glossary
+summary: >-
+  Canopy's core is a four-entity tasking chain — Feasibility produces Opportunities, a Task is
+  submitted against a window, a Task fans out into one or more Collects, and each processed Collect
+  becomes a STAC Item with downloadable assets. DeliveryConfig, Contract and Organization are the
+  configuration entities that bound and route that chain. Every geospatial entity is expressed as a
+  GeoJSON Feature, so Task and Collect are Features whose domain fields live under `properties`.
+entities:
+- name: Feasibility
+  schema: Feasibility
+  spec: openapi/umbra-tasking-openapi.yml
+  id_field: id
+  id_type: uuid
+  key_fields: [id, createdAt, updatedAt, status, organizationId, userId, feasibilityRequest, opportunities]
+  status_enum: [RECEIVED, COMPLETED, ERROR]
+  description: >-
+    A request to compute whether and when the constellation can image a target. Asynchronous —
+    poll get_feasibility until COMPLETED, at which point opportunities is populated.
+  operations: [create_feasibility, get_feasibility]
+- name: Opportunity
+  schema: Opportunity
+  spec: openapi/umbra-tasking-openapi.yml
+  id_field: null
+  key_fields: [windowStartAt, windowEndAt, durationSec, satelliteId, grazingAngleStartDegrees,
+    grazingAngleEndDegrees, targetAzimuthAngleStartDegrees, squintAngleStartDegrees,
+    slantRangeStartKm, groundRangeStartKm]
+  description: >-
+    A single collection window a satellite can service, embedded in the parent Feasibility. Has no
+    id of its own and is not independently addressable.
+- name: Task
+  schema: Task
+  spec: openapi/umbra-tasking-openapi.yml
+  id_field: id
+  id_type: uuid
+  geojson: Feature
+  key_fields: [id, type, geometry, properties, bulkTaskId]
+  property_fields: [createdAt, updatedAt, organizationId, userId, userEmail, contractId, status,
+    statusHistory, collectIds, taskType, imagingMode, windowStartAt, windowEndAt,
+    acceptableWindowStartAt, acceptableWindowEndAt, spotlightConstraints, scanConstraints,
+    constraints, deliveryConfigId, productTypes, tags, taskName, userOrderId, satelliteIds,
+    contractSnapshot]
+  status_enum: [RECEIVED, REVIEW, ACCEPTED, ACTIVE, SCHEDULED, REJECTED, EXPIRED, TASKED,
+    PROCESSING, PROCESSED, DELIVERING, DELIVERED, CANCEL_REQUESTED, CANCELED, ERROR, ANOMALY,
+    COMPLETED, SUBMITTED, TRANSMITTED, INCOMPLETE]
+  description: >-
+    A request to collect new imagery. New Tasks begin ACTIVE and transition to SUBMITTED or
+    REJECTED within a few minutes.
+  operations: [create_task, get_task, cancel_task, post_search_tasks, create_archive_tasks]
+- name: Collect
+  schema: CollectResponse
+  spec: openapi/umbra-tasking-openapi.yml
+  id_field: id
+  id_type: uuid
+  geojson: Feature
+  key_fields: [id, type, geometry, archiveIds, properties]
+  property_fields: [id, createdAt, updatedAt, collectName, taskId, satelliteId, collectType,
+    status, statusHistory, startAt, endAt, footprintSquareMeters, polarization, multilookFactor,
+    grazingAngleDegrees, incidenceAngleDegrees, targetAzimuthAngleDegrees, squintAngleDegrees,
+    slantRangeKilometers, azimuthResolutionMinMeters, rangeResolutionMinMeters, organizationId,
+    taskName, taskType, userOrderId]
+  status_enum: [ACTIVE, SCHEDULED, COMMANDED, COLLECTED, DOWNLINKED, INCOMPLETE, CORRUPT, STAGED,
+    QUEUED, PROCESSING, PROCESSING_DELAY, PROCESSED, SUPERSEDED, FAILED, CANCELED, STALLED,
+    UNKNOWN_COLLECT_STATUS, PARSED, ASSEMBLED, TRANSMITTED, DELIVERED, DELIVERING,
+    DELIVERY_STALLED, DELIVERY_DELAYED, DELIVERY_ERROR]
+  description: >-
+    A single imaging event produced by a Task. Carries the full radar geometry of the acquisition
+    and the billing unit of the platform.
+  operations: [get_collect, post_search_collects]
+- name: STAC Item
+  spec: [openapi/umbra-stac-api-v2-openapi.yml, openapi/umbra-stac-archive-openapi.yml]
+  id_field: id
+  key_fields: [id, collection, geometry, properties, assets, links]
+  namespaced_properties: 'umbra:status, sar:instrument_mode, platform, datetime, created'
+  description: >-
+    The catalog representation of a processed Collect. Assets include signed URLs when the number
+    of items returned is below a threshold (default 5).
+  operations: [Search_search_get, Search_search_post,
+    Get_Item_collections__collection_id__items__item_id__get,
+    Get_ItemCollection_collections__collection_id__items_get, get_thumbnail]
+- name: STAC Collection
+  spec: [openapi/umbra-stac-api-v2-openapi.yml, openapi/umbra-stac-archive-openapi.yml]
+  id_field: collection_id
+  description: >-
+    Grouping of STAC Items. In the STAC API v2 the collection id is the organization; in the
+    Archive Catalog the documented collection is umbra-sar.
+  operations: [Get_Collections_collections_get, Get_Collection_collections__collection_id__get]
+- name: DeliveryConfig
+  spec: openapi/umbra-delivery-openapi.yml
+  id_field: delivery_config_id
+  description: >-
+    Destination configuration that pushes finished products into a customer-owned AWS S3 or Google
+    Cloud Storage bucket. Verified by publishing a dummy file; status becomes ACTIVE on success or
+    ERROR with a status_message.
+  status_values: [ACTIVE, ERROR, DELETED]
+  operations: [list_delivery_configs, post_delivery_config, delete_delivery_config,
+    verify_delivery_config]
+- name: Contract
+  schema: Contract
+  spec: openapi/umbra-tasking-openapi.yml
+  id_field: contractId
+  description: >-
+    Commercial agreement that bounds what an organization may task. Snapshotted onto each Task as
+    contractSnapshot. Resolved constraints are read from the Admin API.
+  operations: [get_constraints_for_contract_or_org_default,
+    list_all_product_constraints_for_logged_in_org]
+- name: Organization
+  spec: openapi/umbra-admin-openapi.yml
+  id_field: organizationId
+  description: >-
+    The tenancy boundary for everything — credentials, rate limits, Tasks, Collects,
+    DeliveryConfigs and restricted access areas are all resolved per organization.
+  operations: [get_organization_settings, get_token, create_token, rotate_token, delete_token]
+relationships:
+- from: Feasibility
+  to: Opportunity
+  type: has_many
+  via: opportunities
+  note: embedded array, populated only once Feasibility.status is COMPLETED
+- from: Task
+  to: Collect
+  type: has_many
+  via: properties.collectIds
+- from: Collect
+  to: Task
+  type: belongs_to
+  via: properties.taskId
+- from: Task
+  to: DeliveryConfig
+  type: has_one
+  via: properties.deliveryConfigId
+  optional: true
+  note: without one, data is made available for download in Canopy instead of pushed
+- from: Task
+  to: Contract
+  type: belongs_to
+  via: properties.contractId
+- from: Task
+  to: Organization
+  type: belongs_to
+  via: properties.organizationId
+- from: Collect
+  to: Organization
+  type: belongs_to
+  via: properties.organizationId
+- from: Feasibility
+  to: Organization
+  type: belongs_to
+  via: organizationId
+- from: Task
+  to: Task
+  type: belongs_to
+  via: bulkTaskId
+  note: self-reference grouping tasks submitted as a bulk request
+- from: Collect
+  to: STAC Item
+  type: has_many
+  via: archiveIds
+  note: >-
+    The join from the tasking surface into the archive catalog — archiveIds are the ids used
+    against the Archive Catalog STAC API and get_thumbnail.
+- from: STAC Item
+  to: STAC Collection
+  type: belongs_to
+  via: collection
+- from: DeliveryConfig
+  to: Organization
+  type: belongs_to
+  via: requesting organization id
+  note: >-
+    list_delivery_configs is explicitly unpaginated because each org is expected to create only a
+    few configs.
+enumerations:
+  ImagingMode: [SPOTLIGHT, SCAN]
+  TaskType: [STANDARD, ARCHIVE]
+  SceneSize: [4x4_KM, 5x5_KM, 10x10_KM, NATURAL_FOOTPRINT]
+  TaskProductType: [CPHD, GEC, SIDD, SICD, DI_GIF, DI_TIF, CRSD]
+lifecycle_chain: >-
+  create_feasibility -> poll get_feasibility until COMPLETED -> pick an Opportunity ->
+  create_task within that window -> poll get_task through SCHEDULED/TASKED/PROCESSING ->
+  Collects created and transition to PROCESSED -> DELIVERED (via DeliveryConfig or Canopy
+  download) -> Collect.archiveIds resolvable as STAC Items with signed asset URLs.

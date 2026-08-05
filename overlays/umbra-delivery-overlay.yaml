@@ -1,0 +1,49 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Umbra Canopy Delivery API
+  version: 1.0.0
+extends: openapi/umbra-delivery-openapi.yml
+x-generated: '2026-08-05'
+x-method: generated
+x-note: Additive only. Never mutates the harvested document, which is a verbatim copy of the JSON Umbra publishes
+  at docs.canopy.umbra.space/openapi/.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and cross-links to the enrichment artifacts in this repo.
+  update:
+    x-apievangelist-provider: umbra
+    x-apievangelist-source: https://docs.canopy.umbra.space/openapi/delivery.json
+    x-apievangelist-harvested: '2026-08-05'
+    x-apievangelist-artifacts:
+      authentication: authentication/umbra-authentication.yml
+      conventions: conventions/umbra-conventions.yml
+      errors: errors/umbra-problem-types.yml
+      rate_limits: rate-limits/umbra-rate-limits.yml
+      lifecycle: lifecycle/umbra-lifecycle.yml
+      sandbox: sandbox/umbra-sandbox.yml
+      data_model: data-model/umbra-data-model.yml
+- target: $
+  description: Declare the top-level tags this document's operations belong to. The published document declares
+    no tags[] array at all, so nothing is overwritten.
+  update:
+    tags:
+    - name: Delivery
+- target: $.components.securitySchemes.bearerAuth
+  description: Document how the bearer JWT is actually obtained. The published scheme states only http/bearer/JWT
+    and omits the OAuth2 client-credentials exchange that mints it.
+  update:
+    description: JWT bearer token. Obtain interactively from https://canopy.umbra.space/account (24h lifetime) or
+      via the OAuth2 client-credentials exchange at https://auth.canopy.umbra.space/oauth/token with audience https://api.canopy.umbra.space
+      (or https://api.canopy.prod.umbra-sandbox.space for the sandbox). Token exchange is limited to 50 per rolling
+      24h per client.
+    x-token-url: https://auth.canopy.umbra.space/oauth/token
+    x-oauth-flow: clientCredentials
+    x-audience-required: true
+- target: $.info
+  description: Flag the undeclared error responses so downstream consumers know the contract is incomplete rather
+    than the API being 401-free.
+  update:
+    x-apievangelist-undeclared-responses:
+    - 401 Unauthorized is undeclared on every operation despite bearerAuth being required on all of them
+    - 429 Too Many Requests is undeclared despite documented per-endpoint rate limits (see rate-limits/umbra-rate-limits.yml)
+    - no 5xx response is declared anywhere in this document

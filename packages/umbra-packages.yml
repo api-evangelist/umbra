@@ -1,0 +1,65 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  npm, PyPI, RubyGems and the GitHub org github.com/Umbra-Space, cross-checked against
+  https://docs.canopy.umbra.space/docs/archive-catalog-developer-tooling
+finding: >-
+  Umbra publishes NO first-party client SDK for the Canopy API in any language. Its own developer
+  tooling page recommends third-party open-source libraries instead. Two same-named PyPI packages
+  were checked and explicitly ruled out as unrelated (see rejected below). No `SDKs` pointer is
+  emitted in apis.yml, because there is no official client library to count.
+packages: []
+first_party_repositories:
+- name: umbra-stac-extension
+  url: https://github.com/Umbra-Space/umbra-stac-extension
+  org: https://github.com/Umbra-Space
+  description: STAC extension for Umbra — the umbra:* property vocabulary carried on STAC items
+  kind: specification extension
+  official: true
+  note: >-
+    Not a client library. It is the only public repository in Umbra's GitHub organization.
+recommended_third_party_source: https://docs.canopy.umbra.space/docs/archive-catalog-developer-tooling
+recommended_third_party_note: >-
+  Recommended BY Umbra for consuming the Archive Catalog, but authored and maintained by others.
+  official:false on every entry.
+recommended_third_party:
+- language: python
+  registry: pypi
+  name: pystac-client
+  url: https://github.com/stac-utils/pystac-client
+  install: pip install pystac-client
+  official: false
+  maintainer: stac-utils
+  usage: >-
+    Client.open("https://api.canopy.umbra.space/archive/", headers={"Authorization": f"Bearer
+    {CANOPY_TOKEN}"}) then .search(collections=["umbra-sar"], intersects=..., datetime=...)
+- language: python
+  registry: pypi
+  name: leafmap
+  url: https://leafmap.org/
+  install: pip install leafmap
+  official: false
+  usage: interactive Jupyter map for drawing search bounds and visualizing STAC results
+rejected:
+- registry: pypi
+  name: umbra
+  url: https://pypi.org/project/umbra/
+  reason: >-
+    Name collision. "Umbra is the main package of sIBL_GUI and sIBL_Reporter" by Thomas Mansencal
+    (github.com/KelSolaar/Umbra) — unrelated to Umbra Space.
+- registry: pypi
+  name: canopy-sdk
+  url: https://pypi.org/project/canopy-sdk/
+  reason: >-
+    Name collision. A Retrieval Augmented Generation framework powered by Pinecone, by the
+    Relevance Team — unrelated to Umbra's Canopy.
+- registry: github
+  name: stapi-spec/stapi-fastapi-umbra
+  url: https://github.com/stapi-spec/stapi-fastapi-umbra
+  reason: >-
+    A community STAPI (Satellite Tasking API) implementation that proxies to the Canopy API. Owned
+    by the stapi-spec organization, not by Umbra.
+gap: >-
+  Six OpenAPI 3.1 documents and 37 operations are published, which is exactly the input a
+  generated SDK needs — but no generated or hand-written client is offered in any language, so
+  every integrator writes raw HTTP plus their own token-refresh loop.

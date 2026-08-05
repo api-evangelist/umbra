@@ -1,0 +1,520 @@
+openapi: 3.1.0
+info:
+  title: Tiles
+  description: Canopy API for map tiles and preview images
+  version: 1.0.3
+servers:
+- url: https://api.canopy.umbra.space/tiles
+paths:
+  /cog/preview:
+    get:
+      tags:
+      - Preview Image
+      summary: Preview
+      description: Create preview of a dataset.
+      operationId: preview_cog_preview_get
+      parameters:
+      - name: format
+        in: query
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/ImageType'
+          title: Format
+      - name: collect_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Collect ID to render
+          title: Collect Id
+        description: Collect ID to render
+      - name: bidx
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: integer
+          - type: 'null'
+          title: Band indexes
+          description: Dataset band indexes
+        description: Dataset band indexes
+        examples:
+          one-band:
+            value:
+            - 1
+          multi-bands:
+            value:
+            - 1
+            - 2
+            - 3
+      - name: expression
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Band Math expression
+          description: rio-tiler's band math expression
+        description: rio-tiler's band math expression
+        examples:
+          simple:
+            description: Simple band math.
+            value: b1/b2
+          multi-bands:
+            description: 'Semicolon (;) delimited expressions (band1: b1/b2, band2: b2+b3).'
+            value: b1/b2;b2+b3
+      - name: dst_crs
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Output Coordinate Reference System.
+          title: Dst Crs
+        description: Output Coordinate Reference System.
+      - name: nodata
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: number
+          - type: 'null'
+          title: Nodata value
+          description: Overwrite internal Nodata value
+        description: Overwrite internal Nodata value
+      - name: unscale
+        in: query
+        required: false
+        schema:
+          type: boolean
+          title: Apply internal Scale/Offset
+          description: Apply internal Scale/Offset. Defaults to `False`.
+          default: false
+        description: Apply internal Scale/Offset. Defaults to `False`.
+      - name: resampling
+        in: query
+        required: false
+        schema:
+          enum:
+          - nearest
+          - bilinear
+          - cubic
+          - cubic_spline
+          - lanczos
+          - average
+          - mode
+          - gauss
+          - rms
+          type: string
+          description: RasterIO resampling algorithm. Defaults to `nearest`.
+          default: nearest
+          title: Resampling
+        description: RasterIO resampling algorithm. Defaults to `nearest`.
+      - name: reproject
+        in: query
+        required: false
+        schema:
+          enum:
+          - nearest
+          - bilinear
+          - cubic
+          - cubic_spline
+          - lanczos
+          - average
+          - mode
+          - sum
+          - rms
+          type: string
+          description: WarpKernel resampling algorithm (only used when doing re-projection). Defaults to `nearest`.
+          default: nearest
+          title: Reproject
+        description: WarpKernel resampling algorithm (only used when doing re-projection). Defaults to `nearest`.
+      - name: max_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1024
+          title: Max Size
+      - name: height
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Height
+      - name: width
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Width
+      - name: algorithm
+        in: query
+        required: false
+        schema:
+          enum:
+          - hillshade
+          - contours
+          - normalizedIndex
+          - terrarium
+          - terrainrgb
+          type: string
+          description: Algorithm name
+          title: Algorithm
+        description: Algorithm name
+      - name: algorithm_params
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Algorithm parameter
+          title: Algorithm Params
+        description: Algorithm parameter
+      - name: rescale
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Min/Max data Rescaling
+          description: comma (',') delimited Min,Max range. Can set multiple time for multiple bands.
+          examples:
+          - 0,2000
+          - 0,1000
+          - 0,10000
+        description: comma (',') delimited Min,Max range. Can set multiple time for multiple bands.
+      - name: color_formula
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color Formula
+          description: 'rio-color formula (info: https://github.com/mapbox/rio-color)'
+        description: 'rio-color formula (info: https://github.com/mapbox/rio-color)'
+      - name: colormap_name
+        in: query
+        required: false
+        schema:
+          enum:
+          - dense_r
+          - delta
+          - algae_r
+          - ylorbr
+          - oxy
+          - copper
+          - tab20c_r
+          - cividis_r
+          - solar
+          - gnuplot
+          - dark2_r
+          - gist_yarg_r
+          - balance_r
+          - gist_earth
+          - balance
+          - jet
+          - gist_heat
+          - rdylgn
+          - rainbow_r
+          - turbid_r
+          - magma_r
+          - gist_stern_r
+          - plasma
+          - gnuplot2_r
+          - rdylgn_r
+          - matter
+          - puor_r
+          - cool
+          - gist_gray_r
+          - spectral
+          - turbo_r
+          - amp
+          - gist_heat_r
+          - accent
+          - ice
+          - brg
+          - hsv_r
+          - tab10
+          - brg_r
+          - ylgnbu
+          - accent_r
+          - coolwarm
+          - winter_r
+          - binary
+          - bwr_r
+          - wistia
+          - bone
+          - paired
+          - rdylbu
+          - inferno
+          - summer_r
+          - hot
+          - gist_ncar
+          - ylorbr_r
+          - amp_r
+          - tarn_r
+          - orrd
+          - bupu
+          - dense
+          - greens_r
+          - hot_r
+          - phase
+          - ocean
+          - plasma_r
+          - afmhot_r
+          - autumn
+          - gist_stern
+          - diff_r
+          - prgn
+          - tab20b_r
+          - solar_r
+          - cubehelix
+          - prism
+          - gnuplot_r
+          - inferno_r
+          - twilight_r
+          - jet_r
+          - brbg
+          - autumn_r
+          - afmhot
+          - rain
+          - purd_r
+          - wistia_r
+          - tab10_r
+          - coolwarm_r
+          - bugn_r
+          - viridis
+          - ylgn_r
+          - gist_rainbow
+          - rainbow
+          - spring_r
+          - puor
+          - greys
+          - pubu
+          - dark2
+          - bugn
+          - phase_r
+          - thermal_r
+          - set2
+          - flag_r
+          - ylorrd_r
+          - copper_r
+          - spectral_r
+          - prism_r
+          - set3
+          - ylgnbu_r
+          - rain_r
+          - brbg_r
+          - terrain_r
+          - pastel1_r
+          - rdbu
+          - bwr
+          - set1
+          - tab20b
+          - blues_r
+          - purples
+          - terrain
+          - gist_rainbow_r
+          - haline
+          - summer
+          - tab20c
+          - turbid
+          - flag
+          - twilight_shifted
+          - gray_r
+          - delta_r
+          - nipy_spectral
+          - topo_r
+          - oranges_r
+          - prgn_r
+          - diff
+          - set3_r
+          - deep
+          - ylorrd
+          - cfastie
+          - rplumbo
+          - gray
+          - deep_r
+          - gist_yarg
+          - twilight
+          - rdbu_r
+          - pink_r
+          - reds
+          - algae
+          - speed_r
+          - twilight_shifted_r
+          - bone_r
+          - cividis
+          - set1_r
+          - purples_r
+          - rdgy_r
+          - matter_r
+          - gist_gray
+          - cool_r
+          - ice_r
+          - speed
+          - gist_ncar_r
+          - rdgy
+          - ylgn
+          - oxy_r
+          - pastel2_r
+          - pastel2
+          - nipy_spectral_r
+          - tempo_r
+          - haline_r
+          - viridis_r
+          - gnuplot2
+          - pubu_r
+          - bupu_r
+          - pastel1
+          - binary_r
+          - greys_r
+          - paired_r
+          - orrd_r
+          - gnbu
+          - topo
+          - pubugn
+          - tempo
+          - tab20_r
+          - pink
+          - gnbu_r
+          - tab20
+          - blues
+          - rdpu_r
+          - turbo
+          - rdylbu_r
+          - hsv
+          - winter
+          - magma
+          - seismic
+          - piyg
+          - cmrmap_r
+          - schwarzwald
+          - gist_earth_r
+          - cubehelix_r
+          - piyg_r
+          - seismic_r
+          - thermal
+          - cmrmap
+          - purd
+          - rdpu
+          - oranges
+          - set2_r
+          - greens
+          - ocean_r
+          - spring
+          - curl
+          - tarn
+          - curl_r
+          - reds_r
+          - pubugn_r
+          type: string
+          description: Colormap name
+          title: Colormap Name
+        description: Colormap name
+      - name: colormap
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: JSON encoded custom Colormap
+          title: Colormap
+        description: JSON encoded custom Colormap
+      - name: return_mask
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Add mask to the output data. Defaults to `True`
+          default: true
+          title: Return Mask
+        description: Add mask to the output data. Defaults to `True`
+      responses:
+        '200':
+          description: Return an image.
+          content:
+            image/png: {}
+            image/jpeg: {}
+            image/jpg: {}
+            image/webp: {}
+            image/jp2: {}
+            image/tiff; application=geotiff: {}
+            application/x-binary: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ImageType:
+      type: string
+      enum:
+      - png
+      - npy
+      - tif
+      - jpeg
+      - jpg
+      - jp2
+      - webp
+      - pngraw
+      title: ImageType
+      description: Available Output image type.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+- bearerAuth: []

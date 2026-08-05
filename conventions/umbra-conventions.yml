@@ -1,0 +1,128 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  https://docs.canopy.umbra.space/docs/introduction + the rate-limiting, authentication and
+  versioning-policy guides, derived against the six documents in openapi/
+docs: https://docs.canopy.umbra.space/docs
+api_style: REST over JSON, with two STAC-conformant sub-APIs
+base_hosts:
+  live: https://api.canopy.umbra.space
+  sandbox: https://api.canopy.prod.umbra-sandbox.space
+service_prefixes:
+  tasking: /tasking
+  stac_v2: /v2/stac
+  archive: /archive
+  delivery: /delivery
+  admin: /admin
+  tiles: /tiles
+authentication:
+  style: bearer JWT in the Authorization header
+  header: 'Authorization: Bearer <access_token>'
+  minted_by: OAuth2 client credentials against https://auth.canopy.umbra.space/oauth/token
+  detail: authentication/umbra-authentication.yml
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key (or equivalent) header or parameter appears anywhere in the six OpenAPI
+    documents, and the docs describe no idempotency contract. create_task, create_feasibility and
+    create_archive_tasks are all non-idempotent POSTs.
+  client_side_key: >-
+    The closest available affordance is userOrderId, a caller-supplied field on CommercialTaskRequest
+    and ArchiveResellRequestItem that is also a searchable filter on post_search_tasks and
+    post_search_collects. A client can use it to detect whether a Task it already submitted exists
+    before retrying — but Umbra does not deduplicate on it server-side, so it is a reconciliation
+    handle, not an idempotency key.
+  gap: >-
+    Retrying a create_task after a network timeout risks a duplicate billable Collect. This is the
+    single most valuable thing Umbra could add to the Canopy API for agentic and automated callers.
+pagination:
+  styles:
+  - name: offset/limit (tasking search)
+    applies_to: [post_search_tasks, post_search_collects]
+    location: JSON request body
+    params:
+      limit: maximum records to return
+      skip: number of records to skip
+      sortBy: sort specification
+    schemas: [PostSearchTasksRequest, PostSearchCollectsRequest]
+  - name: token cursor (STAC)
+    applies_to: [Search_search_get, Search_search_post, Get_ItemCollection_collections__collection_id__items_get]
+    location: query string / request body
+    params:
+      limit: page size
+      token: opaque continuation token
+    response_fields: [links, context]
+    note: >-
+      Follows the STAC API Item Search Specification — the next page is reached by following the
+      rel="next" entry in the response `links` array. Response `context` carries limit and returned.
+filtering:
+  tasking_search: >-
+    A structured `query` object on PostSearchTasksRequest / PostSearchCollectsRequest built from
+    typed filter operators rather than a query string.
+  operators:
+    string: [eq, startsWith, endsWith, contains, icontains]
+    value: [eq, ne, gt, lt, gte, lte]
+    uuid: [eq, ne]
+    enum: [in_]
+    array: [contains, all]
+    geometry: [intersects]
+  stac_search: >-
+    STAC API Item Search Specification plus the STAC API Filter Extension (CQL2) on both the STAC
+    API v2 and the Archive Catalog.
+geospatial:
+  geometry_format: GeoJSON
+  crs: see https://docs.canopy.umbra.space/docs/coordinate-reference-systems
+  metadata_standard: STAC (SpatioTemporal Asset Catalog) with an Umbra STAC extension
+  stac_extension: https://github.com/Umbra-Space/umbra-stac-extension
+  namespaced_properties: 'umbra:* and sar:* properties on STAC items (e.g. umbra:status, sar:instrument_mode)'
+error_envelope:
+  format: plain application/json — NOT RFC 9457 problem+json
+  validation_shape:
+    schema: HTTPValidationError
+    field: detail
+    item_schema: ValidationError
+    item_fields: [loc, msg, type]
+  detail: errors/umbra-problem-types.yml
+rate_limiting:
+  signal_status: 429
+  headers: none published
+  detail: rate-limits/umbra-rate-limits.yml
+versioning:
+  scheme: Semantic Versioning (MAJOR.MINOR.PATCH)
+  current_major: 1
+  default_when_unspecified: MAJOR version 1
+  in_url: false
+  note: >-
+    The MAJOR version is not carried in the request path — the one path-visible version marker is
+    the /v2/stac prefix that distinguishes STAC API v2 from the deprecated v1 STAC API. Each
+    OpenAPI document also carries its own independent info.version (Tasking 3.13.0, Delivery 5.1.0,
+    Admin 3.1.0, STAC Archive 2.1.0, Tiles 1.0.3, STAC API V2 0.1.5), which does not track the
+    "MAJOR version 1" of the Canopy API as a whole.
+  detail: lifecycle/umbra-lifecycle.yml
+request_tracing:
+  request_id_header: none documented
+async_model:
+  pattern: submit-then-poll
+  description: >-
+    Both marquee flows are asynchronous. create_feasibility returns status RECEIVED and the client
+    polls get_feasibility until status is COMPLETED, at which point `opportunities` is populated.
+    create_task returns status ACTIVE and transitions to SUBMITTED or REJECTED within a few
+    minutes; the client polls get_task for status. There is no webhook or event callback — see
+    asyncapi/.
+  polling_guidance: >-
+    Reduce polling rate under load rather than increasing it. Status transitions delayed beyond an
+    hour should be escalated to a Canopy representative.
+delivery_model:
+  push: >-
+    The one push mechanism is DeliveryConfig — Canopy copies finished products directly into a
+    customer-owned AWS S3 or Google Cloud Storage bucket. This is data delivery, not event
+    notification.
+  detail: https://docs.canopy.umbra.space/docs/delivery-configs
+cross_links:
+  authentication: authentication/umbra-authentication.yml
+  scopes: scopes/umbra-scopes.yml
+  errors: errors/umbra-problem-types.yml
+  rate_limits: rate-limits/umbra-rate-limits.yml
+  lifecycle: lifecycle/umbra-lifecycle.yml
+  sandbox: sandbox/umbra-sandbox.yml
+  data_model: data-model/umbra-data-model.yml

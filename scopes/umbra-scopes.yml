@@ -1,0 +1,67 @@
+generated: '2026-08-05'
+method: searched
+source: well-known/umbra-oauth-authorization-server.json + well-known/umbra-openid-configuration.json
+docs: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+finding: >-
+  Canopy runs a real OAuth2 client-credentials flow, but it publishes NO API-specific scope
+  vocabulary. Not one of the six OpenAPI documents declares an oauth2 securityScheme or any
+  scope on any operation — every operation is protected by the flat `bearerAuth` bearer token.
+  Authorization is resolved from the organization the credential belongs to and that
+  organization's contract and product constraints, not from scopes on the token. The scopes
+  listed below are the standard OIDC claim scopes advertised by the Auth0 tenant's discovery
+  documents; they govern the identity token, not access to Canopy tasking, archive, delivery or
+  admin resources. Recorded so the distinction is explicit rather than absent.
+schemes:
+- name: Canopy OAuth2 (Auth0 tenant)
+  source: well-known/umbra-oauth-authorization-server.json
+  issuer: https://auth.canopy.umbra.space/
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://auth.canopy.umbra.space/oauth/token
+    audience_required: true
+    scopes_declared: none
+  - flow: authorizationCode
+    authorizationUrl: https://auth.canopy.umbra.space/authorize
+    tokenUrl: https://auth.canopy.umbra.space/oauth/token
+    note: used by the Canopy web application for interactive login
+idp_scopes_supported:
+- scope: openid
+  description: OpenID Connect — request an ID token
+- scope: profile
+  description: Standard OIDC profile claims
+- scope: offline_access
+  description: Request a refresh token
+- scope: name
+- scope: given_name
+- scope: family_name
+- scope: nickname
+- scope: email
+- scope: email_verified
+- scope: picture
+- scope: created_at
+- scope: identities
+- scope: phone
+- scope: address
+api_scopes: []
+authorization_axes:
+- axis: audience
+  values:
+  - https://api.canopy.umbra.space
+  - https://api.canopy.prod.umbra-sandbox.space
+  note: >-
+    The `audience` parameter on the token request is what selects the live or sandbox environment.
+    This is the closest thing Canopy has to a scope — it partitions access, and the two
+    environments are entirely isolated from each other.
+- axis: organization
+  note: >-
+    Client credentials are issued per organization; every request resolves to that organization's
+    Tasks, Collects, DeliveryConfigs and STAC collections.
+- axis: product constraints
+  note: >-
+    What an organization may actually task is bounded by contract-level product constraints,
+    readable via get_constraints_for_contract_or_org_default and
+    list_all_product_constraints_for_logged_in_org on the Admin API.
+- axis: restricted access areas
+  note: >-
+    A per-organization geofence of locations where tasking is disallowed, readable as a GeoJSON
+    FeatureCollection via get_restricted_access_areas.

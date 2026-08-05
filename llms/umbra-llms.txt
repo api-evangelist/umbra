@@ -1,0 +1,91 @@
+# canopy Documentation
+
+> Canopy grants customers self-service access to Umbra's automated constellation of synthetic aperture radar (SAR) satellites via web application and API.
+
+## Guides
+- [Introduction](https://docs.canopy.umbra.space/docs/introduction.md): The Canopy docs helps users and developers get up to speed on core concepts, workflows, and advanced use of the Canopy API and UI.
+- [Authentication](https://docs.canopy.umbra.space/docs/authenticate.md)
+- [Temporary Access Tokens](https://docs.canopy.umbra.space/docs/authentication.md)
+- [Client Credentials](https://docs.canopy.umbra.space/docs/authentication-via-client-credentials.md)
+- [Rate Limiting](https://docs.canopy.umbra.space/docs/rate-limiting.md)
+- [Developer Sandbox](https://docs.canopy.umbra.space/docs/developer-sandbox.md): `api.canopy.prod.umbra-sandbox.space`
+- [Task Lifecycle Tutorial](https://docs.canopy.umbra.space/docs/task-lifecycle-tutorial.md): This tutorial provides a step‑by‑step guide on how to schedule a Task and retrieve its delivered data from start to finish via API or UI
+- [Order from the Archive Catalog](https://docs.canopy.umbra.space/docs/using-the-archive-catalog.md)
+- [Search the Archive Catalog API](https://docs.canopy.umbra.space/docs/archive-catalog-searching-via-stac-api.md): A spec-compliant STAC API
+- [Archive Catalog Developer Tools](https://docs.canopy.umbra.space/docs/archive-catalog-developer-tooling.md)
+- [Self Service Archive Catalog](https://docs.canopy.umbra.space/docs/self-service-archive-catalog.md)
+- [Migrate to STAC API v2](https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2.md)
+- [Feasibility Requests](https://docs.canopy.umbra.space/docs/feasibility.md)
+- [Tasks](https://docs.canopy.umbra.space/docs/tasking.md): Canopy enables you to request new data from Umbra's constellation of SAR satellites through its automated tasking system. In addition, the interface provides real-time status updates, keeping you informed about each task through its entire lifecycle.
+- [Collects](https://docs.canopy.umbra.space/docs/collects.md)
+- [Collect Geometry](https://docs.canopy.umbra.space/docs/tasking-geometries.md)
+- [Imaging Modes](https://docs.canopy.umbra.space/docs/imaging-modes.md)
+- [Spotlight Tasking](https://docs.canopy.umbra.space/docs/spotlight-tasking.md)
+- [Natural Footprint](https://docs.canopy.umbra.space/docs/extended-area-processing.md): Natural footprint is an additional larger scene size offering compared to our standard 5x5 km product.
+- [Multi-looking](https://docs.canopy.umbra.space/docs/multilooking.md)
+- [Scan Tasking](https://docs.canopy.umbra.space/docs/scan-tasking.md)
+- [Advanced Parameters](https://docs.canopy.umbra.space/docs/advanced-parameters.md)
+- [Scheduling Best Practices](https://docs.canopy.umbra.space/docs/scheduling-best-practices.md)
+- [Delivery Configs](https://docs.canopy.umbra.space/docs/delivery-configs.md)
+- [Google Cloud Storage Bucket Configuration](https://docs.canopy.umbra.space/docs/google-cloud-storage-bucket-configuration.md)
+- [Delivered Product Types](https://docs.canopy.umbra.space/docs/delivered-product-types.md)
+- [Collect STAC Metadata](https://docs.canopy.umbra.space/docs/collect-metadata.md)
+- [Automated QA](https://docs.canopy.umbra.space/docs/automated-qa.md)
+- [Glossary of Terms](https://docs.canopy.umbra.space/docs/glossary.md): Terms and definitions used throughout Canopy.
+- [Squint Defined](https://docs.canopy.umbra.space/docs/squint.md)
+- [Image Interpretation](https://docs.canopy.umbra.space/docs/image-interpretation.md)
+- [Coordinate Reference Systems](https://docs.canopy.umbra.space/docs/coordinate-reference-systems.md)
+- [Umbra Satellites](https://docs.canopy.umbra.space/docs/umbra-satellites.md)
+- [Versioning Policy](https://docs.canopy.umbra.space/docs/versioning-policy.md): Please reach out to Canopy support for further clarifications and questions
+
+## API Reference
+- [Create Task](https://docs.canopy.umbra.space/reference/create_task.md): Creates a new task. New tasks begin with status ACTIVE, and should transition to SUBMITTED, or REJECTED within a few minutes. Query tasks by id for status updates.
+- [Cancel Task](https://docs.canopy.umbra.space/reference/cancel_task-1.md): Requests cancellation of a previously submitted task. A task can only be canceled if it's status is one of SCHEDULED, SUBMITTED, ACCEPTED, ACTIVE. If this operation fails, a 422 will be returned.
+- [Get Task](https://docs.canopy.umbra.space/reference/get_task-1.md)
+- [Post Search Tasks](https://docs.canopy.umbra.space/reference/post_search_tasks.md): Search Tasks using a variety of available filters
+- [Archive Tasks](https://docs.canopy.umbra.space/reference/create_archive_tasks.md)
+- [Create Feasibility](https://docs.canopy.umbra.space/reference/create_feasibility.md): Creates a feasibility request for the given constraints. Feasibilities begin with status RECEIVED, and should transition to COMPLETED or ERROR within a few minutes. Poll feasibility by id until status is COMPLETED, upon which opportunities will also be returned.
+- [Get Feasibility](https://docs.canopy.umbra.space/reference/get_feasibility.md): Returns feasibility by id. When status is COMPLETED, the opportunities array will be populated with opportunities.
+- [Get Collect](https://docs.canopy.umbra.space/reference/get_collect.md)
+- [Post Search Collects](https://docs.canopy.umbra.space/reference/post_search_collects.md): Search Collects using a variety of available filters
+- [Get Restricted Access Areas](https://docs.canopy.umbra.space/reference/get_restricted_access_areas.md): Returns a GeoJSON FeatureCollection of locations where Tasking is disallowed for your organization
+- [Overview](https://docs.canopy.umbra.space/reference/v2-stac-overview.md)
+- [Landing Page](https://docs.canopy.umbra.space/reference/landing_page__get.md): Endpoint.
+- [Advanced Search](https://docs.canopy.umbra.space/reference/search_search_post-2.md): Search for STAC items with full-featured filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). Implements the STAC API Item Search Specification and STAC API Filter Extension.
+- [Simple Search](https://docs.canopy.umbra.space/reference/search_search_get-2.md): Search for STAC items with simple filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). For usage information and examples, see https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/item-search
+- [Get a single STAC Item](https://docs.canopy.umbra.space/reference/get_item_collections__collection_id__items__item_id__get-2.md): Get information about one STAC item by its specific item ID and collection ID. STAC item assets include signed URLs.
+- [List all Collections](https://docs.canopy.umbra.space/reference/get_collections_collections_get-1.md): Get a list of all Collections.
+- [Get a single Collection](https://docs.canopy.umbra.space/reference/get_collection_collections__collection_id__get-1.md): Get information about a specific Collection.
+- [List all STAC Items in a Collection](https://docs.canopy.umbra.space/reference/get_itemcollection_collections__collection_id__items_get-2.md): Get a list of all STAC Items in a Collection.
+- [List Delivery Configs](https://docs.canopy.umbra.space/reference/list_delivery_configs.md): Return a list of DeliveryConfigs for the requesting organization id  This endpoint is not paginated because we expect each org to only create a few configs.
+- [Post Delivery Config](https://docs.canopy.umbra.space/reference/post_delivery_config.md)
+- [Delete Delivery Config](https://docs.canopy.umbra.space/reference/delete_delivery_config.md): Delete a DeliveryConfig by setting it's status to DELETED.
+- [Verify Delivery Config](https://docs.canopy.umbra.space/reference/verify_delivery_config.md): Verify a DeliveryConfig by publishing a dummy file to the user's configuration. If the verification succeeds, the DeliveryConfig status will be set to ACTIVE. Otherwise the status will be set to ERROR with more details in status_message.
+- [Get Schema](https://docs.canopy.umbra.space/reference/get_schema.md)
+- [Preview](https://docs.canopy.umbra.space/reference/preview_cog_preview_get.md): Create preview of a dataset.
+- [Get Token](https://docs.canopy.umbra.space/reference/get_token.md): Retrieve the M2M client_id and client_secret for your Organization
+- [Rotate Token](https://docs.canopy.umbra.space/reference/rotate_token.md): Rotate the M2M client_id and client_secret for your Organization
+- [Create Token](https://docs.canopy.umbra.space/reference/create_token.md): Create the M2M Application for your Organization
+- [Delete Token](https://docs.canopy.umbra.space/reference/delete_token.md): Delete the M2M Application for your Organization
+- [Get Organization Settings](https://docs.canopy.umbra.space/reference/get_organization_settings.md): Returns Organization Settings for the logged in Organization
+- [List All Product Constraints For Logged In Org](https://docs.canopy.umbra.space/reference/list_all_product_constraints_for_logged_in_org.md): Retrieves all product constraints that apply for the logged in organization
+- [Get Constraints For Contract Or Org Default](https://docs.canopy.umbra.space/reference/get_constraints_for_contract_or_org_default.md): Returns resolved constraints for either: - a specific contract (when contract_id is provided), - an organization's default contract (when organization_id is provided), or - the requester's organization's default contract (when neither is provided).
+- [Get Thumbnail](https://docs.canopy.umbra.space/reference/get_thumbnail.md)
+- [Get a single Archive STAC Item](https://docs.canopy.umbra.space/reference/get_item_collections__collection_id__items__item_id__get-1.md): Get information about one Archive STAC item by its specific item ID and collection ID.
+- [List all Collections](https://docs.canopy.umbra.space/reference/get_collections_collections_get.md): Get a list of all Collections.
+- [Get a single Collection](https://docs.canopy.umbra.space/reference/get_collection_collections__collection_id__get.md): Get information about a specific Collection.
+- [List all Archive STAC Items in a Collection](https://docs.canopy.umbra.space/reference/get_itemcollection_collections__collection_id__items_get-1.md): Get a list of all Archive STAC Items in a Collection.
+- [Advanced Search](https://docs.canopy.umbra.space/reference/search_search_post-1.md): Search for Archive STAC items with full-featured filtering. Implements the STAC API Item Search Specification and STAC API Filter Extension.
+- [Simple Search](https://docs.canopy.umbra.space/reference/search_search_get-1.md): Search for Archive STAC items with simple filtering. For usage information and examples, see https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/item-search
+
+## Changelog
+- [2025-12-02](https://docs.canopy.umbra.space/changelog/2025-12-02.md)
+- [2025-10-20](https://docs.canopy.umbra.space/changelog/2025-10-20.md)
+- [2024-12-20](https://docs.canopy.umbra.space/changelog/2024-12-20.md)
+- [2024-07-17](https://docs.canopy.umbra.space/changelog/2024-07-17.md)
+- [2024-01-23](https://docs.canopy.umbra.space/changelog/2024-01-23.md)
+- [2023-12-05](https://docs.canopy.umbra.space/changelog/2023-12-05.md)
+- [2023-11-07](https://docs.canopy.umbra.space/changelog/2023-11-07.md)
+- [2023-10-24](https://docs.canopy.umbra.space/changelog/2023-10-24.md)
+- [2023-10-18](https://docs.canopy.umbra.space/changelog/2023-10-18.md)
+- [2023-09-19](https://docs.canopy.umbra.space/changelog/2023-09-19.md)

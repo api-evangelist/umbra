@@ -1,0 +1,113 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/ + the Canopy documentation + well-known/ discovery documents
+note: >-
+  Standards conformance only. Umbra publishes no security certifications (no SOC 2, ISO 27001,
+  FedRAMP or trust center was found — see security/), so no `Compliance` pointer is emitted.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    All six Canopy documents declare openapi 3.1.0 and are published anonymously as JSON at
+    https://docs.canopy.umbra.space/openapi/<name>.json
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: >-
+    https://docs.canopy.umbra.space/.well-known/api-catalog returns 200 application/linkset+json
+    with a service-desc link to each of the six OpenAPI documents
+    (well-known/umbra-api-catalog.json)
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: >-
+    https://auth.canopy.umbra.space/.well-known/oauth-authorization-server returns 200
+    (well-known/umbra-oauth-authorization-server.json)
+- id: oidc-discovery
+  conforms: true
+  evidence: >-
+    https://auth.canopy.umbra.space/.well-known/openid-configuration returns 200
+    (well-known/umbra-openid-configuration.json)
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Documented client_credentials flow against https://auth.canopy.umbra.space/oauth/token with a
+    required `audience` parameter; authorization_code flow used by the Canopy web application
+- id: jwt-bearer
+  conforms: true
+  evidence: >-
+    securityScheme bearerAuth (http/bearer, bearerFormat JWT) applied to every operation in all
+    six documents; JWKS published at https://auth.canopy.umbra.space/.well-known/jwks.json
+- id: stac-api-item-search
+  conforms: true
+  evidence: >-
+    Both the STAC API v2 and the Archive Catalog implement the STAC API Item Search Specification;
+    operation descriptions reference
+    https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/item-search
+- id: stac-api-filter-extension
+  conforms: true
+  evidence: >-
+    Advanced Search operations on both STAC surfaces declare support for the STAC API Filter
+    Extension
+- id: stac-extension-umbra
+  conforms: true
+  evidence: >-
+    Umbra publishes its own STAC extension at
+    https://github.com/Umbra-Space/umbra-stac-extension; STAC items carry umbra:* properties
+- id: geojson
+  conforms: true
+  evidence: >-
+    Task and Feasibility geometries and the restricted-access-areas response are GeoJSON;
+    STAC search responses are application/geo+json FeatureCollections
+- id: cog-cloud-optimized-geotiff
+  conforms: true
+  evidence: the Tiles API generates previews of COG datasets (preview_cog_preview_get)
+- id: mcp-model-context-protocol
+  conforms: true
+  evidence: >-
+    Anonymous MCP server at https://docs.canopy.umbra.space/mcp answered a JSON-RPC 2.0 tools/list
+    with 200 and six tools (mcp/umbra-mcp.yml)
+- id: llms-txt
+  conforms: true
+  evidence: https://docs.canopy.umbra.space/llms.txt returns 200 (llms/umbra-llms.txt)
+- id: semver
+  conforms: true
+  evidence: https://docs.canopy.umbra.space/docs/versioning-policy commits the Canopy API to semver
+- id: cc-by-4.0
+  conforms: true
+  evidence: >-
+    Umbra sells its imagery under a CC BY 4.0 license per https://umbra.space/pricing/ and runs an
+    open data program at https://umbra.space/open-data/
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Error responses are plain application/json (HTTPValidationError); no application/problem+json
+    media type appears in any of the six documents
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 or 401 on all five hosts probed
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    Deprecation policy is prose only; no Sunset or Deprecation header is documented and no
+    operation carries deprecated: true
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json both miss on every host
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, webhook or streaming surface exists — Canopy is submit-then-poll (create then
+    poll get_task / get_feasibility). No AsyncAPI document, webhook catalog or event reference
+    appears in the docs, the llms.txt index or the six OpenAPI documents, so no asyncapi/
+    artifact is written.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or parameter in any of the six documents and no idempotency contract
+    in the docs. See conventions/umbra-conventions.yml.
+- id: openid-connect
+  conforms: false
+  partial: true
+  evidence: >-
+    The Auth0 tenant publishes a full OIDC discovery document, but the Canopy API itself declares
+    no openIdConnect securityScheme — OIDC governs Canopy web-app login, not API authorization

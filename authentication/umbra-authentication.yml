@@ -1,0 +1,102 @@
+generated: '2026-08-05'
+method: searched
+source: openapi/ (all six documents) + the Canopy authentication docs + Auth0 discovery documents
+docs: https://docs.canopy.umbra.space/docs/authenticate
+summary:
+  types:
+  - http
+  - oauth2
+  http_schemes: [bearer]
+  bearer_format: JWT
+  oauth2_flows: [clientCredentials]
+  note: >-
+    The OpenAPI documents declare only the resulting bearer token (securityScheme `bearerAuth`,
+    http/bearer/JWT, applied to every operation in all six specs). The OAuth2 client-credentials
+    exchange that mints that token is documented in prose and confirmed by the RFC 8414 / OIDC
+    discovery documents on auth.canopy.umbra.space, but is not modelled in any spec — so a
+    spec-only read understates Canopy's auth posture.
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  applied_to: every operation across all six Canopy OpenAPI documents
+  sources:
+  - openapi/umbra-admin-openapi.yml
+  - openapi/umbra-delivery-openapi.yml
+  - openapi/umbra-stac-api-v2-openapi.yml
+  - openapi/umbra-stac-archive-openapi.yml
+  - openapi/umbra-tasking-openapi.yml
+  - openapi/umbra-tiles-openapi.yml
+- name: Canopy OAuth2 client credentials
+  type: oauth2
+  flow: clientCredentials
+  token_url: https://auth.canopy.umbra.space/oauth/token
+  issuer: https://auth.canopy.umbra.space/
+  jwks_uri: https://auth.canopy.umbra.space/.well-known/jwks.json
+  identity_provider: Auth0
+  request_content_type: application/json
+  audience_required: true
+  audiences:
+  - value: https://api.canopy.umbra.space
+    environment: live
+  - value: https://api.canopy.prod.umbra-sandbox.space
+    environment: sandbox
+  token_type: Bearer
+  expires_in: 86400
+  sources:
+  - https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+  - well-known/umbra-oauth-authorization-server.json
+  - well-known/umbra-openid-configuration.json
+token_acquisition:
+- method: ui-generated temporary access token
+  docs: https://docs.canopy.umbra.space/docs/authentication
+  where: https://canopy.umbra.space/account
+  lifetime: 24 hours
+  note: >-
+    Copied by hand from the Canopy account page. Valid for multiple requests. Toggling "Test Mode"
+    in the app header yields the sandbox-scoped equivalent.
+- method: oauth2 client credentials
+  docs: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+  where: Canopy Organization page, Authentication tab
+  lifetime: 86400 seconds
+  intended_for: scripts and applications that cannot do interactive login
+  credential_scope: organization
+  note: >-
+    Each organization has ONE shared client_id/client_secret pair that any user in the org can
+    rotate or delete, and rotating it affects every user and application in that organization.
+    Credentials are also managed through the Admin API (create_token, get_token, rotate_token,
+    delete_token).
+usage:
+  header: 'Authorization: Bearer <access_token>'
+  expiry_behavior: >-
+    Expired tokens produce HTTP 401. Umbra directs clients to catch the 401, request a new token
+    and retry, or to refresh proactively just before expiry.
+token_exchange_rate_limit:
+  limit: 50
+  window: rolling 24 hours
+  scope: per client
+  rationale: to force token caching and reuse rather than a token exchange per API call
+  claims:
+  - name: https://umbra.space/rate_limit
+    type: int
+    description: the configured token-exchange rate limit per 24-hour period for the client
+  - name: https://umbra.space/rate_limit_remaining
+    type: int
+    description: auth requests remaining in the current interval
+  gotcha: >-
+    When the token-exchange rate limit is hit, the authentication provider returns HTTP 400, not
+    429. Clients must inspect response.error_description.code for the value 429 to detect it.
+    error_description also carries rate_limit and rate_limit_refresh (an ISO timestamp for the
+    next allowed exchange).
+authorization_model:
+  granularity: per organization
+  scopes: >-
+    Canopy publishes no API-specific OAuth scope vocabulary. Access is determined by the
+    organization the credential belongs to and by that organization's contract and product
+    constraints, not by scopes carried on the token. See scopes/umbra-scopes.yml.
+  environment_isolation: >-
+    Live and sandbox are entirely isolated. A token minted for one audience cannot query the other.
+  restricted_access_areas: >-
+    Tasking is additionally constrained by an organization-specific geofence, retrievable as GeoJSON
+    via the get_restricted_access_areas operation.

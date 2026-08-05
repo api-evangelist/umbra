@@ -1,0 +1,89 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.canopy.umbra.space/docs/developer-sandbox
+docs: https://docs.canopy.umbra.space/docs/developer-sandbox
+name: Canopy Developer Sandbox
+available: true
+enabled_by_default: true
+billable: false
+purpose: >-
+  Develop integrations against every Canopy API endpoint with increased rate limits and without
+  generating billable Collects. Simulates real data — fields such as satelliteID contain realistic
+  values.
+environments:
+- name: live
+  api_host: api.canopy.umbra.space
+  token_audience: https://api.canopy.umbra.space
+- name: sandbox
+  api_host: api.canopy.prod.umbra-sandbox.space
+  token_audience: https://api.canopy.prod.umbra-sandbox.space
+switching: >-
+  Replace api.canopy.umbra.space with api.canopy.prod.umbra-sandbox.space in the request URL, and
+  use a sandbox-audience Access Token. The Tasking OpenAPI declares both hosts in servers[] ("Live
+  Environment" and "Sandbox Environment"); the other five documents declare only the live host.
+isolation: >-
+  Live and sandbox are entirely isolated. Objects created in either environment can only be queried
+  with an Access Token valid for that same environment.
+credentials:
+- method: ui
+  where: https://canopy.umbra.space/account
+  how: >-
+    Enable the "Test Mode" toggle in the app header and copy the Access Token displayed while the
+    toggle is active.
+- method: oauth2 client credentials
+  token_url: https://auth.canopy.umbra.space/oauth/token
+  how: >-
+    Identical to the live-token request with the `audience` switched to
+    https://api.canopy.prod.umbra-sandbox.space. The same organization client_id/client_secret pair
+    is used for both environments.
+simulation:
+  task_lifecycle: >-
+    After a Task is created its status transitions every few seconds from RECEIVED through to
+    SCHEDULED. Once SCHEDULED, associated Collects are created with status SCHEDULED. Within a
+    minute after Task.windowEndAt passes, each Collect rapidly transitions every few seconds from
+    SCHEDULED through to PROCESSED. As each Collect is marked PROCESSED, normal post-processing
+    runs including delivery of fake data. Collects and Tasks are marked DELIVERED when the
+    DeliveryConfig copy completes, or when data is available for download in Canopy if no
+    DeliveryConfig is set.
+  feasibility:
+  - Opportunities returned for a Feasibility request are STATIC and do not necessarily reflect the
+    parameters sent — windowStartAt and windowEndAt on an Opportunity may not match the parent
+    Feasibility's SpotlightConstraints.
+  - Feasibility results return much faster than live (under one second); applications must still
+    treat opportunity retrieval as asynchronous.
+  delivery: >-
+    All DeliveryConfig operations are supported. Users can create DeliveryConfigs, attach them to
+    Tasks, and fake data is delivered just as in the live environment.
+failure_triggers:
+  mechanism: >-
+    Include a magic string anywhere in the taskName field when POSTing a new Task (create_task).
+  triggers:
+  - name: QA Failure
+    value: 'umbra:delivery:qa:failure'
+    description: >-
+      The Collect behaves as if Umbra's automated QA failed. See
+      https://docs.canopy.umbra.space/docs/automated-qa
+    docs: https://docs.canopy.umbra.space/docs/automated-qa
+  example:
+    operation: create_task
+    body:
+      imagingMode: SPOTLIGHT
+      taskName: 'Test umbra:delivery:qa:failure'
+      windowStartAt: '2023-12-25T18:00:00+00:00'
+      windowEndAt: '2023-12-26T00:00:00+00:00'
+      spotlightConstraints:
+        geometry:
+          type: Point
+          coordinates: [-119.7027, 34.4221]
+delivery_role_arns:
+  note: >-
+    Published verbatim by Umbra. To test S3_UMBRA_ROLE delivery, the customer must allow these
+    Umbra-owned roles in their own bucket policy (and KMS key policy if the bucket is encrypted).
+    These are Umbra's identities, not credentials.
+  docs: https://docs.canopy.umbra.space/docs/delivery-configs#apply-s3-bucket-policy
+  roles:
+  - partition: aws (commercial)
+    arn: 'arn:aws:iam::922714215458:role/prod-prod-sbx-s3-external-delivery'
+  - partition: aws-us-gov (GovCloud)
+    arn: 'arn:aws-us-gov:iam::537355544329:role/prod-gov-prod-sbx-sar-data-delivery-cross-account-role'
+tutorial: https://docs.canopy.umbra.space/docs/task-lifecycle-tutorial

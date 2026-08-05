@@ -1,0 +1,36 @@
+generated: '2026-08-05'
+method: generated
+source: >-
+  openapi/ (all six documents) + the Canopy guides at docs.canopy.umbra.space. Every operationId
+  referenced was verified verbatim against the harvested specs.
+note: >-
+  Umbra publishes no AGENTS.md or provider-authored skill files; these are API Evangelist packaged
+  operating instructions grounded in the real Canopy contract.
+skills:
+- file: umbra-task-new-collection.md
+  name: Task a new SAR collection with Umbra Canopy
+  description: >-
+    Feasibility check, opportunity selection, Task submission and the poll-to-delivered lifecycle —
+    the marquee Canopy flow and the only one that spends money.
+  api: openapi/umbra-tasking-openapi.yml
+  operations: [create_feasibility, get_feasibility, get_restricted_access_areas, create_task,
+    get_task, get_collect, cancel_task]
+- file: umbra-search-archive-imagery.md
+  name: Search Umbra's SAR archive and retrieve imagery
+  description: >-
+    STAC search across the Archive Catalog and the STAC API v2, token-cursor paging, and resolving
+    items to signed asset URLs.
+  api: openapi/umbra-stac-archive-openapi.yml
+  operations: [Search_search_post, Search_search_get, Get_Collections_collections_get,
+    Get_Collection_collections__collection_id__get,
+    Get_ItemCollection_collections__collection_id__items_get,
+    Get_Item_collections__collection_id__items__item_id__get, get_thumbnail, Landing_Page__get]
+- file: umbra-configure-data-delivery.md
+  name: Configure and verify Umbra Canopy data delivery
+  description: >-
+    M2M credential management, contract/product constraints, and creating plus verifying a
+    DeliveryConfig that pushes products into a customer-owned S3 or GCS bucket.
+  api: openapi/umbra-delivery-openapi.yml
+  operations: [list_delivery_configs, post_delivery_config, verify_delivery_config,
+    delete_delivery_config, get_schema, create_token, get_token, rotate_token, delete_token,
+    get_organization_settings, get_constraints_for_contract_or_org_default]

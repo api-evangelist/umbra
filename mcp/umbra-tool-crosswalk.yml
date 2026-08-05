@@ -1,0 +1,133 @@
+generated: '2026-08-05'
+method: derived
+source: mcp/umbra-mcp-tools-list.json + the six documents in openapi/
+summary: >-
+  Umbra's MCP server is a documentation-platform server over the Canopy OpenAPI documents, not a
+  per-resource tool surface. That makes this crosswalk unusual: no MCP tool binds to a single REST
+  operationId. Five of six tools are META tools that read the specs themselves, and the sixth
+  (execute-request) is a UNIVERSAL binding that can invoke any of the 37 published operations when
+  the caller supplies a HAR request and its own Bearer token. Recorded honestly rather than forced
+  into one-tool-per-operation rows that do not exist.
+surfaces:
+  openapi:
+    count: 6
+    files:
+    - openapi/umbra-tasking-openapi.yml
+    - openapi/umbra-stac-api-v2-openapi.yml
+    - openapi/umbra-stac-archive-openapi.yml
+    - openapi/umbra-delivery-openapi.yml
+    - openapi/umbra-admin-openapi.yml
+    - openapi/umbra-tiles-openapi.yml
+    operations: 37
+    gated: false
+    note: specs are published anonymously at https://docs.canopy.umbra.space/openapi/<name>.json
+  mcp:
+    url: https://docs.canopy.umbra.space/mcp
+    gated: false
+    note: tools/list answered anonymously with full inputSchema for all six tools
+  graphql:
+    present: false
+crosswalk:
+- tool: execute-request
+  category: universal-invoke
+  rest:
+  - create_task
+  - cancel_task
+  - get_task
+  - post_search_tasks
+  - create_archive_tasks
+  - create_feasibility
+  - get_feasibility
+  - get_collect
+  - post_search_collects
+  - get_restricted_access_areas
+  - Landing_Page__get
+  - Search_search_post
+  - Search_search_get
+  - Get_Collections_collections_get
+  - Get_Collection_collections__collection_id__get
+  - Get_ItemCollection_collections__collection_id__items_get
+  - Get_Item_collections__collection_id__items__item_id__get
+  - get_thumbnail
+  - list_delivery_configs
+  - post_delivery_config
+  - delete_delivery_config
+  - verify_delivery_config
+  - get_schema
+  - get_token
+  - rotate_token
+  - create_token
+  - delete_token
+  - get_organization_settings
+  - list_all_product_constraints_for_logged_in_org
+  - get_constraints_for_contract_or_org_default
+  - preview_cog_preview_get
+  binding: rest
+  confidence: high
+  note: >-
+    Binds to EVERY published operation, not to one. Its declared inputSchema is {harRequest, title},
+    so the real per-call input contract is whatever the targeted operation's parameters and
+    requestBody require in the spec named by `title`. An agent must read the operation via
+    get-endpoint first to construct a valid harRequest.
+mcp_only:
+- tool: list-specs
+  reason: >-
+    Meta tool over the spec catalog itself. Its REST analogue is the RFC 9727 api-catalog document
+    at https://docs.canopy.umbra.space/.well-known/api-catalog (saved at
+    well-known/umbra-api-catalog.json), which is a discovery document rather than a Canopy API
+    operation.
+- tool: list-endpoints
+  reason: Meta tool that enumerates paths within one OpenAPI document; no backing Canopy operation.
+- tool: search-endpoints
+  reason: >-
+    Meta tool performing full-text search across paths, operations and parameters of the specs.
+    Canopy publishes no search-the-API operation; this exists only on the documentation surface.
+- tool: get-endpoint
+  reason: >-
+    Meta tool returning one operation's detail including security schemes and servers; the
+    equivalent for a REST client is reading openapi/ directly.
+- tool: get-server-variables
+  reason: >-
+    Meta tool reading servers[] variables out of a spec. Canopy's servers[] carry no templated
+    variables, so this returns an empty result for all six documents.
+rest_only:
+- capability: Tasking and feasibility
+  operations: [create_task, cancel_task, get_task, post_search_tasks, create_archive_tasks,
+    create_feasibility, get_feasibility, get_collect, post_search_collects, get_restricted_access_areas]
+  reason: no dedicated MCP tool; reachable only through the generic execute-request tool
+- capability: STAC API v2 (tasked collects)
+  operations: [Landing_Page__get, Search_search_post, Search_search_get, Get_Collections_collections_get,
+    Get_Collection_collections__collection_id__get, Get_ItemCollection_collections__collection_id__items_get,
+    Get_Item_collections__collection_id__items__item_id__get]
+  reason: no dedicated MCP tool
+- capability: STAC Archive catalog
+  operations: [get_thumbnail, Search_search_post, Search_search_get, Get_Collections_collections_get,
+    Get_Collection_collections__collection_id__get, Get_ItemCollection_collections__collection_id__items_get,
+    Get_Item_collections__collection_id__items__item_id__get]
+  reason: no dedicated MCP tool
+- capability: Data delivery configuration
+  operations: [list_delivery_configs, post_delivery_config, delete_delivery_config, verify_delivery_config,
+    get_schema]
+  reason: no dedicated MCP tool
+- capability: M2M credentials and organization settings
+  operations: [get_token, rotate_token, create_token, delete_token, get_organization_settings,
+    list_all_product_constraints_for_logged_in_org, get_constraints_for_contract_or_org_default]
+  reason: no dedicated MCP tool
+- capability: Tiles and previews
+  operations: [preview_cog_preview_get]
+  reason: no dedicated MCP tool
+coverage:
+  tools_named: 6
+  tools_bound_to_rest: 1
+  mcp_only_tools: 5
+  rest_operations_total: 37
+  rest_operations_with_a_dedicated_tool: 0
+  rest_operations_reachable_via_execute_request: 37
+gap:
+  observation: >-
+    Every Canopy capability is reachable by an agent, but only through a generic HAR-shaped
+    invoker. There are zero named, semantically-typed Canopy tools (no create_task tool, no
+    search_archive tool), so an agent gets no typed affordance for the operations that actually
+    matter and must do two round-trips (get-endpoint, then execute-request) per call. A
+    first-party Canopy MCP server with named tools over the tasking and archive-search flows is
+    the clear next step — this is Umbra's to build, not ours to model.

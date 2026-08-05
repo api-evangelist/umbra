@@ -1,0 +1,70 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.canopy.umbra.space/docs/changelog
+docs: https://docs.canopy.umbra.space/docs/changelog
+scheme: dated entries, Keep a Changelog style headings (Added / Changed / Fixed / Security)
+versioned_entries: false
+note: >-
+  Entries are dated, not version-numbered — the changelog does not name the semver release each
+  change landed in, so it cannot be joined to the info.version of any of the six OpenAPI documents.
+  Ten dated entries are indexed in the docs llms.txt, spanning 2023-09-19 to 2025-12-02. The five
+  most recent are captured below; the live changelog remains the source of truth.
+current_versions:
+  tasking: 3.13.0
+  delivery: 5.1.0
+  admin: 3.1.0
+  stac-archive: 2.1.0
+  tiles: 1.0.3
+  stac-api-v2: 0.1.5
+entries:
+- date: '2025-12-02'
+  url: https://docs.canopy.umbra.space/changelog/2025-12-02
+  breaking: false
+  added:
+  - New imaging mode: Scan Tasking (https://docs.canopy.umbra.space/docs/scan-tasking)
+- date: '2025-10-20'
+  url: https://docs.canopy.umbra.space/changelog/2025-10-20
+  breaking: false
+  added:
+  - Ability to request assets be zipped prior to delivery (delivery-configs packaging options)
+  - Ability to deliver to Google Cloud Storage buckets
+- date: '2024-12-20'
+  url: https://docs.canopy.umbra.space/changelog/2024-12-20
+  breaking: true
+  changed:
+  - The Archive Catalog API at https://api.canopy.umbra.space/archive now uses the standard rate
+    limiting rules
+  security:
+  - The Archive Catalog API at https://api.canopy.umbra.space/archive now REQUIRES authentication
+  note: >-
+    Flagged breaking here because previously-anonymous archive access began requiring a bearer
+    token. Umbra filed it under Changed/Security rather than announcing it as a MAJOR release.
+- date: '2024-07-17'
+  url: https://docs.canopy.umbra.space/changelog/2024-07-17
+  breaking: false
+  added:
+  - New Task.tags field on create_task
+  - New endpoint returning product constraints per imaging mode (Get Products)
+  - Natural Footprint scene size on create_task and create_feasibility
+  - New tasking product types — CSI SIDD, CSI TIFF, DI GIF
+  - New Task.userEmail field on get_task
+  - Default product types per org via get_organization_settings
+  changed:
+  - Deprecated the STAC API in favor of STAC API v2 (migration guide published)
+  - Default scene size set to 5x5 km on create_task
+  - Deliver only products requested by the customer at tasking time
+  fixed:
+  - S3 copy now succeeds for very large files
+  - Require at least one non-metadata product for delivery
+- date: '2024-01-23'
+  url: https://docs.canopy.umbra.space/changelog/2024-01-23
+  breaking: false
+  fixed:
+  - Improved error messages for certain invalid Archive Catalog search queries
+  - Fixed blank image detection over oceans on collect redelivery
+older_entries_indexed:
+- '2023-12-05'
+- '2023-11-07'
+- '2023-10-24'
+- '2023-10-18'
+- '2023-09-19'

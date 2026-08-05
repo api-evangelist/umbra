@@ -1,0 +1,91 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/ (all six documents), cross-checked against the Canopy authentication and rate-limiting guides
+format: json
+rfc9457: false
+note: >-
+  Canopy does NOT use RFC 9457 problem+json. Every declared error response is plain
+  application/json. The specs declare only two error classes — 422 (FastAPI/Pydantic validation)
+  and a 404 on two Admin operations — so 401, 403, 429 and 5xx are real, documented in prose, and
+  entirely undeclared in the machine-readable contract. Every entry below carries whether it came
+  from the spec or from the docs.
+envelopes:
+- name: HTTPValidationError
+  status: 422
+  content_type: application/json
+  schema: openapi/umbra-tasking-openapi.yml#/components/schemas/HTTPValidationError
+  shape:
+    detail: array of ValidationError
+  item:
+    name: ValidationError
+    required: [loc, msg, type]
+    fields:
+      loc: array of string|integer — the path to the offending field
+      msg: human-readable message
+      type: machine-readable error type identifier
+      input: the rejected input value
+      ctx: additional context object
+  note: standard FastAPI/Pydantic validation envelope
+- name: auth token-exchange error
+  status: 400
+  content_type: application/json
+  source: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+  shape:
+    error: string (e.g. invalid_request)
+    error_description:
+      code: integer — the REAL status semantics (e.g. 429)
+      message: string (e.g. rate_limit)
+      rate_limit: integer
+      rate_limit_refresh: ISO 8601 timestamp of the next allowed exchange
+  note: >-
+    Only appears on the auth host, not the API host. A rate-limited token exchange is reported as
+    HTTP 400 with 429 nested inside error_description.code.
+problems:
+- status: 422
+  title: Validation Error
+  envelope: HTTPValidationError
+  declared_on: all 37 operations across all six documents
+  remediation: >-
+    Read detail[].loc to find the offending field and detail[].type for the machine-readable
+    reason. For cancel_task specifically, a 422 also means the Task is not in a cancellable state.
+  source: spec
+- status: 404
+  title: No M2M Application found
+  description: >-
+    No machine-to-machine application exists for the organization. The spec's own description
+    directs the caller to POST to the same path to create one.
+  declared_on: [get_token, rotate_token]
+  source_operation: openapi/umbra-admin-openapi.yml#get_token
+  remediation: call create_token (POST /m2m/token) to create the M2M application first
+  source: spec
+- status: 401
+  title: Unauthorized
+  description: Missing, malformed or expired Bearer token.
+  declared_in_spec: false
+  source: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+  remediation: >-
+    Request a new access token from https://auth.canopy.umbra.space/oauth/token and retry, or
+    refresh proactively before the token's expires_in elapses. Confirm the token audience matches
+    the environment being called — a live-audience token gets 401 against the sandbox host and
+    vice versa.
+- status: 429
+  title: Too Many Requests
+  description: Organization rate limit exceeded on a rolling window.
+  declared_in_spec: false
+  source: https://docs.canopy.umbra.space/docs/rate-limiting
+  remediation: >-
+    Retry with exponential backoff plus jitter. For create_task, cancel_task and
+    create_feasibility (2 req/s), queue client-side instead of retrying — and skip requests whose
+    Task window has already passed. See rate-limits/umbra-rate-limits.yml.
+gaps:
+- >-
+  401 is undeclared on every one of the 37 operations even though every operation requires a
+  bearer token — an agent reading only the spec has no contract for the most common failure.
+- >-
+  429 is undeclared on every operation despite documented per-endpoint rate limits as low as
+  2 req/s.
+- >-
+  No 5xx response is declared anywhere in the six documents.
+- >-
+  No error-code registry: Canopy publishes no stable machine-readable error identifiers beyond
+  Pydantic's detail[].type, so clients must branch on HTTP status and prose messages.

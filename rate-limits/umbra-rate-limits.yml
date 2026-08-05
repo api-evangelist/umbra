@@ -1,0 +1,80 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.canopy.umbra.space/docs/rate-limiting
+docs: https://docs.canopy.umbra.space/docs/rate-limiting
+scope: per organization
+window: rolling
+signal:
+  status_code: 429
+  headers_documented: false
+  note: >-
+    Umbra documents the 429 status code but publishes no RateLimit-Limit / RateLimit-Remaining /
+    Retry-After response headers, so a client cannot read its remaining budget from a response
+    and must infer it. The one place a numeric budget IS machine-readable is the token exchange,
+    where the JWT carries https://umbra.space/rate_limit and
+    https://umbra.space/rate_limit_remaining claims.
+rate_limits:
+- name: Default read operations
+  limit_count: 25
+  interval: second
+  applies_to: most Canopy API endpoints
+  operation_class: read
+- name: Default write operations
+  limit_count: 5
+  interval: second
+  applies_to: most Canopy API endpoints
+  operation_class: write
+- name: Create Task
+  limit_count: 2
+  interval: second
+  also:
+  - limit_count: 120
+    interval: minute
+  - limit_count: 300
+    interval: hour
+  operation: create_task
+  spec: openapi/umbra-tasking-openapi.yml
+  rationale: tasking a satellite is a time-consuming physical operation
+- name: Cancel Task
+  limit_count: 2
+  interval: second
+  also:
+  - limit_count: 120
+    interval: minute
+  - limit_count: 300
+    interval: hour
+  operation: cancel_task
+  spec: openapi/umbra-tasking-openapi.yml
+- name: Create Feasibility
+  limit_count: 2
+  interval: second
+  also:
+  - limit_count: 120
+    interval: minute
+  - limit_count: 3600
+    interval: hour
+  operation: create_feasibility
+  spec: openapi/umbra-tasking-openapi.yml
+- name: OAuth2 client-credentials token exchange
+  limit_count: 50
+  interval: 24 hours
+  scope: per client
+  host: https://auth.canopy.umbra.space/oauth/token
+  signal:
+    status_code: 400
+    note: >-
+      Returns 400, not 429, because of a limitation in the authentication provider. The real code
+      is in response.error_description.code. See authentication/umbra-authentication.yml.
+guidance:
+  retry: exponential backoff plus random jitter, to avoid the thundering-herd problem
+  low_limit_endpoints: >-
+    For Create Task and Create Feasibility, Umbra recommends handling rate limiting client-side —
+    queueing requests and, for example, skipping a request whose Task window has already passed —
+    rather than retrying blindly.
+  polling: >-
+    Under load, Task and Feasibility status transitions may take more than a few minutes; Umbra
+    asks clients to reduce polling rate rather than poll harder. Delays beyond an hour warrant
+    contacting a Canopy representative.
+  stability: >-
+    Umbra explicitly states the documented limits may change at any time and asks clients not to
+    hard-code any specific limit.
