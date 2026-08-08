@@ -1,0 +1,21 @@
+{
+  "repo": "umbra",
+  "feeds": [
+    {
+      "source": "https://help.umbra.space/",
+      "feed_url": "https://help.umbra.space/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://umbra.space/blog/",
+      "feed_url": "https://umbra.space/feed/",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 1,
+  "fetched": "2026-08-06T14:08:46Z"
+}
