@@ -40,125 +40,13 @@ tags:
 - Defense and Intelligence
 - Company
 apis:
-- aid: umbra:tasking
-  name: Umbra Canopy Tasking API
-  description: 'Canopy API for self-service tasking of Umbra''s SAR satellite constellation. Create feasibility
-    requests to discover collection opportunities for a target, submit Tasks in Spotlight, Dwell or Scan imaging
-    modes, cancel Tasks, search Tasks and Collects, order archive Tasks, and retrieve the GeoJSON FeatureCollection
-    of restricted access areas where tasking is disallowed for your organization.'
-  humanURL: https://docs.canopy.umbra.space/docs/tasking
-  baseURL: https://api.canopy.umbra.space/tasking
-  tags:
-  - Tasking
-  - Feasibility
-  - Collects
-  - Synthetic Aperture Radar
-  - Satellite Imagery
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-tasking-openapi.yml
-  - type: Documentation
-    url: https://docs.canopy.umbra.space/docs/tasking
-  - type: APIReference
-    url: https://docs.canopy.umbra.space/reference/create_task
-  - type: Overlay
-    url: overlays/umbra-tasking-overlay.yaml
-- aid: umbra:stac-api-v2
-  name: Umbra Canopy STAC API v2
-  description: 'Spec-compliant SpatioTemporal Asset Catalog (STAC) API v2 over the Collects an organization has
-    tasked. Implements the STAC API Item Search Specification and the STAC API Filter Extension, with simple GET
-    and advanced POST search, collection listing, and single-item retrieval. STAC item assets include signed URLs
-    when the number of items returned is below a threshold.'
-  humanURL: https://docs.canopy.umbra.space/reference/v2-stac-overview
-  baseURL: https://api.canopy.umbra.space/v2/stac
-  tags:
-  - STAC
-  - Search
-  - Geospatial
-  - Satellite Imagery
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-stac-api-v2-openapi.yml
-  - type: Documentation
-    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
-  - type: Overlay
-    url: overlays/umbra-stac-api-v2-overlay.yaml
-- aid: umbra:stac-archive
-  name: Umbra Canopy Archive Catalog (STAC) API
-  description: 'STAC API over Umbra''s Archive Catalog of previously collected SAR imagery. Supports simple and
-    advanced item search with the STAC API Filter Extension, collection listing and retrieval, single-item lookup,
-    and thumbnail retrieval by archive id. Commonly consumed with pystac-client and leafmap.'
-  humanURL: https://docs.canopy.umbra.space/docs/archive-catalog-searching-via-stac-api
-  baseURL: https://api.canopy.umbra.space/archive
-  tags:
-  - STAC
-  - Archive
-  - Search
-  - Geospatial
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-stac-archive-openapi.yml
-  - type: Documentation
-    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
-  - type: Overlay
-    url: overlays/umbra-stac-archive-overlay.yaml
-- aid: umbra:delivery
-  name: Umbra Canopy Delivery API
-  description: 'Canopy API for delivery of Umbra customer data. Create, list, delete and verify DeliveryConfigs
-    that push collected SAR products directly into a customer-owned AWS S3 or Google Cloud Storage bucket, and
-    retrieve the Collect metadata JSON schema.'
-  humanURL: https://docs.canopy.umbra.space/docs/delivery-configs
-  baseURL: https://api.canopy.umbra.space/delivery
-  tags:
-  - Delivery
-  - Storage
-  - Configuration
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-delivery-openapi.yml
-  - type: Documentation
-    url: https://docs.canopy.umbra.space/docs/delivery-configs
-  - type: Overlay
-    url: overlays/umbra-delivery-overlay.yaml
-- aid: umbra:admin
-  name: Umbra Canopy Admin API
-  description: 'Canopy Admin API for machine-to-machine token management and organization configuration. Create,
-    read, rotate and delete the organization''s OAuth2 client credentials, read organization settings, and resolve
-    the product constraints that apply to a contract or to the organization default.'
-  humanURL: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
-  baseURL: https://api.canopy.umbra.space/admin
-  tags:
-  - Administration
-  - Authentication
-  - Organizations
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-admin-openapi.yml
-  - type: Documentation
-    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
-  - type: Overlay
-    url: overlays/umbra-admin-overlay.yaml
-- aid: umbra:tiles
-  name: Umbra Canopy Tiles API
-  description: 'Canopy API for map tiles and preview images. Generates a preview of a cloud-optimized GeoTIFF
-    (COG) dataset for display in map and imagery viewers.'
-  humanURL: https://docs.canopy.umbra.space/reference/preview_cog_preview_get
-  baseURL: https://api.canopy.umbra.space/tiles
-  tags:
-  - Tiles
-  - Imagery
-  - Preview
-  properties:
-  - type: OpenAPI
-    url: openapi/umbra-tiles-openapi.yml
-  - type: Overlay
-    url: overlays/umbra-tiles-overlay.yaml
 - aid: umbra:docs-mcp
   name: Umbra Canopy Documentation MCP Server
-  description: 'Anonymous, hosted Model Context Protocol server published by Umbra on the Canopy documentation
-    host. Exposes six tools that let an agent enumerate the Canopy OpenAPI specs, list and search endpoints,
-    retrieve full endpoint detail including security schemes and servers, read server variables, and execute a
-    request against the live Canopy API when the agent supplies its own credentials.'
+  description: >-
+    Anonymous, hosted Model Context Protocol server published by Umbra on the Canopy documentation host.
+    Exposes six tools that let an agent enumerate the Canopy OpenAPI specs, list and search endpoints,
+    retrieve full endpoint detail including security schemes and servers, read server variables, and execute
+    a request against the live Canopy API when the agent supplies its own credentials.
   humanURL: https://docs.canopy.umbra.space/
   baseURL: https://docs.canopy.umbra.space/mcp
   tags:
@@ -170,12 +58,322 @@ apis:
     url: mcp/umbra-mcp.yml
   - type: ToolCrosswalk
     url: mcp/umbra-tool-crosswalk.yml
+- aid: umbra:umbra-client-credentials-api
+  name: Umbra Client Credentials API
+  description: The Client Credentials API from Umbra — 1 operation(s) for client credentials.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Client Credentials
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-client-credentials-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-collections-api
+  name: Umbra Collections API
+  description: The Collections API from Umbra — 4 operation(s) for collections.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-collections-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-collectmetadata-api
+  name: Umbra Collect Metadata API
+  description: The CollectMetadata API from Umbra — 1 operation(s) for collectmetadata.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - CollectMetadata
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-collectmetadata-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-collects-api
+  name: Umbra Collects API
+  description: The Collects API from Umbra — 2 operation(s) for collects.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Collects
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-collects-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-deliveryconfig-api
+  name: Umbra Delivery Config API
+  description: The DeliveryConfig API from Umbra — 3 operation(s) for deliveryconfig.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - DeliveryConfig
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-deliveryconfig-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-feasibility-api
+  name: Umbra Feasibility API
+  description: The Feasibility API from Umbra — 2 operation(s) for feasibility.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Feasibility
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-feasibility-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-organizations-api
+  name: Umbra Organizations API
+  description: The Organizations API from Umbra — 2 operation(s) for organizations.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-preview-api
+  name: Umbra Preview API
+  description: The Preview API from Umbra — 1 operation(s) for preview.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Preview
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-preview-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-preview-image-api
+  name: Umbra Preview Image API
+  description: The Preview Image API from Umbra — 1 operation(s) for preview image.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Preview Image
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-preview-image-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-product-constraints-api
+  name: Umbra Product Constraints API
+  description: The Product Constraints API from Umbra — 1 operation(s) for product constraints.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Product Constraints
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-product-constraints-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-restricted-access-areas-api
+  name: Umbra Restricted Access Areas API
+  description: The Restricted Access Areas API from Umbra — 1 operation(s) for restricted access areas.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Restricted Access Areas
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-restricted-access-areas-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-search-api
+  name: Umbra Search API
+  description: The Search API from Umbra — 2 operation(s) for search.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-search-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-tasks-api
+  name: Umbra Tasks API
+  description: The Tasks API from Umbra — 5 operation(s) for tasks.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
+- aid: umbra:umbra-thumbnail-api
+  name: Umbra Thumbnail API
+  description: The Thumbnail API from Umbra — 1 operation(s) for thumbnail.
+  humanURL: https://docs.canopy.umbra.space/docs/tasking
+  baseURL: https://api.canopy.umbra.space/tasking
+  tags:
+  - Thumbnail
+  properties:
+  - type: OpenAPI
+    url: openapi/umbra-thumbnail-api-openapi.yml
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/tasking
+  - type: APIReference
+    url: https://docs.canopy.umbra.space/reference/create_task
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/migrate-to-stac-api-v2
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/using-the-archive-catalog
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/delivery-configs
+  - type: Documentation
+    url: https://docs.canopy.umbra.space/docs/authentication-via-client-credentials
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/umbra-admin-overlay.yaml
 - type: Website
   url: https://umbra.space/
 - type: DeveloperPortal
