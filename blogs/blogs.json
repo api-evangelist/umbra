@@ -6,16 +6,17 @@
       "feed_url": "https://help.umbra.space/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://umbra.space/blog/",
       "feed_url": "https://umbra.space/feed/",
       "title": "",
-      "saved": 1,
+      "saved": 9,
       "method": "discovered"
     }
   ],
-  "post_count": 1,
-  "fetched": "2026-08-06T14:08:46Z"
+  "post_count": 10,
+  "fetched": "2026-08-15T12:11:08Z"
 }
