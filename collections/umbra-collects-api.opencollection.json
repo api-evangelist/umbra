@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tasking Collects API",
+    "version": "3.13.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Collect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/tasking/collects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Collect"
+        },
+        {
+          "info": {
+            "name": "Post Search Collects",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/tasking/collects/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search Collects using a variety of available filters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

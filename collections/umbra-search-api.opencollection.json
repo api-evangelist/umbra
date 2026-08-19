@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Umbra Search API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Landing Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/v2/stac/"
+          },
+          "docs": "Endpoint."
+        },
+        {
+          "info": {
+            "name": "Simple Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/v2/stac/search",
+            "params": [
+              {
+                "name": "collections",
+                "value": "",
+                "type": "query",
+                "description": "Array of collection Ids to search for items."
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Array of Item ids to return."
+              },
+              {
+                "name": "bbox",
+                "value": "",
+                "type": "query",
+                "description": "Only return items intersecting this bounding box. Mutually exclusive with **intersects**."
+              },
+              {
+                "name": "intersects",
+                "value": "",
+                "type": "query",
+                "description": "Only return items intersecting this GeoJSON Geometry. Mutually exclusive with **bbox**. \n\n*Remember to URL encode the GeoJSON geometry when using GET request*."
+              },
+              {
+                "name": "datetime",
+                "value": "",
+                "type": "query",
+                "description": "Only return items that have a temporal property that intersects this value.\n\nEither a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of results that are included in each page of the response (capped to 10_000)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Allows additional filtering based on the properties of Item objects"
+              },
+              {
+                "name": "sortby",
+                "value": "",
+                "type": "query",
+                "description": "An array of property names, prefixed by either '+' for ascending or '-' for descending. If no prefix is provided, '+' is assumed."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Include or exclude fields from items body."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "A CQL filter expression for filtering items.\n\nSupports `CQL-JSON` as defined in https://portal.ogc.org/files/96288\n\nRemember to URL encode the CQL-JSON if using GET"
+              },
+              {
+                "name": "filter-crs",
+                "value": "",
+                "type": "query",
+                "description": "The coordinate reference system (CRS) used by spatial literals in the 'filter' value. Default is `http://www.opengis.net/def/crs/OGC/1.3/CRS84`"
+              },
+              {
+                "name": "filter-lang",
+                "value": "",
+                "type": "query",
+                "description": "The CQL filter encoding that the 'filter' value uses."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for STAC items with simple filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). For usage information and examples, see https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/item-search"
+        },
+        {
+          "info": {
+            "name": "Advanced Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/v2/stac/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for STAC items with full-featured filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). Implements the STAC API Item Search Specification and STAC API Filter Extension."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

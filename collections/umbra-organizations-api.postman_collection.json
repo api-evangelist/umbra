@@ -1,0 +1,289 @@
+{
+  "item": [
+    {
+      "id": "8b02f008-9a9d-47cc-a392-ca94e0279d5f",
+      "name": "Organizations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1ef2f71b-3d9f-4528-8601-fa659068a980",
+          "name": "Get Organization Settings",
+          "request": {
+            "name": "Get Organization Settings",
+            "description": {
+              "content": "Returns Organization Settings for the logged in Organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bfd9a6c-0445-4560-ac81-35b45f74f2fe",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"string\",\n  \"allowedProductTypes\": [\n    \"GEC\",\n    \"SIDD\",\n    \"SICD\",\n    \"CPHD\",\n    \"CSI_SIDD\",\n    \"CSI_TIFF\",\n    \"DI_GIF\"\n  ],\n  \"defaultProductTypes\": [\n    \"GEC\",\n    \"SIDD\",\n    \"SICD\"\n  ],\n  \"allowedSatelliteIds\": [\n    \"Umbra-09\",\n    \"Umbra-10\"\n  ],\n  \"includeInArchive\": false,\n  \"slaLatencySeconds\": 4525,\n  \"license\": \"USGPLUS\",\n  \"sicdFocusType\": \"PREFER_FOCUSED\",\n  \"status\": \"ACTIVE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7d8acfb-ab0f-4d70-8466-cbd2e8d877f5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "682d2815-8106-404e-bd15-fe893ec54060",
+          "name": "List All Product Constraints For Logged In Org",
+          "request": {
+            "name": "List All Product Constraints For Logged In Org",
+            "description": {
+              "content": "Retrieves all product constraints that apply for the logged in organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                "constraints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4ed0d60a-a90e-4007-989b-7b29895220b2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"SPOTLIGHT\": {\n    \"allowedProductTypes\": [\n      \"GEC\",\n      \"CPHD\"\n    ],\n    \"constraints\": [\n      {\n        \"id\": \"string\",\n        \"productConstraintType\": \"string\",\n        \"sceneSize\": \"string\",\n        \"rangeResolutionMinMeters\": 7021.0528653938045,\n        \"multilookFactor\": 8094,\n        \"grazingAngleMinDegrees\": 5191,\n        \"grazingAngleMaxDegrees\": 2186\n      },\n      {\n        \"id\": \"string\",\n        \"productConstraintType\": \"string\",\n        \"sceneSize\": \"string\",\n        \"rangeResolutionMinMeters\": 3857.363394829063,\n        \"multilookFactor\": 9287,\n        \"grazingAngleMinDegrees\": 216,\n        \"grazingAngleMaxDegrees\": 4395\n      }\n    ]\n  },\n  \"SCAN\": {\n    \"allowedProductTypes\": [\n      \"SIDD\",\n      \"SICD\"\n    ],\n    \"constraints\": [\n      {\n        \"id\": \"string\",\n        \"productConstraintType\": \"string\",\n        \"rangeResolutionMinMeters\": 2187.8947662800565,\n        \"rangeMinMeters\": 4271,\n        \"rangeMaxMeters\": 7263,\n        \"rangeDefaultMeters\": 7595,\n        \"azimuthMinKm\": 2788,\n        \"azimuthMaxKm\": 1300,\n        \"grazingAngleMinDegrees\": 4210,\n        \"grazingAngleMaxDegrees\": 9548\n      },\n      {\n        \"id\": \"string\",\n        \"productConstraintType\": \"string\",\n        \"rangeResolutionMinMeters\": 5460.925208768813,\n        \"rangeMinMeters\": 1218,\n        \"rangeMaxMeters\": 163,\n        \"rangeDefaultMeters\": 1779,\n        \"azimuthMinKm\": 8109,\n        \"azimuthMaxKm\": 9845,\n        \"grazingAngleMinDegrees\": 5153,\n        \"grazingAngleMaxDegrees\": 2349\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf1f6878-55c4-44a6-94c9-af9abe1568a6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/admin",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3dc1982b-3359-4abe-b0c3-2ccfd515da18",
+    "name": "Admin Organizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy Admin API for M2M Token Management",
+      "type": "text/plain"
+    }
+  }
+}

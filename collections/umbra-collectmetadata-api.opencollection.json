@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Delivery Collect Metadata API",
+    "version": "5.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CollectMetadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/delivery/collect-metadata/schema"
+          },
+          "docs": "Get Schema"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

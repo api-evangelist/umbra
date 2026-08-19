@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "STAC Archive Thumbnail API",
+    "version": "2.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Thumbnail",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Thumbnail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/archive/thumbnail/:archive_id",
+            "params": [
+              {
+                "name": "archive_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Thumbnail"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

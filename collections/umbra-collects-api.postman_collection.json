@@ -1,0 +1,339 @@
+{
+  "item": [
+    {
+      "id": "c436d3a6-5d45-4389-b4f8-26fdf4fcb015",
+      "name": "Collects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6fad2c44-83f8-41ad-b9d0-daba0a9cafe6",
+          "name": "Get Collect",
+          "request": {
+            "name": "Get Collect",
+            "description": {},
+            "url": {
+              "path": [
+                "collects",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "011c1b81-0b74-4b3c-9361-946ef462f560",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29d0a388-8ac7-44df-9364-e01912186cf7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c46c2ce9-1e49-4398-8862-680b7c8d6941",
+          "name": "Post Search Collects",
+          "request": {
+            "name": "Post Search Collects",
+            "description": {
+              "content": "Search Collects using a variety of available filters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collects",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"collectName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"startAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"endAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"rangeResolution\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"multilookFactor\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"grazingAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"targetAzimuthAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"polarization\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"squintAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    }\n  },\n  \"limit\": 20,\n  \"skip\": 0,\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0637ed20-1541-4bd3-81e4-ad0225a48826",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collects",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"collectName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"startAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"endAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"rangeResolution\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"multilookFactor\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"grazingAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"targetAzimuthAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"polarization\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"squintAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    }\n  },\n  \"limit\": 20,\n  \"skip\": 0,\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3722b40f-ddc1-4b32-9109-70616314aa61",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collects",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"collectName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"startAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"endAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"rangeResolution\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"multilookFactor\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"grazingAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"targetAzimuthAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"polarization\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"squintAngle\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    }\n  },\n  \"limit\": 20,\n  \"skip\": 0,\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/tasking",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "33287dc1-cb7c-4679-b2e7-ef97fd79ff5c",
+    "name": "Tasking Collects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy API for Self-Service Tasking",
+      "type": "text/plain"
+    }
+  }
+}

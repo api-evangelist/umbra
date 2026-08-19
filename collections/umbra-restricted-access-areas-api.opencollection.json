@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tasking Restricted Access Areas API",
+    "version": "3.13.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Restricted Access Areas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Restricted Access Areas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/tasking/restricted-access-areas"
+          },
+          "docs": "Returns a GeoJSON FeatureCollection of locations where Tasking is disallowed for your organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

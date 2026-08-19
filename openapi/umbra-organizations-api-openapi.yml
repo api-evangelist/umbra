@@ -1,0 +1,325 @@
+openapi: 3.2.0
+info:
+  title: Admin Organizations API
+  description: Canopy Admin API for M2M Token Management
+  version: 3.1.0
+servers:
+- url: https://api.canopy.umbra.space/admin
+security:
+- bearerAuth: []
+tags:
+- name: Organizations
+paths:
+  /organizations/settings:
+    get:
+      tags:
+      - Organizations
+      summary: Get Organization Settings
+      description: Returns Organization Settings for the logged in Organization
+      operationId: get_organization_settings
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSettings'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /organizations/constraints:
+    get:
+      tags:
+      - Organizations
+      summary: List All Product Constraints For Logged In Org
+      description: Retrieves all product constraints that apply for the logged in organization
+      operationId: list_all_product_constraints_for_logged_in_org
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConstraintsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    OrgStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - ARCHIVED
+      title: OrgStatus
+      description: OrgStatus
+    SICDFocusType:
+      type: string
+      enum:
+      - ONLY_UNFOCUSED
+      - PREFER_FOCUSED
+      - UNFOCUSED_AND_FOCUSED
+      title: SICDFocusType
+      description: SICD Focusing Type
+    TaskProductType:
+      type: string
+      enum:
+      - CPHD
+      - GEC
+      - SIDD
+      - SICD
+      - CSI_TIFF
+      - CSI_SIDD
+      - DI_GIF
+      - DI_TIF
+      - CRSD
+      title: TaskProductType
+      description: See https://docs.canopy.umbra.space/docs/delivered-product-types for details.
+    ScanProductConstraints:
+      properties:
+        allowedProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Allowedproducttypes
+        constraints:
+          items:
+            $ref: '#/components/schemas/ScanProductConstraintsFields'
+          type: array
+          title: Constraints
+      additionalProperties: false
+      type: object
+      required:
+      - allowedProductTypes
+      - constraints
+      title: ScanProductConstraints
+      description: Product constraints for SCAN imaging mode.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LicenseType:
+      type: string
+      enum:
+      - USGPLUS
+      - CCBY4
+      title: LicenseType
+      description: LicenseType
+    GetConstraintsResponse:
+      properties:
+        SPOTLIGHT:
+          $ref: '#/components/schemas/SpotlightProductConstraints'
+        SCAN:
+          $ref: '#/components/schemas/ScanProductConstraints'
+      additionalProperties: false
+      type: object
+      required:
+      - SPOTLIGHT
+      - SCAN
+      title: GetConstraintsResponse
+      description: Response model for the GET /constraints endpoints.
+    SpotlightProductConstraints:
+      properties:
+        allowedProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Allowedproducttypes
+        constraints:
+          items:
+            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
+          type: array
+          title: Constraints
+      additionalProperties: false
+      type: object
+      required:
+      - allowedProductTypes
+      - constraints
+      title: SpotlightProductConstraints
+      description: Product constraints for Spotlight imaging mode.
+    SpotlightProductConstraintsFields:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        sceneSize:
+          type: string
+          title: Scenesize
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
+      type: object
+      required:
+      - id
+      - productConstraintType
+      - sceneSize
+      - rangeResolutionMinMeters
+      - multilookFactor
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: SpotlightProductConstraintsFields
+      description: Fields for Spotlight product constraints.
+    OrganizationSettings:
+      properties:
+        organizationId:
+          type: string
+          title: Organizationid
+          description: The organization's ID.
+        allowedProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Allowedproducttypes
+          description: List of TaskProductTypes that this organization is allowed to Task.
+          default:
+          - GEC
+          - SIDD
+          - SICD
+          - CPHD
+          - CSI_SIDD
+          - CSI_TIFF
+          - DI_GIF
+        defaultProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Defaultproducttypes
+          description: Default list of TaskProductTypes to be delivered for this organization.
+          default:
+          - GEC
+          - SIDD
+          - SICD
+        allowedSatelliteIds:
+          items:
+            type: string
+          type: array
+          title: Allowedsatelliteids
+          description: List of satellite IDs that this organization is allowed to Task.
+          default:
+          - Umbra-09
+          - Umbra-10
+        includeInArchive:
+          type: boolean
+          title: Includeinarchive
+          description: Should collects in this org be included in the Umbra Archive Catalog? If False, collects in this org will not be included unless overridden or ingested manually.
+          default: false
+        slaLatencySeconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Slalatencyseconds
+          description: The SLA latency in seconds for this organization. Default is None.
+        license:
+          $ref: '#/components/schemas/LicenseType'
+          description: License to use in SIDD and SICD metadata.
+          default: CCBY4
+        sicdFocusType:
+          $ref: '#/components/schemas/SICDFocusType'
+          description: Preferred SICD focusing when requesting SICD assets
+          default: PREFER_FOCUSED
+        status:
+          $ref: '#/components/schemas/OrgStatus'
+          description: The status of the organization. Default is active.
+          default: ACTIVE
+      type: object
+      required:
+      - organizationId
+      title: OrganizationSettings
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ScanProductConstraintsFields:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        rangeMinMeters:
+          type: integer
+          title: Rangeminmeters
+        rangeMaxMeters:
+          type: integer
+          title: Rangemaxmeters
+        rangeDefaultMeters:
+          type: integer
+          title: Rangedefaultmeters
+        azimuthMinKm:
+          type: integer
+          title: Azimuthminkm
+        azimuthMaxKm:
+          type: integer
+          title: Azimuthmaxkm
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - productConstraintType
+      - rangeResolutionMinMeters
+      - rangeMinMeters
+      - rangeMaxMeters
+      - rangeDefaultMeters
+      - azimuthMinKm
+      - azimuthMaxKm
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: ScanProductConstraintsFields
+      description: Fields for Scan product constraints.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

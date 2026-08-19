@@ -1,0 +1,339 @@
+{
+  "item": [
+    {
+      "id": "72153208-662b-49c9-83dc-b2c5f717067b",
+      "name": "Feasibility",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1b692ed7-1e9e-4692-8ef6-e04691085e3f",
+          "name": "Create Feasibility",
+          "request": {
+            "name": "Create Feasibility",
+            "description": {
+              "content": "Creates a feasibility request for the given constraints. Feasibilities begin with status RECEIVED, and should transition to COMPLETED or ERROR within a few minutes. Poll feasibility by id until status is COMPLETED, upon which opportunities will also be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "feasibilities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bbade3e1-6b07-4963-bf13-c4d23405480c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "feasibilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"string\",\n  \"userId\": \"string\",\n  \"id\": \"61639303-3f83-c285-b47c-cd8384b76108\",\n  \"createdAt\": \"2000-05-12T17:13:18.278Z\",\n  \"updatedAt\": \"1988-01-01T20:01:34.053Z\",\n  \"opportunities\": [\n    {\n      \"windowStartAt\": \"1950-07-19T19:29:37.901Z\",\n      \"windowEndAt\": \"2015-07-09T20:36:45.659Z\",\n      \"durationSec\": 8273.101307325493,\n      \"grazingAngleStartDegrees\": 7990.31185093371,\n      \"grazingAngleEndDegrees\": 5758.063590562492,\n      \"targetAzimuthAngleStartDegrees\": 4351.799194707934,\n      \"targetAzimuthAngleEndDegrees\": 2464.2834158730984,\n      \"squintAngleEngineeringDegreesStart\": 7550.341587944535,\n      \"squintAngleEngineeringDegreesEnd\": 3545.924203303349,\n      \"slantRangeStartKm\": 5630.194396420921,\n      \"slantRangeEndKm\": 1537.7600963771965,\n      \"groundRangeStartKm\": 1149.7261325887541,\n      \"groundRangeEndKm\": 8114.659088290713,\n      \"squintAngleStartDegrees\": 6062.374569967933,\n      \"squintAngleEndDegrees\": 3603.1219746799125,\n      \"satelliteId\": \"\"\n    },\n    {\n      \"windowStartAt\": \"1987-04-23T16:46:00.906Z\",\n      \"windowEndAt\": \"2009-11-16T11:38:05.460Z\",\n      \"durationSec\": 5017.64168410381,\n      \"grazingAngleStartDegrees\": 2010.9935721407735,\n      \"grazingAngleEndDegrees\": 1122.9230614663243,\n      \"targetAzimuthAngleStartDegrees\": 138.19847619984117,\n      \"targetAzimuthAngleEndDegrees\": 2946.6214367648013,\n      \"squintAngleEngineeringDegreesStart\": 482.6613398060431,\n      \"squintAngleEngineeringDegreesEnd\": 2402.41417342134,\n      \"slantRangeStartKm\": 1884.2974529973155,\n      \"slantRangeEndKm\": 270.73057783916335,\n      \"groundRangeStartKm\": 94.76626076666884,\n      \"groundRangeEndKm\": 2897.464902688345,\n      \"squintAngleStartDegrees\": 5712.95727871078,\n      \"squintAngleEndDegrees\": 4268.191176985146,\n      \"satelliteId\": \"\"\n    }\n  ],\n  \"feasibilityRequest\": {\n    \"constraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    },\n    \"windowStartAt\": \"1966-09-13T09:11:22.702Z\",\n    \"windowEndAt\": \"1965-05-29T21:08:52.406Z\",\n    \"imagingMode\": \"<string>\",\n    \"spotlightConstraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"scanConstraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    },\n    \"contractId\": \"ac77359e-aa85-ada2-0cc8-28e145837a28\"\n  },\n  \"status\": \"COMPLETED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c218115-ad4e-4e3a-9f77-14b2c99508a2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "feasibilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3503a0b-e403-47bb-b23b-d4390d92f72a",
+          "name": "Get Feasibility",
+          "request": {
+            "name": "Get Feasibility",
+            "description": {
+              "content": "Returns feasibility by id. When status is COMPLETED, the opportunities array will be populated with opportunities.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "feasibilities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b628cf1-5c5c-4f7b-8fc4-ee112f18e818",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "feasibilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"string\",\n  \"userId\": \"string\",\n  \"id\": \"4c7131fc-755f-b9d4-2fae-88c85ef319d6\",\n  \"createdAt\": \"2019-04-09T06:48:57.483Z\",\n  \"updatedAt\": \"1989-10-09T07:19:48.218Z\",\n  \"opportunities\": [\n    {\n      \"windowStartAt\": \"1963-08-05T06:10:39.334Z\",\n      \"windowEndAt\": \"1977-12-06T06:23:24.791Z\",\n      \"durationSec\": 4643.170372958542,\n      \"grazingAngleStartDegrees\": 3504.537188349187,\n      \"grazingAngleEndDegrees\": 7603.162524967028,\n      \"targetAzimuthAngleStartDegrees\": 5303.1543155700765,\n      \"targetAzimuthAngleEndDegrees\": 9504.980049660031,\n      \"squintAngleEngineeringDegreesStart\": 9617.955623947648,\n      \"squintAngleEngineeringDegreesEnd\": 2275.26784871427,\n      \"slantRangeStartKm\": 2702.9520976040712,\n      \"slantRangeEndKm\": 7481.380852405423,\n      \"groundRangeStartKm\": 3988.178588497896,\n      \"groundRangeEndKm\": 8811.206603424302,\n      \"squintAngleStartDegrees\": 7509.107164781378,\n      \"squintAngleEndDegrees\": 2931.881700041231,\n      \"satelliteId\": \"\"\n    },\n    {\n      \"windowStartAt\": \"2006-08-05T08:21:03.594Z\",\n      \"windowEndAt\": \"1951-09-14T03:42:44.875Z\",\n      \"durationSec\": 3893.195211227356,\n      \"grazingAngleStartDegrees\": 2380.5308662221937,\n      \"grazingAngleEndDegrees\": 9995.847478042562,\n      \"targetAzimuthAngleStartDegrees\": 8207.111969876354,\n      \"targetAzimuthAngleEndDegrees\": 2454.2109282049805,\n      \"squintAngleEngineeringDegreesStart\": 6717.739586336427,\n      \"squintAngleEngineeringDegreesEnd\": 3769.7164031895004,\n      \"slantRangeStartKm\": 1115.3009780294988,\n      \"slantRangeEndKm\": 4115.609890072966,\n      \"groundRangeStartKm\": 7015.696363192262,\n      \"groundRangeEndKm\": 4991.217091199373,\n      \"squintAngleStartDegrees\": 4600.6558837060875,\n      \"squintAngleEndDegrees\": 1540.4443084169218,\n      \"satelliteId\": \"\"\n    }\n  ],\n  \"feasibilityRequest\": {\n    \"constraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    },\n    \"windowStartAt\": \"1959-12-24T13:48:47.170Z\",\n    \"windowEndAt\": \"2024-08-28T21:36:18.241Z\",\n    \"imagingMode\": \"<string>\",\n    \"spotlightConstraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"scanConstraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    },\n    \"contractId\": \"1de6f550-257d-e653-4b6b-7bdc014c49fb\"\n  },\n  \"status\": \"COMPLETED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9fdf381-1b19-4022-a488-d2f797926e93",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "feasibilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/tasking",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3e5d3103-3122-442a-90b7-7c66bbe1b12e",
+    "name": "Tasking Feasibility API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy API for Self-Service Tasking",
+      "type": "text/plain"
+    }
+  }
+}

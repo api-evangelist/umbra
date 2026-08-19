@@ -1,0 +1,786 @@
+{
+  "item": [
+    {
+      "id": "a23df683-1eb6-4ad3-b69c-e20eba814272",
+      "name": "Tasks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3726ba85-1e49-411a-b882-ca06096fc79f",
+          "name": "Create Task",
+          "request": {
+            "name": "Create Task",
+            "description": {
+              "content": "Creates a new task. New tasks begin with status ACTIVE, and should transition to SUBMITTED, or REJECTED within a few minutes. Query tasks by id for status updates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"taskName\": \"<string>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  },\n  \"deliveryConfigId\": \"<uuid>\",\n  \"productTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userOrderId\": \"\",\n  \"satelliteIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "41a42b79-ff02-406c-8455-e75aaa13d3a3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"taskName\": \"<string>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  },\n  \"deliveryConfigId\": \"<uuid>\",\n  \"productTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userOrderId\": \"\",\n  \"satelliteIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"geometry\": {\n    \"type\": \"Point\",\n    \"coordinates\": \"<array>\",\n    \"bbox\": \"<array>\"\n  },\n  \"properties\": {\n    \"organizationId\": \"string\",\n    \"userId\": \"string\",\n    \"contractId\": \"20bebff5-1245-f827-9475-6eb5b56e9ca5\",\n    \"acceptableWindowStartAt\": \"1984-10-30T16:48:44.579Z\",\n    \"acceptableWindowEndAt\": \"2002-08-29T14:56:30.987Z\",\n    \"taskName\": \"string\",\n    \"constraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"windowStartAt\": \"2007-08-22T19:53:21.311Z\",\n    \"windowEndAt\": \"1976-04-16T22:50:52.289Z\",\n    \"contractSnapshot\": {\n      \"id\": \"d8b62b2d-1940-5298-8264-a542ef8a0e2d\",\n      \"organizationId\": \"string\",\n      \"taskTier\": 2013.7416349871107,\n      \"constellationMinWindowHours\": 6848,\n      \"constellationPriority\": 4536,\n      \"precisionPriority\": 8901,\n      \"lockedPriority\": 7127,\n      \"deramp\": \"AUTO\",\n      \"allowedSatellites\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allowedProducts\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"defaultProducts\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allowedBlacklynxSatelliteIds\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allowedSystemNames\": [\n        \"string\",\n        \"string\"\n      ],\n      \"assignedRevs\": [\n        7,\n        6\n      ]\n    },\n    \"imagingMode\": \"<string>\",\n    \"createdAt\": \"2007-06-14T16:38:13.212Z\",\n    \"updatedAt\": \"2011-01-18T19:06:59.718Z\",\n    \"status\": \"SCHEDULED\",\n    \"statusHistory\": [\n      {\n        \"status\": \"PROCESSED\",\n        \"timestamp\": \"1959-03-19T14:03:25.550Z\"\n      },\n      {\n        \"status\": \"CANCELED\",\n        \"timestamp\": \"1958-12-15T14:21:14.184Z\"\n      }\n    ],\n    \"collectIds\": [\n      \"73c52ee4-dae4-253e-05e0-f3f8363fcb2a\",\n      \"1cdb86e4-3729-5063-91ba-30250ff5f06f\"\n    ],\n    \"userEmail\": \"string\",\n    \"taskType\": \"STANDARD\",\n    \"deliveryConfigId\": \"28d543a1-3e1c-67d7-25a1-ad68d616bd48\",\n    \"productTypes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"tags\": [\n      \"ew\",\n      \"KquVPoWDwG\",\n      \"Dkk7i\",\n      \"ohnQ7\",\n      \"h\",\n      \"fQ34Ugleny\",\n      \"6fCaui9kT\",\n      \"10Cssupucx\",\n      \"dmqZB\",\n      \"8iq\",\n      \"Giy0OSA\",\n      \"o8a\",\n      \"8YmFODdwV\",\n      \"BxrmtigFQvJ\",\n      \"vP79Ye\",\n      \"BMbV53l\",\n      \"B\",\n      \"uj8\",\n      \"-iKK\",\n      \"psk9r\"\n    ],\n    \"userOrderId\": \"\",\n    \"satelliteIds\": [\n      \"string\",\n      \"string\"\n    ],\n    \"spotlightConstraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"scanConstraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    }\n  },\n  \"id\": \"4c542182-ab45-ba68-19a3-caf4cf843e2b\",\n  \"type\": \"Feature\",\n  \"bulkTaskId\": \"483946e0-7e0a-0932-e423-29afe7214db4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9631fc16-0527-4567-86da-ce7cc699c275",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"constraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"windowStartAt\": \"<dateTime>\",\n  \"windowEndAt\": \"<dateTime>\",\n  \"taskName\": \"<string>\",\n  \"contractId\": \"<uuid>\",\n  \"imagingMode\": \"<string>\",\n  \"scanConstraints\": {\n    \"geometry\": {\n      \"type\": \"LineString\",\n      \"coordinates\": [\n        \"<array>\",\n        \"<array>\"\n      ],\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SCAN\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 2,\n    \"grazingAngleMinDegrees\": 32,\n    \"grazingAngleMaxDegrees\": 60,\n    \"swathWidthMeters\": 8000\n  },\n  \"spotlightConstraints\": {\n    \"geometry\": {\n      \"type\": \"Point\",\n      \"coordinates\": \"<array>\",\n      \"bbox\": \"<array>\"\n    },\n    \"imagingMode\": \"SPOTLIGHT\",\n    \"polarization\": \"<string>\",\n    \"rangeResolutionMinMeters\": 1,\n    \"multilookFactor\": 1,\n    \"grazingAngleMinDegrees\": 45,\n    \"grazingAngleMaxDegrees\": 65,\n    \"targetAzimuthAngleStartDegrees\": 1,\n    \"targetAzimuthAngleEndDegrees\": 360,\n    \"sceneSize\": \"<string>\"\n  },\n  \"deliveryConfigId\": \"<uuid>\",\n  \"productTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userOrderId\": \"\",\n  \"satelliteIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db784396-0919-4176-8631-713fb8108849",
+          "name": "Cancel Task",
+          "request": {
+            "name": "Cancel Task",
+            "description": {
+              "content": "Requests cancellation of a previously submitted task. A task can only be canceled if it's status is one of SCHEDULED, SUBMITTED, ACCEPTED, ACTIVE. If this operation fails, a 422 will be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ee032dc-f03a-4376-a8ad-97d11af74049",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2bd5d6b5-f3c9-429f-841c-ca7ab510bf8b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a031b69-e255-4f72-b1b7-853efe87337e",
+          "name": "Get Task",
+          "request": {
+            "name": "Get Task",
+            "description": {},
+            "url": {
+              "path": [
+                "tasks",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4bf2b88-d891-4ebb-83ca-fc684c581091",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"geometry\": {\n    \"type\": \"Point\",\n    \"coordinates\": \"<array>\",\n    \"bbox\": \"<array>\"\n  },\n  \"properties\": {\n    \"organizationId\": \"string\",\n    \"userId\": \"string\",\n    \"contractId\": \"e3c2062e-d4f3-92c1-3fff-bdf1c71f102f\",\n    \"acceptableWindowStartAt\": \"1965-06-07T03:53:53.066Z\",\n    \"acceptableWindowEndAt\": \"1967-08-11T06:49:54.851Z\",\n    \"taskName\": \"string\",\n    \"constraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"windowStartAt\": \"1990-04-17T14:36:44.501Z\",\n    \"windowEndAt\": \"1974-06-02T01:18:42.893Z\",\n    \"contractSnapshot\": {\n      \"id\": \"9480c6fe-a99e-d12e-69dc-7820ea401513\",\n      \"organizationId\": \"string\",\n      \"taskTier\": 4281,\n      \"constellationMinWindowHours\": 4818,\n      \"constellationPriority\": 4590,\n      \"precisionPriority\": 7611,\n      \"lockedPriority\": 4794,\n      \"deramp\": \"OFF\",\n      \"allowedSatellites\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allowedProducts\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"defaultProducts\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allowedBlacklynxSatelliteIds\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allowedSystemNames\": [\n        \"string\",\n        \"string\"\n      ],\n      \"assignedRevs\": [\n        5,\n        7\n      ]\n    },\n    \"imagingMode\": \"<string>\",\n    \"createdAt\": \"1989-03-19T06:04:53.443Z\",\n    \"updatedAt\": \"1981-12-03T21:01:38.248Z\",\n    \"status\": \"ACTIVE\",\n    \"statusHistory\": [\n      {\n        \"status\": \"ACTIVE\",\n        \"timestamp\": \"2014-05-25T21:34:47.028Z\"\n      },\n      {\n        \"status\": \"ERROR\",\n        \"timestamp\": \"1964-10-25T04:14:15.780Z\"\n      }\n    ],\n    \"collectIds\": [\n      \"65d31e4b-94a2-7322-a2cb-0575f8196198\",\n      \"edc9fd22-0e3c-ec43-6b13-7f68fdd7b06c\"\n    ],\n    \"userEmail\": \"string\",\n    \"taskType\": \"STANDARD\",\n    \"deliveryConfigId\": \"627e8dd0-9d84-aeda-2f72-ca1b0ba127c6\",\n    \"productTypes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"tags\": [\n      \"yaWvMVMbQy\",\n      \"ST\",\n      \"cA\",\n      \"-H8l\",\n      \"FUjVhU\",\n      \"Ahu\",\n      \"GwOl8Ay\",\n      \"Pdxha4\",\n      \"QQ\",\n      \"qFB2a\",\n      \"HsTDzXpk\",\n      \"MvtoXmA4_QK\",\n      \"hvlghH9V\",\n      \"i\",\n      \"gPROo\",\n      \"T_x1H7FipWb\",\n      \"ECw\",\n      \"BVnsXGealK\",\n      \"sLaCO6c7\",\n      \"Z9Pwaly1_b\"\n    ],\n    \"userOrderId\": \"\",\n    \"satelliteIds\": [\n      \"string\",\n      \"string\"\n    ],\n    \"spotlightConstraints\": {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SPOTLIGHT\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 1,\n      \"multilookFactor\": 1,\n      \"grazingAngleMinDegrees\": 45,\n      \"grazingAngleMaxDegrees\": 65,\n      \"targetAzimuthAngleStartDegrees\": 1,\n      \"targetAzimuthAngleEndDegrees\": 360,\n      \"sceneSize\": \"<string>\"\n    },\n    \"scanConstraints\": {\n      \"geometry\": {\n        \"type\": \"LineString\",\n        \"coordinates\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"bbox\": \"<array>\"\n      },\n      \"imagingMode\": \"SCAN\",\n      \"polarization\": \"<string>\",\n      \"rangeResolutionMinMeters\": 2,\n      \"grazingAngleMinDegrees\": 32,\n      \"grazingAngleMaxDegrees\": 60,\n      \"swathWidthMeters\": 8000\n    }\n  },\n  \"id\": \"409c6a6f-5063-532e-6075-09a94909c44c\",\n  \"type\": \"Feature\",\n  \"bulkTaskId\": \"fcd3fac5-9e4c-765b-1664-d57ab721a54b\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b332740-ea36-48ac-bc12-99649eab2d5f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5b58a95-f239-4203-9621-8c0cba77a505",
+          "name": "Post Search Tasks",
+          "request": {
+            "name": "Post Search Tasks",
+            "description": {
+              "content": "Search Tasks using a variety of available filters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"createdAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"updatedAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"deliveryConfigId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"tags\": {\n      \"contains\": \"<string>\",\n      \"all\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"imagingMode\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"windowStartAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"windowEndAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"contractId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    }\n  },\n  \"limit\": \"<integer>\",\n  \"skip\": \"<integer>\",\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "12a08ba8-a7af-4add-b812-846417f5042e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"createdAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"updatedAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"deliveryConfigId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"tags\": {\n      \"contains\": \"<string>\",\n      \"all\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"imagingMode\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"windowStartAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"windowEndAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"contractId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    }\n  },\n  \"limit\": \"<integer>\",\n  \"skip\": \"<integer>\",\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"features\": [\n    {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": \"<array>\",\n        \"bbox\": \"<array>\"\n      },\n      \"properties\": {\n        \"organizationId\": \"string\",\n        \"userId\": \"string\",\n        \"contractId\": \"abf93204-cb60-6e38-56f9-4bac4410b001\",\n        \"acceptableWindowStartAt\": \"1947-03-19T02:24:13.044Z\",\n        \"acceptableWindowEndAt\": \"1955-07-02T08:50:57.392Z\",\n        \"taskName\": \"string\",\n        \"constraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SPOTLIGHT\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 1,\n          \"multilookFactor\": 1,\n          \"grazingAngleMinDegrees\": 45,\n          \"grazingAngleMaxDegrees\": 65,\n          \"targetAzimuthAngleStartDegrees\": 1,\n          \"targetAzimuthAngleEndDegrees\": 360,\n          \"sceneSize\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"windowStartAt\": \"1975-10-16T00:35:45.223Z\",\n        \"windowEndAt\": \"2025-07-16T00:28:23.877Z\",\n        \"contractSnapshot\": {\n          \"id\": \"f94a196f-ffd9-6a4b-8740-9b39d8ec8a38\",\n          \"organizationId\": \"string\",\n          \"taskTier\": \"string\",\n          \"constellationMinWindowHours\": 7238,\n          \"constellationPriority\": 6360,\n          \"precisionPriority\": 737,\n          \"lockedPriority\": 5440,\n          \"deramp\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"allowedSatellites\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedProducts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"defaultProducts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedBlacklynxSatelliteIds\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedSystemNames\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"assignedRevs\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"imagingMode\": \"<string>\",\n        \"createdAt\": \"2021-10-09T17:02:17.571Z\",\n        \"updatedAt\": \"1949-06-09T21:56:44.176Z\",\n        \"status\": \"<string>\",\n        \"statusHistory\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"1993-03-05T04:19:10.160Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"1956-11-07T11:40:33.782Z\"\n          }\n        ],\n        \"collectIds\": [\n          \"72b669fd-03b6-f7c1-cf1d-8f026d66997b\",\n          \"d9b0314e-9c4d-eb29-8a24-3a69801f421d\"\n        ],\n        \"userEmail\": \"string\",\n        \"taskType\": \"<string>\",\n        \"deliveryConfigId\": \"51e45fd4-f3a3-c28e-5738-7fe3b89183de\",\n        \"productTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"tags\": [\n          \"B3chnXmv\",\n          \"Dj2E\",\n          \"TW\",\n          \"cshw\",\n          \"rAg_\",\n          \"SCTFYkHU\",\n          \"yRiqYf\",\n          \"E\",\n          \"IhU\",\n          \"lORYMz\",\n          \"6fwNPGGhF\",\n          \"xzHGjJX-plK\",\n          \"nHn\",\n          \"XG28p5lWX\",\n          \"XIO5BnI8h\",\n          \"WzrJTM\",\n          \"ZsdC7\",\n          \"wBS0JNXJSr\",\n          \"KfUwi\",\n          \"xDA1kXoBJg\"\n        ],\n        \"userOrderId\": \"\",\n        \"satelliteIds\": [\n          \"string\",\n          \"string\"\n        ],\n        \"spotlightConstraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SPOTLIGHT\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 1,\n          \"multilookFactor\": 1,\n          \"grazingAngleMinDegrees\": 45,\n          \"grazingAngleMaxDegrees\": 65,\n          \"targetAzimuthAngleStartDegrees\": 1,\n          \"targetAzimuthAngleEndDegrees\": 360,\n          \"sceneSize\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"scanConstraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SCAN\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 2,\n          \"grazingAngleMinDegrees\": 32,\n          \"grazingAngleMaxDegrees\": 60,\n          \"swathWidthMeters\": 8000\n        }\n      },\n      \"id\": \"9a463911-a29e-43fb-8982-ffebf5b90075\",\n      \"type\": \"Feature\",\n      \"bulkTaskId\": \"d74231ac-fa4f-6ff7-d37d-c3aa1b368281\"\n    },\n    {\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": \"<array>\",\n        \"bbox\": \"<array>\"\n      },\n      \"properties\": {\n        \"organizationId\": \"string\",\n        \"userId\": \"string\",\n        \"contractId\": \"afc0f4ac-b05e-108c-f4c2-f8f3e4d60ce9\",\n        \"acceptableWindowStartAt\": \"2003-04-05T23:44:37.319Z\",\n        \"acceptableWindowEndAt\": \"2021-11-11T02:35:52.217Z\",\n        \"taskName\": \"string\",\n        \"constraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SPOTLIGHT\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 1,\n          \"multilookFactor\": 1,\n          \"grazingAngleMinDegrees\": 45,\n          \"grazingAngleMaxDegrees\": 65,\n          \"targetAzimuthAngleStartDegrees\": 1,\n          \"targetAzimuthAngleEndDegrees\": 360,\n          \"sceneSize\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"windowStartAt\": \"1965-01-27T03:41:22.637Z\",\n        \"windowEndAt\": \"1968-05-01T06:12:29.615Z\",\n        \"contractSnapshot\": {\n          \"id\": \"74f0c8ae-018f-fff6-8041-a98a8fb7969d\",\n          \"organizationId\": \"string\",\n          \"taskTier\": false,\n          \"constellationMinWindowHours\": 5046,\n          \"constellationPriority\": 34,\n          \"precisionPriority\": 4736,\n          \"lockedPriority\": 873,\n          \"deramp\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"allowedSatellites\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedProducts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"defaultProducts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedBlacklynxSatelliteIds\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"allowedSystemNames\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"assignedRevs\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"imagingMode\": \"<string>\",\n        \"createdAt\": \"1979-03-27T07:27:16.071Z\",\n        \"updatedAt\": \"2025-08-30T02:05:00.269Z\",\n        \"status\": \"<string>\",\n        \"statusHistory\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"1971-09-27T20:19:54.963Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2015-10-31T04:35:46.815Z\"\n          }\n        ],\n        \"collectIds\": [\n          \"1dadb814-2817-eb9d-2a2b-6bc3cd3dc9be\",\n          \"3f4f9c01-b121-3bfc-ac92-714eede2de84\"\n        ],\n        \"userEmail\": \"string\",\n        \"taskType\": \"<string>\",\n        \"deliveryConfigId\": \"bdbd3515-d0d6-4458-2778-1989b17664b2\",\n        \"productTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"tags\": [\n          \"06q\",\n          \"pJ15yzd\",\n          \"kGSXvT8w_\",\n          \"qhI2\",\n          \"ha7McDFs\",\n          \"L_AzOdoofl\",\n          \"nBq-aKyMr\",\n          \"DGHAgS4i\",\n          \"n9lo\",\n          \"IldI2_wbhK0\",\n          \"wjvXkekQi\",\n          \"inqqFQyaj2\",\n          \"ThzFR\",\n          \"73YXaLs8M\",\n          \"GMmwT-oZN\",\n          \"FpJDorBFy\",\n          \"G5\",\n          \"eF1zlt\",\n          \"YE2\",\n          \"8pZ\"\n        ],\n        \"userOrderId\": \"\",\n        \"satelliteIds\": [\n          \"string\",\n          \"string\"\n        ],\n        \"spotlightConstraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SPOTLIGHT\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 1,\n          \"multilookFactor\": 1,\n          \"grazingAngleMinDegrees\": 45,\n          \"grazingAngleMaxDegrees\": 65,\n          \"targetAzimuthAngleStartDegrees\": 1,\n          \"targetAzimuthAngleEndDegrees\": 360,\n          \"sceneSize\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"scanConstraints\": {\n          \"geometry\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"imagingMode\": \"SCAN\",\n          \"polarization\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"rangeResolutionMinMeters\": 2,\n          \"grazingAngleMinDegrees\": 32,\n          \"grazingAngleMaxDegrees\": 60,\n          \"swathWidthMeters\": 8000\n        }\n      },\n      \"id\": \"87725ab2-3242-fa24-32de-26f2c0ce40ce\",\n      \"type\": \"Feature\",\n      \"bulkTaskId\": \"6f256045-7804-b3be-3be9-1accfbaa15e3\"\n    }\n  ],\n  \"context\": {\n    \"limit\": 4552,\n    \"matched\": 2848,\n    \"returned\": 3833\n  },\n  \"type\": \"FeatureCollection\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad9e1fac-c0dd-4645-a4e7-f27653690071",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"id\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"geometry\": {\n      \"intersects\": {\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"coordinates\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"bbox\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"createdAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"updatedAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"status\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"deliveryConfigId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    },\n    \"tags\": {\n      \"contains\": \"<string>\",\n      \"all\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"taskName\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"taskType\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"userOrderId\": {\n      \"eq\": \"<string>\",\n      \"startsWith\": \"<string>\",\n      \"endsWith\": \"<string>\",\n      \"contains\": \"<string>\",\n      \"icontains\": \"<string>\"\n    },\n    \"imagingMode\": {\n      \"in_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"windowStartAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"windowEndAt\": {\n      \"eq\": \"<number>\",\n      \"ne\": \"<number>\",\n      \"gt\": \"<number>\",\n      \"lt\": \"<number>\",\n      \"gte\": \"<number>\",\n      \"lte\": \"<number>\"\n    },\n    \"contractId\": {\n      \"eq\": \"<uuid>\",\n      \"ne\": \"<uuid>\"\n    }\n  },\n  \"limit\": \"<integer>\",\n  \"skip\": \"<integer>\",\n  \"sortBy\": [\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"dir\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a18b33b4-1635-4433-bfb1-66bc49fa5ea0",
+          "name": "Archive Tasks",
+          "request": {
+            "name": "Archive Tasks",
+            "description": {},
+            "url": {
+              "path": [
+                "tasks",
+                "archive-tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"collectId\": \"<uuid>\",\n      \"productTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"deliveryConfigId\": \"<uuid>\",\n      \"userOrderId\": \"<string>\",\n      \"taskName\": \"<string>\"\n    }\n  ],\n  \"targetContractId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4be5ce12-5094-47d2-a33c-1dd25e12e805",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "archive-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"collectId\": \"<uuid>\",\n      \"productTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"deliveryConfigId\": \"<uuid>\",\n      \"userOrderId\": \"<string>\",\n      \"taskName\": \"<string>\"\n    }\n  ],\n  \"targetContractId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"collectId\": \"88444320-e73a-6c72-de77-a75606cb60c1\",\n      \"taskId\": \"b76899c1-52bd-099c-6979-a86ac359ba76\",\n      \"resellId\": \"f03e78af-7e2e-dfbe-e471-17eef2fbd9dd\",\n      \"resellCollectId\": \"acea371b-84e1-4df0-eb60-00af3624b042\",\n      \"resellCollectTaskId\": \"2b442177-8a87-a8e1-c985-2dc929a4f2ac\",\n      \"deliveryConfigId\": \"c69630b0-64d5-57f3-2292-5ad872b9f436\",\n      \"productTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"userOrderId\": \"string\",\n      \"taskName\": \"string\",\n      \"status\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"collectId\": \"753fc521-706d-6304-16e7-5da1bfc5bb59\",\n      \"taskId\": \"194e43bd-d912-2f7e-b723-9f178cf2ab27\",\n      \"resellId\": \"b420e5be-b316-1635-9296-d82f1cd202d1\",\n      \"resellCollectId\": \"fc22267c-f88e-b7e9-495e-49ea63a91a61\",\n      \"resellCollectTaskId\": \"82522bc9-cddb-3b6a-e246-404937ec4a9f\",\n      \"deliveryConfigId\": \"163fa94e-d745-acd9-2557-d36c130fe0dd\",\n      \"productTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"userOrderId\": \"string\",\n      \"taskName\": \"string\",\n      \"status\": \"string\",\n      \"message\": \"string\"\n    }\n  ],\n  \"targetContractId\": \"b37e312f-6f15-be99-630d-f6802e676dc6\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01ac8a90-161f-468f-9cf0-d504c43a217b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "archive-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"collectId\": \"<uuid>\",\n      \"productTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"deliveryConfigId\": \"<uuid>\",\n      \"userOrderId\": \"<string>\",\n      \"taskName\": \"<string>\"\n    }\n  ],\n  \"targetContractId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/tasking",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2e1bfe5c-5830-40ef-a2b8-6860eb436d24",
+    "name": "Tasking Tasks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy API for Self-Service Tasking",
+      "type": "text/plain"
+    }
+  }
+}

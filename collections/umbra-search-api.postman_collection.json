@@ -1,0 +1,584 @@
+{
+  "item": [
+    {
+      "id": "28c28f43-f86b-4f5a-8318-b42a32310487",
+      "name": "Search",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7f8b77b2-5dc1-42ec-b14d-b7618ce03c4c",
+          "name": "Landing Page",
+          "request": {
+            "name": "Landing Page",
+            "description": {
+              "content": "Endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88f6f191-a66d-4a1f-a3f3-999f42e9251d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"description\": \"string\",\n  \"links\": [\n    {\n      \"href\": \"/search\",\n      \"rel\": \"next\",\n      \"type\": \"application/geo+json\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\",\n      \"method\": \"GET\",\n      \"headers\": {\n        \"key_0\": \"string\",\n        \"key_1\": 9445.97360899586\n      },\n      \"body\": {\n        \"key_0\": 3752,\n        \"key_1\": 9035,\n        \"key_2\": \"string\"\n      },\n      \"merge\": false\n    },\n    {\n      \"href\": \"\\\\&</search?\",\n      \"rel\": \"search\",\n      \"type\": \"application/geo+json\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\",\n      \"method\": \"GET\",\n      \"headers\": {\n        \"key_0\": 697,\n        \"key_1\": true\n      },\n      \"body\": {\n        \"key_0\": 2192\n      },\n      \"merge\": false\n    }\n  ],\n  \"type\": \"Catalog\",\n  \"stac_version\": \"1.0.0\",\n  \"stac_extensions\": [\n    \"https://xfopHkERngNieitJ.auz2iduFemW4RBMlUuBWFLKdFf\",\n    \"http://ZzQzMKoaZFfYYIQusvFnjIewN.obyfl2OQ\"\n  ],\n  \"title\": \"string\",\n  \"conformsTo\": [\n    \"https://api.stacspec.org/v1.0.0/core\",\n    \"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ba3ec0d-d1de-480b-80f6-68c77e908025",
+          "name": "Advanced Search",
+          "request": {
+            "name": "Advanced Search",
+            "description": {
+              "content": "Search for STAC items with full-featured filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). Implements the STAC API Item Search Specification and STAC API Filter Extension.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{search-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collections\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bbox\": \"<array>\",\n  \"intersects\": {\n    \"type\": \"Point\",\n    \"coordinates\": \"<array>\",\n    \"bbox\": \"<array>\"\n  },\n  \"datetime\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"conf\": {\n    \"key_0\": 6420.966309624397,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"query\": {\n    \"key_0\": {\n      \"key_0\": 1970,\n      \"key_1\": 490,\n      \"key_2\": 3715.530399624286\n    },\n    \"key_1\": {\n      \"key_0\": 6960,\n      \"key_1\": \"string\",\n      \"key_2\": 160.44127300766985\n    }\n  },\n  \"sortby\": [\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    }\n  ],\n  \"fields\": {\n    \"include\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"exclude\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"filter\": {\n    \"key_0\": 8994.593878728672\n  },\n  \"filter-crs\": \"<string>\",\n  \"filter-lang\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "91389b2c-0c1d-43b2-aff3-52c9493df86d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{search-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collections\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bbox\": \"<array>\",\n  \"intersects\": {\n    \"type\": \"Point\",\n    \"coordinates\": \"<array>\",\n    \"bbox\": \"<array>\"\n  },\n  \"datetime\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"conf\": {\n    \"key_0\": false,\n    \"key_1\": 9915,\n    \"key_2\": 6731,\n    \"key_3\": true\n  },\n  \"query\": {\n    \"key_0\": {\n      \"key_0\": 8461.618827173304,\n      \"key_1\": false,\n      \"key_2\": 8090\n    },\n    \"key_1\": {\n      \"key_0\": true\n    }\n  },\n  \"sortby\": [\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    }\n  ],\n  \"fields\": {\n    \"include\": [\n      \"<string>\"\n    ],\n    \"exclude\": [\n      \"<string>\"\n    ]\n  },\n  \"filter\": {\n    \"key_0\": 4160.322391126554\n  },\n  \"filter-crs\": \"<string>\",\n  \"filter-lang\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c67ace3-e2cf-48fa-9375-cceb0f5173dc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{search-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collections\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"bbox\": \"<array>\",\n  \"intersects\": {\n    \"type\": \"Point\",\n    \"coordinates\": \"<array>\",\n    \"bbox\": \"<array>\"\n  },\n  \"datetime\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"conf\": {\n    \"key_0\": false,\n    \"key_1\": 9915,\n    \"key_2\": 6731,\n    \"key_3\": true\n  },\n  \"query\": {\n    \"key_0\": {\n      \"key_0\": 8461.618827173304,\n      \"key_1\": false,\n      \"key_2\": 8090\n    },\n    \"key_1\": {\n      \"key_0\": true\n    }\n  },\n  \"sortby\": [\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"direction\": \"<string>\"\n    }\n  ],\n  \"fields\": {\n    \"include\": [\n      \"<string>\"\n    ],\n    \"exclude\": [\n      \"<string>\"\n    ]\n  },\n  \"filter\": {\n    \"key_0\": 4160.322391126554\n  },\n  \"filter-crs\": \"<string>\",\n  \"filter-lang\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f149b52a-97e4-4276-bd6a-fd3ea36e35ee",
+          "name": "Simple Search",
+          "request": {
+            "name": "Simple Search",
+            "description": {
+              "content": "Search for STAC items with simple filtering. STAC item assets include signed URLs when the number of items returned is below a certain threshold (current default is 5). For usage information and examples, see https://github.com/radiantearth/stac-api-spec/tree/release/v1.0.0/item-search",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{search-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "collections",
+                  "value": "<string>",
+                  "description": "Array of collection Ids to search for items."
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "Array of Item ids to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "bbox",
+                  "value": "<string>",
+                  "description": "Only return items intersecting this bounding box. Mutually exclusive with **intersects**."
+                },
+                {
+                  "disabled": false,
+                  "key": "intersects",
+                  "value": "<string>",
+                  "description": "Only return items intersecting this GeoJSON Geometry. Mutually exclusive with **bbox**. \n\n*Remember to URL encode the GeoJSON geometry when using GET request*."
+                },
+                {
+                  "disabled": false,
+                  "key": "datetime",
+                  "value": "<string>",
+                  "description": "Only return items that have a temporal property that intersects this value.\n\nEither a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Limits the number of results that are included in each page of the response (capped to 10_000)."
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Allows additional filtering based on the properties of Item objects"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortby",
+                  "value": "<string>",
+                  "description": "An array of property names, prefixed by either '+' for ascending or '-' for descending. If no prefix is provided, '+' is assumed."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Include or exclude fields from items body."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>",
+                  "description": "A CQL filter expression for filtering items.\n\nSupports `CQL-JSON` as defined in https://portal.ogc.org/files/96288\n\nRemember to URL encode the CQL-JSON if using GET"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter-crs",
+                  "value": "<string>",
+                  "description": "The coordinate reference system (CRS) used by spatial literals in the 'filter' value. Default is `http://www.opengis.net/def/crs/OGC/1.3/CRS84`"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter-lang",
+                  "value": "<string>",
+                  "description": "The CQL filter encoding that the 'filter' value uses."
+                },
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4399e7f9-16cf-4989-bab0-7629d3397bc6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{search-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "collections",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bbox",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "intersects",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortby",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter-crs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter-lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f94eb5a-5b1b-4c73-a092-e0dd0d454062",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{search-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "collections",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bbox",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "intersects",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortby",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter-crs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter-lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "search-Url"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e44a3d73-39bc-480d-bd37-8b1b1bbd3701",
+    "name": "Umbra Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged Search across 2 of this provider's published API definitions: umbra-stac-api-v2-openapi.yml, umbra-stac-archive-openapi.yml. Each path carries the servers of the definition it was published in.",
+      "type": "text/plain"
+    }
+  }
+}

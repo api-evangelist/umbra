@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tasking Tasks API",
+    "version": "3.13.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tasks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/tasking/tasks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new task. New tasks begin with status ACTIVE, and should transition to SUBMITTED, or REJECTED within a few minutes. Query tasks by id for status updates."
+        },
+        {
+          "info": {
+            "name": "Cancel Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.canopy.umbra.space/tasking/tasks/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Requests cancellation of a previously submitted task. A task can only be canceled if it's status is one of SCHEDULED, SUBMITTED, ACCEPTED, ACTIVE. If this operation fails, a 422 will be returned."
+        },
+        {
+          "info": {
+            "name": "Get Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/tasking/tasks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Task"
+        },
+        {
+          "info": {
+            "name": "Post Search Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/tasking/tasks/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search Tasks using a variety of available filters"
+        },
+        {
+          "info": {
+            "name": "Archive Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/tasking/tasks/archive-tasks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Archive Tasks"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

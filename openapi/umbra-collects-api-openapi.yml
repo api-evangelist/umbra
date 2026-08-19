@@ -1,0 +1,1087 @@
+openapi: 3.2.0
+info:
+  title: Tasking Collects API
+  description: Canopy API for Self-Service Tasking
+  version: 3.13.0
+servers:
+- url: https://api.canopy.umbra.space/tasking
+  description: Live Environment
+- url: https://api.canopy.prod.umbra-sandbox.space/tasking
+  description: Sandbox Environment
+security:
+- bearerAuth: []
+tags:
+- name: Collects
+paths:
+  /collects/{id}:
+    get:
+      tags:
+      - Collects
+      summary: Get Collect
+      operationId: get_collect
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collects/search:
+    post:
+      tags:
+      - Collects
+      summary: Post Search Collects
+      description: Search Collects using a variety of available filters
+      operationId: post_search_collects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostSearchCollectsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFeatureCollection_CollectResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    PostSearchCollectsRequest:
+      properties:
+        limit:
+          type: integer
+          maximum: 200
+          minimum: 1
+          title: Limit
+          default: 20
+        skip:
+          type: integer
+          minimum: 0
+          title: Skip
+          default: 0
+        sortBy:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SortByField'
+            type: array
+          - type: 'null'
+          title: Sortby
+        query:
+          $ref: '#/components/schemas/PostSearchCollectsQueryModel'
+      type: object
+      required:
+      - query
+      title: PostSearchCollectsRequest
+    CollectStatusEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        status:
+          $ref: '#/components/schemas/CollectStatus'
+        message:
+          type: string
+          title: Message
+          default: ''
+      type: object
+      required:
+      - timestamp
+      - status
+      title: CollectStatusEvent
+    SearchQueryFilterEnum_TaskType_:
+      properties:
+        in_:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TaskType'
+            type: array
+          - type: 'null'
+          title: In
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterEnum[TaskType]
+    SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+      description: Sort direction
+    Point:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: Point
+        coordinates:
+          anyOf:
+          - $ref: '#/components/schemas/Position2D'
+          - $ref: '#/components/schemas/Position3D'
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Point
+      description: Point Model
+    MultiPolygon:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiPolygon
+        coordinates:
+          items:
+            items:
+              items:
+                anyOf:
+                - $ref: '#/components/schemas/Position2D'
+                - $ref: '#/components/schemas/Position3D'
+              type: array
+              minItems: 4
+            type: array
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPolygon
+      description: MultiPolygon Model
+    PaginatedFeatureCollection_CollectResponse_:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: FeatureCollection
+        features:
+          items:
+            $ref: '#/components/schemas/CollectResponse'
+          type: array
+          title: Features
+        context:
+          $ref: '#/components/schemas/Context'
+      type: object
+      required:
+      - features
+      - context
+      title: PaginatedFeatureCollection[CollectResponse]
+    CollectStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - SCHEDULED
+      - COMMANDED
+      - COLLECTED
+      - DOWNLINKED
+      - INCOMPLETE
+      - CORRUPT
+      - STAGED
+      - QUEUED
+      - PROCESSING
+      - PROCESSING_DELAY
+      - PROCESSED
+      - SUPERSEDED
+      - FAILED
+      - CANCELED
+      - STALLED
+      - UNKNOWN_COLLECT_STATUS
+      - PARSED
+      - ASSEMBLED
+      - TRANSMITTED
+      - DELIVERED
+      - DELIVERING
+      - DELIVERY_STALLED
+      - DELIVERY_DELAYED
+      - DELIVERY_ERROR
+      title: Collect Status
+      description: See https://docs.canopy.umbra.space/docs/tasking#collect-status for details.
+    SearchQueryFilterValue:
+      properties:
+        eq:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Ne
+        gt:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Gt
+        lt:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lt
+        gte:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Gte
+        lte:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lte
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterValue
+    LineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: LineString
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          minItems: 2
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: LineString
+      description: LineString Model
+    TaskType:
+      type: string
+      enum:
+      - STANDARD
+      - ARCHIVE
+      title: TaskType
+      description: TaskType
+    PolarizationEnum:
+      type: string
+      enum:
+      - VV
+      - HH
+      title: Polarization
+      description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Position3D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      - type: number
+        title: Altitude
+      type: array
+      maxItems: 3
+      minItems: 3
+    GeometryCollection-Input:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+        geometries:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Input'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Input'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          type: array
+          title: Geometries
+      type: object
+      required:
+      - type
+      - geometries
+      title: GeometryCollection
+      description: GeometryCollection Model
+    SearchQueryFilterGeometry:
+      properties:
+        intersects:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Input'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Input'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          - type: 'null'
+          title: Intersects
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterGeometry
+    SortByField:
+      properties:
+        field:
+          type: string
+          title: Field
+        dir:
+          $ref: '#/components/schemas/SortDirection'
+      type: object
+      required:
+      - field
+      - dir
+      title: SortByField
+    SearchQueryFilterEnum_PolarizationEnum_:
+      properties:
+        in_:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PolarizationEnum'
+            type: array
+          - type: 'null'
+          title: In
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterEnum[PolarizationEnum]
+    MultiLineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiLineString
+        coordinates:
+          items:
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/Position2D'
+              - $ref: '#/components/schemas/Position3D'
+            type: array
+            minItems: 2
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiLineString
+      description: MultiLineString Model
+    SearchQueryFilterEnum_CollectStatus_:
+      properties:
+        in_:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CollectStatus'
+            type: array
+          - type: 'null'
+          title: In
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterEnum[CollectStatus]
+    Polygon:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: Polygon
+        coordinates:
+          items:
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/Position2D'
+              - $ref: '#/components/schemas/Position3D'
+            type: array
+            minItems: 4
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Polygon
+      description: Polygon Model
+    Context:
+      properties:
+        limit:
+          type: integer
+          title: Limit
+        matched:
+          type: integer
+          title: Matched
+        returned:
+          type: integer
+          title: Returned
+      type: object
+      required:
+      - limit
+      - matched
+      - returned
+      title: Context
+      description: Contextual information provided to API consumers
+    CollectResponseProperties:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: integer
+          - type: string
+          title: Id
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+        collectName:
+          type: string
+          title: Collectname
+          description: Name for the collect, in the form of the vehicle the collect is tasked on - start date and time of the collect
+        taskId:
+          type: string
+          format: uuid
+          title: Taskid
+          description: Maps to tasks, tasks may have more than one collect associated with it based on the type of task (e.g. mosaic or recurring types)
+        satelliteId:
+          type: string
+          title: Satelliteid
+          description: Vehicle to satisfy collect
+        collectType:
+          $ref: '#/components/schemas/CollectType'
+          description: Imaging mode used for collect, e.g. 'SPOTLIGHT'
+          default: SPOTLIGHT
+        status:
+          $ref: '#/components/schemas/CollectStatus'
+          description: Current status of collect
+        statusHistory:
+          items:
+            $ref: '#/components/schemas/CollectStatusEvent'
+          type: array
+          title: Statushistory
+          description: The status history of the collect
+        startAt:
+          type: string
+          format: date-time
+          title: Startat
+          description: Approximate time to start collect
+        endAt:
+          type: string
+          format: date-time
+          title: Endat
+          description: Approximate time to end collect
+        footprintSquareMeters:
+          type: number
+          title: Footprintsquaremeters
+          description: Area in square meters of the collect geometry
+        targetAzimuthAngleDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Targetazimuthangledegrees
+          description: The Target Azimuth angle is measured clockwise from north as measured at the target location. Approximate until the collect is CollectStatus.PROCESSED
+        grazingAngleDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Grazingangledegrees
+          description: The Grazing Angle is the angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target. Approximate until the collect is CollectStatus.PROCESSED
+        incidenceAngleDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Incidenceangledegrees
+          description: The Incidence Angle is 90° - Grazing Angle. Approximate until the collect is CollectStatus.PROCESSED
+        squintAngleEngineeringDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Squintangleengineeringdegrees
+          description: '"Squinted" refers to how far away from broadside the angle is. Since exactly broadside is either 90 or -90 degrees, the proximity of the angle to 0 degrees suggests the satellite is further “squinted” forward for collection. In contrast, closeness to 180 or -180 degrees indicates being further “squinted” backward.  Approximate until the collect is CollectStatus.PROCESSED. Learn more at: https://docs.canopy.umbra.space/docs/squint'
+        squintAngleDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Squintangledegrees
+          description: 'The Squint Angle is measured in the local horizontal plane at the satellite location and has the range (-180, 180]. It is the angle between 90° clockwise the direction of travel of the asset and the projection of the line of sight vector into this plane. Approximate until the collect is CollectStatus.PROCESSED. Note that this field will soon be DEPRECATED. Please use squintAngleEngineeringDegrees. Read more at: https://docs.canopy.umbra.space/docs/squint'
+        squintAngleExploitationDegrees:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Squintangleexploitationdegrees
+          description: 'Earth surface angle between the cross-track vector and the ground range arc. Learn more at: https://docs.canopy.umbra.space/docs/squint'
+        squintAngleDegreesOffBroadside:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Squintangledegreesoffbroadside
+          description: 'Calculated looking at the squint angle relative to its nearest broadside value (-90 or 90 degrees) and computing the difference, yielding the "degrees off broadside" value. Learn more at: https://docs.canopy.umbra.space/docs/squint'
+        slantRangeKilometers:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Slantrangekilometers
+          description: The Slant Range is the straight line distance between the target location and the satellite. Approximate until the collect is CollectStatus.PROCESSED
+        polarization:
+          anyOf:
+          - $ref: '#/components/schemas/PolarizationEnum'
+          - type: 'null'
+          description: Polarization refers to the orientation of the wave as it is transmitted or how it is filtered upon receive.
+        azimuthResolutionMinMeters:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Azimuthresolutionminmeters
+          description: Minimum azimuth resolution in processed images
+        rangeResolutionMinMeters:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rangeresolutionminmeters
+          description: Minimum range resolution in processed images
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+          description: Azimuth looks
+          default: 1
+        organizationId:
+          type: string
+          title: Organizationid
+          description: Collect Organization ID
+        taskName:
+          type: string
+          title: Taskname
+          description: Name of the task for this collect
+          default: ''
+        taskType:
+          $ref: '#/components/schemas/TaskType'
+          description: Type of task associated with this collect
+        userOrderId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Userorderid
+          description: User order ID associated with the task for this collect
+      type: object
+      required:
+      - id
+      - collectName
+      - taskId
+      - satelliteId
+      - status
+      - startAt
+      - endAt
+      - footprintSquareMeters
+      - organizationId
+      - taskType
+      title: CollectResponseProperties
+    CollectType:
+      type: string
+      enum:
+      - SPOTLIGHT
+      - CUSTOM
+      - DYNAMIC_STRIPMAP
+      title: Collect Type
+      description: The Collect Type. This generally maps to Task.ImagingMode.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Position2D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      type: array
+      maxItems: 2
+      minItems: 2
+    MultiPoint:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiPoint
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPoint
+      description: MultiPoint Model
+    SearchQueryFilterUUID:
+      properties:
+        eq:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Ne
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterUUID
+    PostSearchCollectsQueryModel:
+      properties:
+        id:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterUUID'
+          - type: 'null'
+        collectName:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_CollectStatus_'
+          - type: 'null'
+        taskId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterUUID'
+          - type: 'null'
+        startAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        endAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        geometry:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterGeometry'
+          - type: 'null'
+        rangeResolution:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        multilookFactor:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        grazingAngle:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        targetAzimuthAngle:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        polarization:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_PolarizationEnum_'
+          - type: 'null'
+        squintAngle:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        taskName:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+        taskType:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_TaskType_'
+          - type: 'null'
+        userOrderId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      title: PostSearchCollectsQueryModel
+    SearchQueryFilterString:
+      properties:
+        eq:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eq
+        startsWith:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Startswith
+        endsWith:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Endswith
+        contains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contains
+        icontains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icontains
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterString
+    GeometryCollection-Output:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+        geometries:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Output'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          type: array
+          title: Geometries
+      type: object
+      required:
+      - type
+      - geometries
+      title: GeometryCollection
+      description: GeometryCollection Model
+    CollectResponse:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: Feature
+        geometry:
+          oneOf:
+          - $ref: '#/components/schemas/Point'
+          - $ref: '#/components/schemas/MultiPoint'
+          - $ref: '#/components/schemas/LineString'
+          - $ref: '#/components/schemas/MultiLineString'
+          - $ref: '#/components/schemas/Polygon'
+          - $ref: '#/components/schemas/MultiPolygon'
+          - $ref: '#/components/schemas/GeometryCollection-Output'
+          title: Geometry
+          discriminator:
+            propertyName: type
+            mapping:
+              GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+              LineString: '#/components/schemas/LineString'
+              MultiLineString: '#/components/schemas/MultiLineString'
+              MultiPoint: '#/components/schemas/MultiPoint'
+              MultiPolygon: '#/components/schemas/MultiPolygon'
+              Point: '#/components/schemas/Point'
+              Polygon: '#/components/schemas/Polygon'
+        archiveIds:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Archiveids
+        id:
+          type: string
+          format: uuid
+          title: Id
+        properties:
+          $ref: '#/components/schemas/CollectResponseProperties'
+      type: object
+      required:
+      - geometry
+      - id
+      - properties
+      title: CollectResponse
+      description: Read only Collect model for responses
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

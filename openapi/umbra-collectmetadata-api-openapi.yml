@@ -1,0 +1,30 @@
+openapi: 3.2.0
+info:
+  title: Delivery Collect Metadata API
+  description: Canopy API for Delivery of Umbra Customer Data
+  version: 5.1.0
+servers:
+- url: https://api.canopy.umbra.space/delivery
+security:
+- bearerAuth: []
+tags:
+- name: CollectMetadata
+paths:
+  /collect-metadata/schema:
+    get:
+      tags:
+      - CollectMetadata
+      summary: Get Schema
+      operationId: get_schema
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,658 @@
+{
+  "item": [
+    {
+      "id": "2bd6cdcf-29dd-4e32-b8de-39e93938ee4d",
+      "name": "Collections",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc0d816d-77d8-46d4-ba0c-e3787e2fef3d",
+          "name": "Get a single STAC Item",
+          "request": {
+            "name": "Get a single STAC Item",
+            "description": {
+              "content": "Get information about one STAC item by its specific item ID and collection ID. STAC item assets include signed URLs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_id",
+                "items",
+                ":item_id"
+              ],
+              "host": [
+                "{{collections-collection_id-items-item_id-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_id",
+                  "description": "(Required) Collection ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "item_id",
+                  "description": "(Required) Item ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4908cb0e-2f7e-4128-b63e-eddaa5ed75cd",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id",
+                    "items",
+                    ":item_id"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-items-item_id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "item_id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c24a6e3-e038-45a7-8f10-327b59c51cb9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id",
+                    "items",
+                    ":item_id"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-items-item_id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "item_id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1d49591a-7b76-43e0-9d89-4ee66f5a744f",
+          "name": "List all Collections",
+          "request": {
+            "name": "List all Collections",
+            "description": {
+              "content": "Get a list of all Collections.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections"
+              ],
+              "host": [
+                "{{collections-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14e71777-59bf-4e79-891b-04efd7c623ea",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections"
+                  ],
+                  "host": [
+                    "{{collections-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"links\": [\n    {\n      \"href\": \"wMp5+ceX'/search\",\n      \"rel\": \"next\",\n      \"type\": \"application/geo+json\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\",\n      \"method\": \"GET\",\n      \"headers\": {\n        \"key_0\": \"string\"\n      },\n      \"body\": {\n        \"key_0\": \"string\",\n        \"key_1\": 6289.410798209066\n      },\n      \"merge\": false\n    },\n    {\n      \"href\": \"@d{BmDkX/search?w+2Mt\",\n      \"rel\": \"next\",\n      \"type\": \"application/geo+json\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\",\n      \"method\": \"GET\",\n      \"headers\": {\n        \"key_0\": 2248\n      },\n      \"body\": {\n        \"key_0\": \"string\"\n      },\n      \"merge\": false\n    }\n  ],\n  \"collections\": [\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"links\": [\n        {\n          \"href\": \"string\",\n          \"rel\": \"string\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"string\",\n          \"label:assets\": \"string\"\n        },\n        {\n          \"href\": \"string\",\n          \"rel\": \"string\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"string\",\n          \"label:assets\": \"string\"\n        }\n      ],\n      \"type\": \"Collection\",\n      \"license\": \"string\",\n      \"extent\": {\n        \"spatial\": {\n          \"bbox\": [\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          ]\n        },\n        \"temporal\": {\n          \"interval\": [\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          ]\n        }\n      },\n      \"stac_version\": \"1.0.0\",\n      \"stac_extensions\": [\n        \"https://XPMLFaBWEFInGREYFtKLZFDrrZKdtmKd.hcrfmCFsx4vDFEbp2m.rUptx\",\n        \"https://bWvGgbTzlMPS.qzqqwkU.IALOLnV\"\n      ],\n      \"title\": \"string\",\n      \"assets\": {\n        \"key_0\": {\n          \"href\": \"string\",\n          \"type\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ],\n      \"providers\": [\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"url\": \"string\"\n        }\n      ],\n      \"summaries\": {\n        \"key_0\": {\n          \"minimum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maximum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"minimum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maximum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"links\": [\n        {\n          \"href\": \"string\",\n          \"rel\": \"string\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"string\",\n          \"label:assets\": \"string\"\n        },\n        {\n          \"href\": \"st\",\n          \"rel\": \"string\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"string\",\n          \"label:assets\": \"string\"\n        }\n      ],\n      \"type\": \"Collection\",\n      \"license\": \"string\",\n      \"extent\": {\n        \"spatial\": {\n          \"bbox\": [\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          ]\n        },\n        \"temporal\": {\n          \"interval\": [\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          ]\n        }\n      },\n      \"stac_version\": \"1.0.0\",\n      \"stac_extensions\": [\n        \"http://F.dhzD.UlYmfI5cC7INbP+2-2Kh+XsKleDDCYd-Hul5d\",\n        \"http://dOmgfbQgBLAodppPkO.gbB24BRSE9hYcuht4JqVKWd1Aeojd-To7Jrsx,xOkdUCX7VY8KScf+EnfAXrd0Mjkp7emy9Zjkl4.B\"\n      ],\n      \"title\": \"string\",\n      \"assets\": {\n        \"key_0\": {\n          \"href\": \"string\",\n          \"type\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"href\": \"string\",\n          \"type\": \"string\",\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ],\n      \"providers\": [\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"roles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"url\": \"string\"\n        }\n      ],\n      \"summaries\": {\n        \"key_0\": {\n          \"minimum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maximum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"minimum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maximum\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"numberMatched\": 661,\n  \"numberReturned\": 4734\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "449e16e2-2179-4bab-951a-4dd23aa40610",
+          "name": "Get a single Collection",
+          "request": {
+            "name": "Get a single Collection",
+            "description": {
+              "content": "Get information about a specific Collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_id"
+              ],
+              "host": [
+                "{{collections-collection_id-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_id",
+                  "description": "(Required) Collection ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "adac2fdd-59ed-492c-942c-fcbaf652988e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"description\": \"string\",\n  \"links\": [\n    {\n      \"href\": \"string\",\n      \"rel\": \"string\",\n      \"type\": \"application/vnd.google-earth.kmz\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\"\n    },\n    {\n      \"href\": \"string\",\n      \"rel\": \"string\",\n      \"type\": \"application/vnd.oai.openapi+json;version=3.0\",\n      \"title\": \"string\",\n      \"label:assets\": \"string\"\n    }\n  ],\n  \"type\": \"Collection\",\n  \"license\": \"string\",\n  \"extent\": {\n    \"spatial\": {\n      \"bbox\": [\n        [\n          6981.564299459849,\n          281.1967199669796\n        ],\n        [\n          807.3725021384092,\n          6224.009252863663\n        ]\n      ]\n    },\n    \"temporal\": {\n      \"interval\": [\n        [\n          \"string\",\n          \"string\"\n        ],\n        [\n          \"string\",\n          \"string\"\n        ]\n      ]\n    }\n  },\n  \"stac_version\": \"1.0.0\",\n  \"stac_extensions\": [\n    \"http://WHTrqPdkswRbbBCJq.ayWz7THn2uYd\",\n    \"https://GNNTQWxdeAdJnCI.fxapRaheZPWLT9z0+zf99r.YG8VfmgQQGfom2OG4ssyfnPgr3cd\"\n  ],\n  \"title\": \"string\",\n  \"assets\": {\n    \"key_0\": {\n      \"href\": \"string\",\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"key_1\": {\n      \"href\": \"string\",\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"key_2\": {\n      \"href\": \"string\",\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"key_3\": {\n      \"href\": \"string\",\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  \"keywords\": [\n    \"string\",\n    \"string\"\n  ],\n  \"providers\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"roles\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"string\"\n    }\n  ],\n  \"summaries\": {\n    \"key_0\": {\n      \"minimum\": 9739.272529306158,\n      \"maximum\": 8528.223096491642\n    },\n    \"key_1\": {\n      \"minimum\": 5725.211382158531,\n      \"maximum\": 4520.785093584693\n    },\n    \"key_2\": {\n      \"minimum\": 7418.785832514894,\n      \"maximum\": 8594.940117682912\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3c6e7b0-85b4-4e7b-85c1-e55b7224be08",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e033d2d-e8cb-4ad8-907d-ae9ea2079ae0",
+          "name": "List all STAC Items in a Collection",
+          "request": {
+            "name": "List all STAC Items in a Collection",
+            "description": {
+              "content": "Get a list of all STAC Items in a Collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_id",
+                "items"
+              ],
+              "host": [
+                "{{collections-collection_id-items-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Limits the number of results that are included in each page of the response (capped to 10_000)."
+                },
+                {
+                  "disabled": false,
+                  "key": "bbox",
+                  "value": "<string>",
+                  "description": "Only return items intersecting this bounding box. Mutually exclusive with **intersects**."
+                },
+                {
+                  "disabled": false,
+                  "key": "datetime",
+                  "value": "<string>",
+                  "description": "Only return items that have a temporal property that intersects this value.\n\nEither a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_id",
+                  "description": "(Required) Collection ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "474d1626-62ec-46a5-812c-f49f1776500a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-items-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "bbox",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a5a5310-47ce-4fc0-9ffa-81a489cb44fe",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{collections-collection_id-items-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "bbox",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) Collection ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "collections-collection_id-items-item_id-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "collections-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "collections-collection_id-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/v2/stac",
+      "key": "collections-collection_id-items-Url"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "738402c8-ef49-45ea-93fe-231712bfb235",
+    "name": "Umbra Collections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged Collections across 2 of this provider's published API definitions: umbra-stac-api-v2-openapi.yml, umbra-stac-archive-openapi.yml. Each path carries the servers of the definition it was published in.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,614 @@
+{
+  "item": [
+    {
+      "id": "14f47af5-4f2e-4661-9d4f-7433cd207581",
+      "name": "DeliveryConfig",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b5e67fd-89ab-4377-aff8-4c3d6eb59b65",
+          "name": "List Delivery Configs",
+          "request": {
+            "name": "List Delivery Configs",
+            "description": {
+              "content": "Return a list of DeliveryConfigs for the requesting organization id\n\nThis endpoint is not paginated because we expect each org to only create a few configs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delivery-config",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3a08f055-7975-4c1c-8c5e-0c6785f2b3f1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"1a26f96b-8954-098d-366e-07e3467e56a1\",\n      \"name\": \"string\",\n      \"options\": {\n        \"path\": \"string\",\n        \"bucket\": \"string\",\n        \"deliveryType\": \"S3_UMBRA_ROLE\",\n        \"isGovcloud\": false,\n        \"isLegacyPathPrefix\": false\n      },\n      \"sicdXmlMetadata\": true,\n      \"createdAt\": \"1956-04-22T17:04:59.664Z\",\n      \"verifiedAt\": \"2009-02-19T12:01:22.553Z\",\n      \"deletedAt\": \"1952-10-07T10:24:51.454Z\",\n      \"organizationId\": \"string\",\n      \"status\": \"PENDING\",\n      \"statusMessage\": \"string\",\n      \"fileNamingConvention\": \"NCDRD\",\n      \"packagingOption\": \"ZIP_EACH_ASSET_WITH_METADATA\"\n    },\n    {\n      \"id\": \"78cb9f97-b1f4-1faa-5d5a-c930bba9e999\",\n      \"name\": \"string\",\n      \"options\": {\n        \"path\": \"string\",\n        \"bucket\": \"string\",\n        \"deliveryType\": \"S3_UMBRA_ROLE\",\n        \"isGovcloud\": false,\n        \"isLegacyPathPrefix\": false\n      },\n      \"sicdXmlMetadata\": true,\n      \"createdAt\": \"1960-06-19T22:27:20.144Z\",\n      \"verifiedAt\": \"2001-12-10T19:54:50.519Z\",\n      \"deletedAt\": \"1973-04-20T23:08:05.155Z\",\n      \"organizationId\": \"string\",\n      \"status\": \"DELETED\",\n      \"statusMessage\": \"string\",\n      \"fileNamingConvention\": \"NCDRD\",\n      \"packagingOption\": \"ZIP_ALL_ASSETS_WITH_METADATA\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94dedc84-87a1-47f3-bcf8-d3774854903c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b769d7e5-046e-4289-a43c-8ca5a387322c",
+          "name": "Post Delivery Config",
+          "request": {
+            "name": "Post Delivery Config",
+            "description": {},
+            "url": {
+              "path": [
+                "delivery-config",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "89a8ac9b-a0f1-47a6-9011-84c18f64abc7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a205c3f5-7b04-7495-8863-abea755608e8\",\n  \"name\": \"string\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"createdAt\": \"2002-06-28T02:51:27.761Z\",\n  \"verifiedAt\": \"2023-06-09T13:59:55.943Z\",\n  \"deletedAt\": \"2016-05-09T08:19:15.612Z\",\n  \"organizationId\": \"string\",\n  \"status\": \"ERROR\",\n  \"statusMessage\": \"string\",\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7321cb0f-fb3b-4f31-b65c-0eb821d8b5fe",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a008b721-cb43-4a6e-804d-96b527fe35da",
+          "name": "Delete Delivery Config",
+          "request": {
+            "name": "Delete Delivery Config",
+            "description": {
+              "content": "Delete a DeliveryConfig by setting it's status to DELETED.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delivery-config",
+                ":delivery_config_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "delivery_config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "004bb31f-b05f-4be0-8591-4f66fa0f6380",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ":delivery_config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "delivery_config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a205c3f5-7b04-7495-8863-abea755608e8\",\n  \"name\": \"string\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"createdAt\": \"2002-06-28T02:51:27.761Z\",\n  \"verifiedAt\": \"2023-06-09T13:59:55.943Z\",\n  \"deletedAt\": \"2016-05-09T08:19:15.612Z\",\n  \"organizationId\": \"string\",\n  \"status\": \"ERROR\",\n  \"statusMessage\": \"string\",\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "815c84ed-d46b-4d08-b5b0-f441873f9607",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ":delivery_config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "delivery_config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a822ca2-b8a1-47f3-9b05-2ec8a4c394f5",
+          "name": "Verify Delivery Config",
+          "request": {
+            "name": "Verify Delivery Config",
+            "description": {
+              "content": "Verify a DeliveryConfig by publishing a dummy file to the user's configuration. If the verification succeeds, the DeliveryConfig status will be set to ACTIVE. Otherwise the status will be set to ERROR with more details in status_message.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delivery-config",
+                ":delivery_config_id",
+                "verify"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "delivery_config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eec1deb9-5f61-4902-a58c-1b1f0f940bd7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ":delivery_config_id",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "delivery_config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a205c3f5-7b04-7495-8863-abea755608e8\",\n  \"name\": \"string\",\n  \"options\": {\n    \"path\": \"<string>\",\n    \"bucket\": \"<string>\",\n    \"deliveryType\": \"S3_UMBRA_ROLE\",\n    \"isGovcloud\": false,\n    \"isLegacyPathPrefix\": false\n  },\n  \"sicdXmlMetadata\": false,\n  \"createdAt\": \"2002-06-28T02:51:27.761Z\",\n  \"verifiedAt\": \"2023-06-09T13:59:55.943Z\",\n  \"deletedAt\": \"2016-05-09T08:19:15.612Z\",\n  \"organizationId\": \"string\",\n  \"status\": \"ERROR\",\n  \"statusMessage\": \"string\",\n  \"fileNamingConvention\": \"<string>\",\n  \"packagingOption\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a95712e0-37ac-4227-9e9d-b23b63b283d3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delivery-config",
+                    ":delivery_config_id",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "delivery_config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/delivery",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c5060e78-b868-4072-a12e-e85ad4c44239",
+    "name": "Delivery Delivery Config API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy API for Delivery of Umbra Customer Data",
+      "type": "text/plain"
+    }
+  }
+}

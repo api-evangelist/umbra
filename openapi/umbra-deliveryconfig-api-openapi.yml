@@ -1,0 +1,368 @@
+openapi: 3.2.0
+info:
+  title: Delivery Delivery Config API
+  description: Canopy API for Delivery of Umbra Customer Data
+  version: 5.1.0
+servers:
+- url: https://api.canopy.umbra.space/delivery
+security:
+- bearerAuth: []
+tags:
+- name: DeliveryConfig
+paths:
+  /delivery-config/:
+    get:
+      tags:
+      - DeliveryConfig
+      summary: List Delivery Configs
+      description: 'Return a list of DeliveryConfigs for the requesting organization id
+
+
+        This endpoint is not paginated because we expect each org to only create a few configs.'
+      operationId: list_delivery_configs
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryConfigListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - DeliveryConfig
+      summary: Post Delivery Config
+      operationId: post_delivery_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryConfigRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /delivery-config/{delivery_config_id}:
+    delete:
+      tags:
+      - DeliveryConfig
+      summary: Delete Delivery Config
+      description: Delete a DeliveryConfig by setting it's status to DELETED.
+      operationId: delete_delivery_config
+      parameters:
+      - name: delivery_config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Delivery Config Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /delivery-config/{delivery_config_id}/verify:
+    post:
+      tags:
+      - DeliveryConfig
+      summary: Verify Delivery Config
+      description: Verify a DeliveryConfig by publishing a dummy file to the user's configuration. If the verification succeeds, the DeliveryConfig status will be set to ACTIVE. Otherwise the status will be set to ERROR with more details in status_message.
+      operationId: verify_delivery_config
+      parameters:
+      - name: delivery_config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Delivery Config Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    DeliveryConfigResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+          description: User-supplied human readable name for this config
+        options:
+          oneOf:
+          - $ref: '#/components/schemas/S3UmbraRoleOptions'
+          - $ref: '#/components/schemas/GCSWIFOptions'
+          title: Options
+          description: Custom options for the requested delivery config
+          discriminator:
+            propertyName: deliveryType
+            mapping:
+              GCS_WIF: '#/components/schemas/GCSWIFOptions'
+              S3_UMBRA_ROLE: '#/components/schemas/S3UmbraRoleOptions'
+        sicdXmlMetadata:
+          type: boolean
+          title: Sicdxmlmetadata
+          description: When True, SICD XML metadata will be extracted and delivered with the path suffix _SICD-METADATA.xml
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        verifiedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Verifiedat
+        deletedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deletedat
+        organizationId:
+          type: string
+          title: Organizationid
+        status:
+          $ref: '#/components/schemas/DeliveryConfigStatus'
+        statusMessage:
+          type: string
+          title: Statusmessage
+          description: Human readable status message. Provides additional detail about configuration errors.
+        fileNamingConvention:
+          $ref: '#/components/schemas/FileNamingConvention'
+          description: Controls which file naming convention to use during delivery
+        packagingOption:
+          anyOf:
+          - $ref: '#/components/schemas/PackagingOption'
+          - type: 'null'
+          description: The packaging option to use for delivery
+      type: object
+      required:
+      - id
+      - name
+      - options
+      - sicdXmlMetadata
+      - createdAt
+      - verifiedAt
+      - deletedAt
+      - organizationId
+      - status
+      - statusMessage
+      - fileNamingConvention
+      - packagingOption
+      title: DeliveryConfigResponse
+      description: Public view of delivery configs returned by all /delivery-config routes
+    JsonValue: {}
+    DeliveryConfigListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/DeliveryConfigResponse'
+          type: array
+          title: Data
+      type: object
+      required:
+      - data
+      title: DeliveryConfigListResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    S3UmbraRoleOptions:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
+        deliveryType:
+          type: string
+          const: S3_UMBRA_ROLE
+          title: Deliverytype
+          default: S3_UMBRA_ROLE
+        bucket:
+          type: string
+          title: Bucket
+          description: The bucket to deliver data to
+        isGovcloud:
+          type: boolean
+          title: Isgovcloud
+          description: True if bucket is within a govcloud account, False if bucket is within an AWS commercial account
+          default: false
+        isLegacyPathPrefix:
+          type: boolean
+          title: Islegacypathprefix
+          description: True if the legacy delivery path prefix should be used. All new DeliveryConfigs should leave this option False unless otherwise specifically instructed.
+          default: false
+      type: object
+      required:
+      - path
+      - bucket
+      title: S3UmbraRoleOptions
+      description: Deliver data to S3 using Umbra's data delivery IAM Role
+    GCSWIFOptions:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
+        deliveryType:
+          type: string
+          const: GCS_WIF
+          title: Deliverytype
+          default: GCS_WIF
+        bucket:
+          type: string
+          title: Bucket
+          description: The bucket to deliver data to
+        gcpProjectId:
+          type: string
+          title: Gcpprojectid
+          description: The unique identifier for the Google Cloud Platform project the bucket belongs to
+          default: ''
+        credsConfigJson:
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
+          type: object
+          title: Credsconfigjson
+          description: 'Creds config JSON Object required for WIF. See also: https://google.aip.dev/auth/4117'
+      type: object
+      required:
+      - path
+      - bucket
+      - credsConfigJson
+      title: GCSWIFOptions
+      description: Config used to deliver data using Umbra's data delivery IAM Role to a GCS bucket via WIF.
+    PackagingOption:
+      type: string
+      enum:
+      - ZIP_EACH_ASSET_WITH_METADATA
+      - ZIP_ALL_ASSETS_WITH_METADATA
+      title: PackagingOption
+      description: Specifies packaging options available to specify on a delivery config.
+    FileNamingConvention:
+      type: string
+      enum:
+      - DEFAULT
+      - NCDRD
+      title: FileNamingConvention
+      description: Controls which file naming convention to use during delivery.
+    DeliveryConfigRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: User-supplied human readable name for this config
+        options:
+          oneOf:
+          - $ref: '#/components/schemas/S3UmbraRoleOptions'
+          - $ref: '#/components/schemas/GCSWIFOptions'
+          title: Options
+          description: Custom options for the requested delivery config
+          discriminator:
+            propertyName: deliveryType
+            mapping:
+              GCS_WIF: '#/components/schemas/GCSWIFOptions'
+              S3_UMBRA_ROLE: '#/components/schemas/S3UmbraRoleOptions'
+        sicdXmlMetadata:
+          type: boolean
+          title: Sicdxmlmetadata
+          description: When True, SICD XML metadata will be extracted and delivered with the path suffix _SICD-METADATA.xml
+          default: false
+        fileNamingConvention:
+          anyOf:
+          - $ref: '#/components/schemas/FileNamingConvention'
+          - type: 'null'
+          description: Controls which file naming convention to use during delivery
+          default: DEFAULT
+        packagingOption:
+          anyOf:
+          - $ref: '#/components/schemas/PackagingOption'
+          - type: 'null'
+          description: The packaging option to use for delivery
+      type: object
+      required:
+      - name
+      - options
+      title: DeliveryConfigRequest
+      description: Body of POST /delivery-config
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DeliveryConfigStatus:
+      type: string
+      enum:
+      - PENDING
+      - ACTIVE
+      - ERROR
+      - DELETED
+      title: DeliveryConfigStatus
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

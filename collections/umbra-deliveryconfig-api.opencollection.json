@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Delivery Delivery Config API",
+    "version": "5.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DeliveryConfig",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Delivery Configs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/delivery/delivery-config/"
+          },
+          "docs": "Return a list of DeliveryConfigs for the requesting organization id\n\nThis endpoint is not paginated because we expect each org to only create a few configs."
+        },
+        {
+          "info": {
+            "name": "Post Delivery Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/delivery/delivery-config/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Post Delivery Config"
+        },
+        {
+          "info": {
+            "name": "Delete Delivery Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.canopy.umbra.space/delivery/delivery-config/:delivery_config_id",
+            "params": [
+              {
+                "name": "delivery_config_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a DeliveryConfig by setting it's status to DELETED."
+        },
+        {
+          "info": {
+            "name": "Verify Delivery Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/delivery/delivery-config/:delivery_config_id/verify",
+            "params": [
+              {
+                "name": "delivery_config_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Verify a DeliveryConfig by publishing a dummy file to the user's configuration. If the verification succeeds, the DeliveryConfig status will be set to ACTIVE. Otherwise the status will be set to ERROR with more details in status_message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

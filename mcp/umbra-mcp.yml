@@ -5,12 +5,11 @@ source: https://docs.canopy.umbra.space/mcp
 x-evidence:
   fetched: '2026-08-05'
   url: https://docs.canopy.umbra.space/mcp
-  method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  method: POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}
   http_status: 200
   content_type: text/event-stream
   authenticated: false
-  note: >-
-    tools/list answered anonymously with the real tool set including full JSON Schema inputSchema
+  note: tools/list answered anonymously with the real tool set including full JSON Schema inputSchema
     for every tool. The verbatim response is saved at mcp/umbra-mcp-tools-list.json.
 server:
   name: canopy-docs
@@ -19,9 +18,8 @@ server:
   protocol: MCP (JSON-RPC 2.0 over Streamable HTTP)
   url: https://docs.canopy.umbra.space/mcp
   auth: none required for discovery tools
-  platform: >-
-    Provided by ReadMe (the Canopy documentation platform) as a documentation-native MCP server over
-    the six published Canopy OpenAPI documents. It is a spec-discovery and request-execution server,
+  platform: Provided by ReadMe (the Canopy documentation platform) as a documentation-native MCP server
+    over the six published Canopy OpenAPI documents. It is a spec-discovery and request-execution server,
     not a hand-authored per-resource Canopy tool surface.
 specs_exposed:
 - title: Tasking
@@ -46,33 +44,44 @@ tools:
   input_required: []
   read_only: true
 - name: list-endpoints
-  description: >-
-    Lists all API paths and their HTTP methods with summaries, organized by path. Results can be
-    passed directly into 'get-endpoint'.
-  input_required: [title]
+  description: Lists all API paths and their HTTP methods with summaries, organized by path. Results can
+    be passed directly into 'get-endpoint'.
+  input_required:
+  - title
   read_only: true
 - name: search-endpoints
-  description: >-
-    Performs a deep search through paths, operations, and parameters to discover relevant API
+  description: Performs a deep search through paths, operations, and parameters to discover relevant API
     endpoints. Results can be passed directly into 'get-endpoint'.
-  input_required: [pattern]
+  input_required:
+  - pattern
   read_only: true
 - name: get-endpoint
-  description: >-
-    Gets detailed information about a specific API endpoint, including security schemes and servers.
-  input_required: [path, method, title]
+  description: Gets detailed information about a specific API endpoint, including security schemes and
+    servers.
+  input_required:
+  - path
+  - method
+  - title
   read_only: true
 - name: get-server-variables
   description: Gets the server variables for each server within a specific OpenAPI spec.
-  input_required: [title]
+  input_required:
+  - title
   read_only: true
 - name: execute-request
   description: Executes an API request with a given HAR request object.
-  input_required: [harRequest, title]
+  input_required:
+  - harRequest
+  - title
   read_only: false
-  note: >-
-    The only write-capable tool. It executes against the live Canopy API, so the caller must supply
+  note: The only write-capable tool. It executes against the live Canopy API, so the caller must supply
     its own Bearer token in the HAR request; the MCP server itself holds no Canopy credential.
 tool_count: 6
 files:
   tools_list: mcp/umbra-mcp-tools-list.json
+deployment:
+  mode: remote
+  verified: searched
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census

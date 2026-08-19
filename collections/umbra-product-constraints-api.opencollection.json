@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Admin Product Constraints API",
+    "version": "3.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Constraints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Constraints For Contract Or Org Default",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/admin/product-constraints/constraints",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "query",
+                "description": "Contract ID to fetch constraints for"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Organization ID whose default contract will be used to fetch constraints"
+              }
+            ]
+          },
+          "docs": "Returns resolved constraints for either:\n- a specific contract (when contract_id is provided),\n- an organization's default contract (when organization_id is provided), or\n- the requester's organization's default contract (when neither is provided)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

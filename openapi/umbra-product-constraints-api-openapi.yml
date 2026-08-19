@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: Admin Product Constraints API
+  description: Canopy Admin API for M2M Token Management
+  version: 3.1.0
+servers:
+- url: https://api.canopy.umbra.space/admin
+security:
+- bearerAuth: []
+tags:
+- name: Product Constraints
+paths:
+  /product-constraints/constraints:
+    get:
+      tags:
+      - Product Constraints
+      summary: Get Constraints For Contract Or Org Default
+      description: 'Returns resolved constraints for either:
+
+        - a specific contract (when contract_id is provided),
+
+        - an organization''s default contract (when organization_id is provided), or
+
+        - the requester''s organization''s default contract (when neither is provided).'
+      operationId: get_constraints_for_contract_or_org_default
+      parameters:
+      - name: contract_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          description: Contract ID to fetch constraints for
+          title: Contract Id
+        description: Contract ID to fetch constraints for
+      - name: organization_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Organization ID whose default contract will be used to fetch constraints
+          title: Organization Id
+        description: Organization ID whose default contract will be used to fetch constraints
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductConstraintsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GetProductConstraintsResponse:
+      properties:
+        SPOTLIGHT:
+          items:
+            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
+          type: array
+          title: Spotlight
+        SCAN:
+          items:
+            $ref: '#/components/schemas/ScanProductConstraintsFields'
+          type: array
+          title: Scan
+      type: object
+      required:
+      - SPOTLIGHT
+      - SCAN
+      title: GetProductConstraintsResponse
+      description: Constraints-only response shape for product constraints endpoints.
+    SpotlightProductConstraintsFields:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        sceneSize:
+          type: string
+          title: Scenesize
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
+      type: object
+      required:
+      - id
+      - productConstraintType
+      - sceneSize
+      - rangeResolutionMinMeters
+      - multilookFactor
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: SpotlightProductConstraintsFields
+      description: Fields for Spotlight product constraints.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ScanProductConstraintsFields:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        rangeMinMeters:
+          type: integer
+          title: Rangeminmeters
+        rangeMaxMeters:
+          type: integer
+          title: Rangemaxmeters
+        rangeDefaultMeters:
+          type: integer
+          title: Rangedefaultmeters
+        azimuthMinKm:
+          type: integer
+          title: Azimuthminkm
+        azimuthMaxKm:
+          type: integer
+          title: Azimuthmaxkm
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - productConstraintType
+      - rangeResolutionMinMeters
+      - rangeMinMeters
+      - rangeMaxMeters
+      - rangeDefaultMeters
+      - azimuthMinKm
+      - azimuthMaxKm
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: ScanProductConstraintsFields
+      description: Fields for Scan product constraints.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

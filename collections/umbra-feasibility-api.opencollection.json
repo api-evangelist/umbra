@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tasking Feasibility API",
+    "version": "3.13.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Feasibility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Feasibility",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.canopy.umbra.space/tasking/feasibilities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a feasibility request for the given constraints. Feasibilities begin with status RECEIVED, and should transition to COMPLETED or ERROR within a few minutes. Poll feasibility by id until status is COMPLETED, upon which opportunities will also be returned."
+        },
+        {
+          "info": {
+            "name": "Get Feasibility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/tasking/feasibilities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns feasibility by id. When status is COMPLETED, the opportunities array will be populated with opportunities."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,196 @@
+{
+  "item": [
+    {
+      "id": "da454036-721d-48a4-bd01-913c688557d5",
+      "name": "Product Constraints",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0f82b81b-989f-43f7-9457-d5aeefe34f1c",
+          "name": "Get Constraints For Contract Or Org Default",
+          "request": {
+            "name": "Get Constraints For Contract Or Org Default",
+            "description": {
+              "content": "Returns resolved constraints for either:\n- a specific contract (when contract_id is provided),\n- an organization's default contract (when organization_id is provided), or\n- the requester's organization's default contract (when neither is provided).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "product-constraints",
+                "constraints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "contract_id",
+                  "value": "<uuid4>",
+                  "description": "Contract ID to fetch constraints for"
+                },
+                {
+                  "disabled": false,
+                  "key": "organization_id",
+                  "value": "<string>",
+                  "description": "Organization ID whose default contract will be used to fetch constraints"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "16cf8430-eedd-40c8-97c9-41d0fdf98002",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-constraints",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "contract_id",
+                      "value": "<uuid4>"
+                    },
+                    {
+                      "key": "organization_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"SPOTLIGHT\": [\n    {\n      \"id\": \"string\",\n      \"productConstraintType\": \"string\",\n      \"sceneSize\": \"string\",\n      \"rangeResolutionMinMeters\": 8916.770801271225,\n      \"multilookFactor\": 8474,\n      \"grazingAngleMinDegrees\": 6017,\n      \"grazingAngleMaxDegrees\": 9280\n    },\n    {\n      \"id\": \"string\",\n      \"productConstraintType\": \"string\",\n      \"sceneSize\": \"string\",\n      \"rangeResolutionMinMeters\": 383.50337004219193,\n      \"multilookFactor\": 3265,\n      \"grazingAngleMinDegrees\": 5967,\n      \"grazingAngleMaxDegrees\": 9434\n    }\n  ],\n  \"SCAN\": [\n    {\n      \"id\": \"string\",\n      \"productConstraintType\": \"string\",\n      \"rangeResolutionMinMeters\": 2358.5954409313704,\n      \"rangeMinMeters\": 9070,\n      \"rangeMaxMeters\": 9847,\n      \"rangeDefaultMeters\": 5714,\n      \"azimuthMinKm\": 5821,\n      \"azimuthMaxKm\": 3817,\n      \"grazingAngleMinDegrees\": 2033,\n      \"grazingAngleMaxDegrees\": 7304\n    },\n    {\n      \"id\": \"string\",\n      \"productConstraintType\": \"string\",\n      \"rangeResolutionMinMeters\": 4044.7075183583224,\n      \"rangeMinMeters\": 7217,\n      \"rangeMaxMeters\": 2531,\n      \"rangeDefaultMeters\": 7732,\n      \"azimuthMinKm\": 2946,\n      \"azimuthMaxKm\": 2975,\n      \"grazingAngleMinDegrees\": 6771,\n      \"grazingAngleMaxDegrees\": 8258\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a171a5a-758a-49e0-801b-6219d8683f43",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-constraints",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "contract_id",
+                      "value": "<uuid4>"
+                    },
+                    {
+                      "key": "organization_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.canopy.umbra.space/admin",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fc217d70-3e4d-450d-8586-e48a7398d2d4",
+    "name": "Admin Product Constraints API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Canopy Admin API for M2M Token Management",
+      "type": "text/plain"
+    }
+  }
+}

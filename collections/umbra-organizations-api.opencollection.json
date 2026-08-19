@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Admin Organizations API",
+    "version": "3.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Organization Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/admin/organizations/settings"
+          },
+          "docs": "Returns Organization Settings for the logged in Organization"
+        },
+        {
+          "info": {
+            "name": "List All Product Constraints For Logged In Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.canopy.umbra.space/admin/organizations/constraints"
+          },
+          "docs": "Retrieves all product constraints that apply for the logged in organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
