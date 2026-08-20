@@ -86,6 +86,8 @@ apis:
   humanURL: https://docs.canopy.umbra.space/docs/tasking
   baseURL: https://api.canopy.umbra.space/tasking
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -196,6 +198,8 @@ apis:
   humanURL: https://docs.canopy.umbra.space/docs/tasking
   baseURL: https://api.canopy.umbra.space/tasking
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -328,6 +332,8 @@ apis:
   humanURL: https://docs.canopy.umbra.space/docs/tasking
   baseURL: https://api.canopy.umbra.space/tasking
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
