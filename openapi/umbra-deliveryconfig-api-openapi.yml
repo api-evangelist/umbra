@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Delivery Delivery Config API
+  title: Delivery Config API
   description: Canopy API for Delivery of Umbra Customer Data
   version: 5.1.0
 servers:
@@ -189,18 +189,6 @@ components:
       - packagingOption
       title: DeliveryConfigResponse
       description: Public view of delivery configs returned by all /delivery-config routes
-    JsonValue: {}
-    DeliveryConfigListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/DeliveryConfigResponse'
-          type: array
-          title: Data
-      type: object
-      required:
-      - data
-      title: DeliveryConfigListResponse
     HTTPValidationError:
       properties:
         detail:
@@ -210,84 +198,32 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    S3UmbraRoleOptions:
+    ValidationError:
       properties:
-        path:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Path
-          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
-        deliveryType:
+          title: Message
+        type:
           type: string
-          const: S3_UMBRA_ROLE
-          title: Deliverytype
-          default: S3_UMBRA_ROLE
-        bucket:
-          type: string
-          title: Bucket
-          description: The bucket to deliver data to
-        isGovcloud:
-          type: boolean
-          title: Isgovcloud
-          description: True if bucket is within a govcloud account, False if bucket is within an AWS commercial account
-          default: false
-        isLegacyPathPrefix:
-          type: boolean
-          title: Islegacypathprefix
-          description: True if the legacy delivery path prefix should be used. All new DeliveryConfigs should leave this option False unless otherwise specifically instructed.
-          default: false
-      type: object
-      required:
-      - path
-      - bucket
-      title: S3UmbraRoleOptions
-      description: Deliver data to S3 using Umbra's data delivery IAM Role
-    GCSWIFOptions:
-      properties:
-        path:
-          type: string
-          title: Path
-          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
-        deliveryType:
-          type: string
-          const: GCS_WIF
-          title: Deliverytype
-          default: GCS_WIF
-        bucket:
-          type: string
-          title: Bucket
-          description: The bucket to deliver data to
-        gcpProjectId:
-          type: string
-          title: Gcpprojectid
-          description: The unique identifier for the Google Cloud Platform project the bucket belongs to
-          default: ''
-        credsConfigJson:
-          additionalProperties:
-            $ref: '#/components/schemas/JsonValue'
+          title: Error Type
+        input:
+          title: Input
+        ctx:
           type: object
-          title: Credsconfigjson
-          description: 'Creds config JSON Object required for WIF. See also: https://google.aip.dev/auth/4117'
+          title: Context
       type: object
       required:
-      - path
-      - bucket
-      - credsConfigJson
-      title: GCSWIFOptions
-      description: Config used to deliver data using Umbra's data delivery IAM Role to a GCS bucket via WIF.
-    PackagingOption:
-      type: string
-      enum:
-      - ZIP_EACH_ASSET_WITH_METADATA
-      - ZIP_ALL_ASSETS_WITH_METADATA
-      title: PackagingOption
-      description: Specifies packaging options available to specify on a delivery config.
-    FileNamingConvention:
-      type: string
-      enum:
-      - DEFAULT
-      - NCDRD
-      title: FileNamingConvention
-      description: Controls which file naming convention to use during delivery.
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DeliveryConfigRequest:
       properties:
         name:
@@ -327,32 +263,55 @@ components:
       - options
       title: DeliveryConfigRequest
       description: Body of POST /delivery-config
-    ValidationError:
+    DeliveryConfigListResponse:
       properties:
-        loc:
+        data:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/DeliveryConfigResponse'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Data
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - data
+      title: DeliveryConfigListResponse
+    S3UmbraRoleOptions:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
+        deliveryType:
+          type: string
+          const: S3_UMBRA_ROLE
+          title: Deliverytype
+          default: S3_UMBRA_ROLE
+        bucket:
+          type: string
+          title: Bucket
+          description: The bucket to deliver data to
+        isGovcloud:
+          type: boolean
+          title: Isgovcloud
+          description: True if bucket is within a govcloud account, False if bucket is within an AWS commercial account
+          default: false
+        isLegacyPathPrefix:
+          type: boolean
+          title: Islegacypathprefix
+          description: True if the legacy delivery path prefix should be used. All new DeliveryConfigs should leave this option False unless otherwise specifically instructed.
+          default: false
+      type: object
+      required:
+      - path
+      - bucket
+      title: S3UmbraRoleOptions
+      description: Deliver data to S3 using Umbra's data delivery IAM Role
+    PackagingOption:
+      type: string
+      enum:
+      - ZIP_EACH_ASSET_WITH_METADATA
+      - ZIP_ALL_ASSETS_WITH_METADATA
+      title: PackagingOption
+      description: Specifies packaging options available to specify on a delivery config.
     DeliveryConfigStatus:
       type: string
       enum:
@@ -361,6 +320,47 @@ components:
       - ERROR
       - DELETED
       title: DeliveryConfigStatus
+    FileNamingConvention:
+      type: string
+      enum:
+      - DEFAULT
+      - NCDRD
+      title: FileNamingConvention
+      description: Controls which file naming convention to use during delivery.
+    GCSWIFOptions:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: 'The path prefix to deliver data to. Set to '''' if files should be delivered to the bucket root. This path is a template where the allowed properties are [''collectId'', ''constellationName'', ''datetime'', ''deliveryConfigId'', ''imagingMode'', ''taskId'', ''taskName'', ''userOrderId'', ''vehicleName'']. Example: ''my/path/prefix/{userOrderId}''. Note that the ''datetime'' field can be formatted using the standard strftime format codes (see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes). Example: ''{datetime:%Y-%m-%d-%H-%M-%S}'''
+        deliveryType:
+          type: string
+          const: GCS_WIF
+          title: Deliverytype
+          default: GCS_WIF
+        bucket:
+          type: string
+          title: Bucket
+          description: The bucket to deliver data to
+        gcpProjectId:
+          type: string
+          title: Gcpprojectid
+          description: The unique identifier for the Google Cloud Platform project the bucket belongs to
+          default: ''
+        credsConfigJson:
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
+          type: object
+          title: Credsconfigjson
+          description: 'Creds config JSON Object required for WIF. See also: https://google.aip.dev/auth/4117'
+      type: object
+      required:
+      - path
+      - bucket
+      - credsConfigJson
+      title: GCSWIFOptions
+      description: Config used to deliver data using Umbra's data delivery IAM Role to a GCS bucket via WIF.
+    JsonValue: {}
   securitySchemes:
     bearerAuth:
       type: http

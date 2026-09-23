@@ -35,7 +35,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MultiPolygon:
+    LineString:
       properties:
         bbox:
           anyOf:
@@ -62,25 +62,264 @@ components:
         type:
           type: string
           title: Type
-          default: MultiPolygon
+          default: LineString
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          minItems: 2
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: LineString
+      description: LineString Model
+    FeatureCollection:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+        features:
+          items:
+            $ref: '#/components/schemas/Feature'
+          type: array
+          title: Features
+      type: object
+      required:
+      - type
+      - features
+      title: FeatureCollection
+      description: FeatureCollection Model
+    GeometryCollection-Output:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+        geometries:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Output'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          type: array
+          title: Geometries
+      type: object
+      required:
+      - type
+      - geometries
+      title: GeometryCollection
+      description: GeometryCollection Model
+    MultiLineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiLineString
         coordinates:
           items:
             items:
-              items:
-                anyOf:
-                - $ref: '#/components/schemas/Position2D'
-                - $ref: '#/components/schemas/Position3D'
-              type: array
-              minItems: 4
+              anyOf:
+              - $ref: '#/components/schemas/Position2D'
+              - $ref: '#/components/schemas/Position3D'
             type: array
+            minItems: 2
           type: array
           title: Coordinates
       type: object
       required:
       - type
       - coordinates
-      title: MultiPolygon
-      description: MultiPolygon Model
+      title: MultiLineString
+      description: MultiLineString Model
+    MultiPoint:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiPoint
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPoint
+      description: MultiPoint Model
+    Point:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: Point
+        coordinates:
+          anyOf:
+          - $ref: '#/components/schemas/Position2D'
+          - $ref: '#/components/schemas/Position3D'
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Point
+      description: Point Model
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Feature:
       properties:
         bbox:
@@ -150,59 +389,6 @@ components:
       - properties
       title: Feature
       description: Feature Model
-    MultiLineString:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: MultiLineString
-        coordinates:
-          items:
-            items:
-              anyOf:
-              - $ref: '#/components/schemas/Position2D'
-              - $ref: '#/components/schemas/Position3D'
-            type: array
-            minItems: 2
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiLineString
-      description: MultiLineString Model
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     Polygon:
       properties:
         bbox:
@@ -247,166 +433,15 @@ components:
       - coordinates
       title: Polygon
       description: Polygon Model
-    LineString:
+    HTTPValidationError:
       properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: LineString
-        coordinates:
+        detail:
           items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          minItems: 2
-          title: Coordinates
+          title: Detail
       type: object
-      required:
-      - type
-      - coordinates
-      title: LineString
-      description: LineString Model
-    Position2D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      type: array
-      maxItems: 2
-      minItems: 2
-    MultiPoint:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: MultiPoint
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiPoint
-      description: MultiPoint Model
-    FeatureCollection:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-        features:
-          items:
-            $ref: '#/components/schemas/Feature'
-          type: array
-          title: Features
-      type: object
-      required:
-      - type
-      - features
-      title: FeatureCollection
-      description: FeatureCollection Model
-    BaseModel:
-      properties: {}
-      type: object
-      title: BaseModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     Position3D:
       prefixItems:
       - type: number
@@ -418,7 +453,7 @@ components:
       type: array
       maxItems: 3
       minItems: 3
-    GeometryCollection-Output:
+    MultiPolygon:
       properties:
         bbox:
           anyOf:
@@ -445,73 +480,38 @@ components:
         type:
           type: string
           title: Type
-        geometries:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Point'
-            - $ref: '#/components/schemas/MultiPoint'
-            - $ref: '#/components/schemas/LineString'
-            - $ref: '#/components/schemas/MultiLineString'
-            - $ref: '#/components/schemas/Polygon'
-            - $ref: '#/components/schemas/MultiPolygon'
-            - $ref: '#/components/schemas/GeometryCollection-Output'
-            discriminator:
-              propertyName: type
-              mapping:
-                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
-                LineString: '#/components/schemas/LineString'
-                MultiLineString: '#/components/schemas/MultiLineString'
-                MultiPoint: '#/components/schemas/MultiPoint'
-                MultiPolygon: '#/components/schemas/MultiPolygon'
-                Point: '#/components/schemas/Point'
-                Polygon: '#/components/schemas/Polygon'
-          type: array
-          title: Geometries
-      type: object
-      required:
-      - type
-      - geometries
-      title: GeometryCollection
-      description: GeometryCollection Model
-    Point:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: Point
+          default: MultiPolygon
         coordinates:
-          anyOf:
-          - $ref: '#/components/schemas/Position2D'
-          - $ref: '#/components/schemas/Position3D'
+          items:
+            items:
+              items:
+                anyOf:
+                - $ref: '#/components/schemas/Position2D'
+                - $ref: '#/components/schemas/Position3D'
+              type: array
+              minItems: 4
+            type: array
+          type: array
           title: Coordinates
       type: object
       required:
       - type
       - coordinates
-      title: Point
-      description: Point Model
+      title: MultiPolygon
+      description: MultiPolygon Model
+    BaseModel:
+      properties: {}
+      type: object
+      title: BaseModel
+    Position2D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      type: array
+      maxItems: 2
+      minItems: 2
   securitySchemes:
     bearerAuth:
       type: http

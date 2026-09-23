@@ -69,7 +69,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Point:
+    LineString:
       properties:
         bbox:
           anyOf:
@@ -96,18 +96,63 @@ components:
         type:
           type: string
           title: Type
-          default: Point
+          default: LineString
         coordinates:
-          anyOf:
-          - $ref: '#/components/schemas/Position2D'
-          - $ref: '#/components/schemas/Position3D'
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          minItems: 2
           title: Coordinates
       type: object
       required:
       - type
       - coordinates
-      title: Point
-      description: Point Model
+      title: LineString
+      description: LineString Model
+    ImagingMode:
+      type: string
+      enum:
+      - SPOTLIGHT
+      - SCAN
+      title: ImagingMode
+      description: The Imaging Mode for the Task
+    SceneSize:
+      type: string
+      enum:
+      - 4x4_KM
+      - 5x5_KM
+      - 10x10_KM
+      - NATURAL_FOOTPRINT
+      title: SceneSize
+      description: The requested Spotlight Scene Size in kilometers.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     FeasibilityStatus:
       type: string
       enum:
@@ -116,59 +161,58 @@ components:
       - ERROR
       title: FeasibilityStatus
       description: Feasibility Status
-    HTTPValidationError:
+    FeasibilityRequest-Input:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ScanConstraints:
-      properties:
-        imagingMode:
+        constraints:
+          oneOf:
+          - $ref: '#/components/schemas/ScanConstraints'
+          - $ref: '#/components/schemas/SpotlightConstraints'
+          title: Constraints
+          discriminator:
+            propertyName: imagingMode
+            mapping:
+              SCAN: '#/components/schemas/ScanConstraints'
+              SPOTLIGHT: '#/components/schemas/SpotlightConstraints'
+        windowStartAt:
           type: string
-          title: Imagingmode
-          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
-          default: SCAN
-        geometry:
-          $ref: '#/components/schemas/LineString'
-          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
-        polarization:
-          $ref: '#/components/schemas/PolarizationEnum'
-          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-          default: VV
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
-          default: 2
-        grazingAngleMinDegrees:
-          type: integer
-          maximum: 79
-          minimum: 0
-          title: Grazinganglemindegrees
-          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 32
-        grazingAngleMaxDegrees:
-          type: integer
-          maximum: 80
-          minimum: 1
-          title: Grazinganglemaxdegrees
-          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 60
-        swathWidthMeters:
-          type: integer
-          maximum: 10000
-          minimum: 1000
-          title: Swathwidthmeters
-          description: The swath width of the scan in meters.
-          default: 8000
+          format: date-time
+          title: Windowstartat
+        windowEndAt:
+          type: string
+          format: date-time
+          title: Windowendat
+        contractId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Contractid
+          description: Explicit contract chosen for feasibility; if omitted default contract is used
+        imagingMode:
+          anyOf:
+          - $ref: '#/components/schemas/ImagingMode'
+          - type: 'null'
+          description: The 'imagingMode' property is deprecated. It is now derived from the 'constraints' property.
+          deprecated: true
+        scanConstraints:
+          anyOf:
+          - $ref: '#/components/schemas/ScanConstraints'
+          - type: 'null'
+          description: The 'scanConstraints' property is deprecated. Use 'constraints' instead.
+          deprecated: true
+        spotlightConstraints:
+          anyOf:
+          - $ref: '#/components/schemas/SpotlightConstraints'
+          - type: 'null'
+          description: The 'spotlightConstraints' property is deprecated. Use 'constraints' instead.
+          deprecated: true
       type: object
       required:
-      - geometry
-      title: ScanConstraints
+      - constraints
+      - windowStartAt
+      - windowEndAt
+      title: FeasibilityRequest
+      deprecationWarning: Having additional properties is deprecated and will be forbidden in the future.
     FeasibilityRequest-Output:
       properties:
         constraints:
@@ -225,58 +269,137 @@ components:
       - scanConstraints
       title: FeasibilityRequest
       deprecationWarning: Having additional properties is deprecated and will be forbidden in the future.
-    FeasibilityRequest-Input:
+    SpotlightConstraints:
       properties:
-        constraints:
-          oneOf:
-          - $ref: '#/components/schemas/ScanConstraints'
-          - $ref: '#/components/schemas/SpotlightConstraints'
-          title: Constraints
-          discriminator:
-            propertyName: imagingMode
-            mapping:
-              SCAN: '#/components/schemas/ScanConstraints'
-              SPOTLIGHT: '#/components/schemas/SpotlightConstraints'
-        windowStartAt:
-          type: string
-          format: date-time
-          title: Windowstartat
-        windowEndAt:
-          type: string
-          format: date-time
-          title: Windowendat
-        contractId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Contractid
-          description: Explicit contract chosen for feasibility; if omitted default contract is used
         imagingMode:
-          anyOf:
-          - $ref: '#/components/schemas/ImagingMode'
-          - type: 'null'
-          description: The 'imagingMode' property is deprecated. It is now derived from the 'constraints' property.
-          deprecated: true
-        scanConstraints:
-          anyOf:
-          - $ref: '#/components/schemas/ScanConstraints'
-          - type: 'null'
-          description: The 'scanConstraints' property is deprecated. Use 'constraints' instead.
-          deprecated: true
-        spotlightConstraints:
-          anyOf:
-          - $ref: '#/components/schemas/SpotlightConstraints'
-          - type: 'null'
-          description: The 'spotlightConstraints' property is deprecated. Use 'constraints' instead.
-          deprecated: true
+          type: string
+          title: Imagingmode
+          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
+          default: SPOTLIGHT
+        geometry:
+          $ref: '#/components/schemas/Point'
+          description: The centroid of the area as a GeoJSON Point. The third altitude coordinate may be specified (in meters) and will be calculated automatically if not provided.
+        polarization:
+          $ref: '#/components/schemas/PolarizationEnum'
+          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+          default: VV
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+          description: 'The ground plane resolution of the range component, perpendicular to the direction of travel for the image. When combined with multilook_factor, this determines the image''s ground plane azimuth resolution. Valid range resolution values include: 0.25, 0.35, 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
+          default: 1
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+          description: 'The factor by which dwell time is increased in relation to the ground plane range resolution, indicating a multi-looked image. When combined with range_resolution_min_meters, this determines the image''s ground plane azimuth resolution. Valid multilook factor values include: 1, 2, 4, 8.'
+          default: 1
+        grazingAngleMinDegrees:
+          type: integer
+          maximum: 89
+          minimum: 0
+          title: Grazinganglemindegrees
+          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 45
+        grazingAngleMaxDegrees:
+          type: integer
+          maximum: 90
+          minimum: 1
+          title: Grazinganglemaxdegrees
+          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 65
+        targetAzimuthAngleStartDegrees:
+          type: integer
+          maximum: 360
+          minimum: 0
+          title: Targetazimuthanglestartdegrees
+          description: The start angle measured clockwise from north as measured at the target location. This value may be greater than targetAzimuthAngleEndDegrees in order to image clockwise from west of north to east of north.
+          default: 1
+        targetAzimuthAngleEndDegrees:
+          type: integer
+          maximum: 360
+          minimum: 0
+          title: Targetazimuthangleenddegrees
+          description: The end angle measured clockwise from north as measured at the target location. This value may be less than targetAzimuthAngleStartDegrees in order to image clockwise from west of north to east of north.
+          default: 360
+        sceneSize:
+          $ref: '#/components/schemas/SceneSize'
+          description: 'The Spotlight image scene size in kilometers. The first number is the azimuth dimension and the second is the range dimension. Valid scene size values include: 4x4_KM, 5x5_KM, 10x10_KM, NATURAL_FOOTPRINT. Please query the organization settings endpoint for allowed scene size and range resolution values for your organization.'
+          default: 5x5_KM
       type: object
       required:
-      - constraints
-      - windowStartAt
-      - windowEndAt
-      title: FeasibilityRequest
-      deprecationWarning: Having additional properties is deprecated and will be forbidden in the future.
+      - geometry
+      title: SpotlightConstraints
+    PolarizationEnum:
+      type: string
+      enum:
+      - VV
+      - HH
+      title: Polarization
+      description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+    ScanConstraints:
+      properties:
+        imagingMode:
+          type: string
+          title: Imagingmode
+          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
+          default: SCAN
+        geometry:
+          $ref: '#/components/schemas/LineString'
+          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
+        polarization:
+          $ref: '#/components/schemas/PolarizationEnum'
+          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+          default: VV
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
+          default: 2
+        grazingAngleMinDegrees:
+          type: integer
+          maximum: 79
+          minimum: 0
+          title: Grazinganglemindegrees
+          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 32
+        grazingAngleMaxDegrees:
+          type: integer
+          maximum: 80
+          minimum: 1
+          title: Grazinganglemaxdegrees
+          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 60
+        swathWidthMeters:
+          type: integer
+          maximum: 10000
+          minimum: 1000
+          title: Swathwidthmeters
+          description: The swath width of the scan in meters.
+          default: 8000
+      type: object
+      required:
+      - geometry
+      title: ScanConstraints
+    Position3D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      - type: number
+        title: Altitude
+      type: array
+      maxItems: 3
+      minItems: 3
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Feasibility:
       properties:
         id:
@@ -324,108 +447,6 @@ components:
         scheduler is able to generate Opportunities for the given FeasibilityRequest,
 
         otherwise the Feasibility is transitioned to ERROR.'
-    Position2D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      type: array
-      maxItems: 2
-      minItems: 2
-    LineString:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: LineString
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          minItems: 2
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: LineString
-      description: LineString Model
-    PolarizationEnum:
-      type: string
-      enum:
-      - VV
-      - HH
-      title: Polarization
-      description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-    ImagingMode:
-      type: string
-      enum:
-      - SPOTLIGHT
-      - SCAN
-      title: ImagingMode
-      description: The Imaging Mode for the Task
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Position3D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      - type: number
-        title: Altitude
-      type: array
-      maxItems: 3
-      minItems: 3
     Opportunity:
       properties:
         windowStartAt:
@@ -523,75 +544,54 @@ components:
         For more information about the geometry fields, see:
 
         https://docs.canopy.umbra.space/docs/tasking-geometries'
-    SceneSize:
-      type: string
-      enum:
-      - 4x4_KM
-      - 5x5_KM
-      - 10x10_KM
-      - NATURAL_FOOTPRINT
-      title: SceneSize
-      description: The requested Spotlight Scene Size in kilometers.
-    SpotlightConstraints:
+    Point:
       properties:
-        imagingMode:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
           type: string
-          title: Imagingmode
-          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
-          default: SPOTLIGHT
-        geometry:
-          $ref: '#/components/schemas/Point'
-          description: The centroid of the area as a GeoJSON Point. The third altitude coordinate may be specified (in meters) and will be calculated automatically if not provided.
-        polarization:
-          $ref: '#/components/schemas/PolarizationEnum'
-          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-          default: VV
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-          description: 'The ground plane resolution of the range component, perpendicular to the direction of travel for the image. When combined with multilook_factor, this determines the image''s ground plane azimuth resolution. Valid range resolution values include: 0.25, 0.35, 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
-          default: 1
-        multilookFactor:
-          type: integer
-          title: Multilookfactor
-          description: 'The factor by which dwell time is increased in relation to the ground plane range resolution, indicating a multi-looked image. When combined with range_resolution_min_meters, this determines the image''s ground plane azimuth resolution. Valid multilook factor values include: 1, 2, 4, 8.'
-          default: 1
-        grazingAngleMinDegrees:
-          type: integer
-          maximum: 89
-          minimum: 0
-          title: Grazinganglemindegrees
-          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 45
-        grazingAngleMaxDegrees:
-          type: integer
-          maximum: 90
-          minimum: 1
-          title: Grazinganglemaxdegrees
-          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 65
-        targetAzimuthAngleStartDegrees:
-          type: integer
-          maximum: 360
-          minimum: 0
-          title: Targetazimuthanglestartdegrees
-          description: The start angle measured clockwise from north as measured at the target location. This value may be greater than targetAzimuthAngleEndDegrees in order to image clockwise from west of north to east of north.
-          default: 1
-        targetAzimuthAngleEndDegrees:
-          type: integer
-          maximum: 360
-          minimum: 0
-          title: Targetazimuthangleenddegrees
-          description: The end angle measured clockwise from north as measured at the target location. This value may be less than targetAzimuthAngleStartDegrees in order to image clockwise from west of north to east of north.
-          default: 360
-        sceneSize:
-          $ref: '#/components/schemas/SceneSize'
-          description: 'The Spotlight image scene size in kilometers. The first number is the azimuth dimension and the second is the range dimension. Valid scene size values include: 4x4_KM, 5x5_KM, 10x10_KM, NATURAL_FOOTPRINT. Please query the organization settings endpoint for allowed scene size and range resolution values for your organization.'
-          default: 5x5_KM
+          title: Type
+          default: Point
+        coordinates:
+          anyOf:
+          - $ref: '#/components/schemas/Position2D'
+          - $ref: '#/components/schemas/Position3D'
+          title: Coordinates
       type: object
       required:
-      - geometry
-      title: SpotlightConstraints
+      - type
+      - coordinates
+      title: Point
+      description: Point Model
+    Position2D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      type: array
+      maxItems: 2
+      minItems: 2
   securitySchemes:
     bearerAuth:
       type: http
