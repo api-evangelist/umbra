@@ -52,19 +52,47 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GetConstraintsResponse:
+    SICDFocusType:
+      type: string
+      enum:
+      - ONLY_UNFOCUSED
+      - PREFER_FOCUSED
+      - UNFOCUSED_AND_FOCUSED
+      title: SICDFocusType
+      description: SICD Focusing Type
+    TaskProductType:
+      type: string
+      enum:
+      - CPHD
+      - GEC
+      - SIDD
+      - SICD
+      - CSI_TIFF
+      - CSI_SIDD
+      - DI_GIF
+      - DI_TIF
+      - CRSD
+      title: TaskProductType
+      description: See https://docs.canopy.umbra.space/docs/delivered-product-types for details.
+    SpotlightProductConstraints:
       properties:
-        SPOTLIGHT:
-          $ref: '#/components/schemas/SpotlightProductConstraints'
-        SCAN:
-          $ref: '#/components/schemas/ScanProductConstraints'
+        allowedProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Allowedproducttypes
+        constraints:
+          items:
+            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
+          type: array
+          title: Constraints
       additionalProperties: false
       type: object
       required:
-      - SPOTLIGHT
-      - SCAN
-      title: GetConstraintsResponse
-      description: Response model for the GET /constraints endpoints.
+      - allowedProductTypes
+      - constraints
+      title: SpotlightProductConstraints
+      description: Product constraints for Spotlight imaging mode.
     ValidationError:
       properties:
         loc:
@@ -86,41 +114,48 @@ components:
       - msg
       - type
       title: ValidationError
-    SpotlightProductConstraintsFields:
+    LicenseType:
+      type: string
+      enum:
+      - USGPLUS
+      - CCBY4
+      title: LicenseType
+      description: LicenseType
+    ScanProductConstraints:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        productConstraintType:
-          type: string
-          title: Productconstrainttype
-        sceneSize:
-          type: string
-          title: Scenesize
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-        multilookFactor:
-          type: integer
-          title: Multilookfactor
-        grazingAngleMinDegrees:
-          type: integer
-          title: Grazinganglemindegrees
-        grazingAngleMaxDegrees:
-          type: integer
-          title: Grazinganglemaxdegrees
+        allowedProductTypes:
+          items:
+            $ref: '#/components/schemas/TaskProductType'
+          type: array
+          title: Allowedproducttypes
+        constraints:
+          items:
+            $ref: '#/components/schemas/ScanProductConstraintsFields'
+          type: array
+          title: Constraints
+      additionalProperties: false
       type: object
       required:
-      - id
-      - productConstraintType
-      - sceneSize
-      - rangeResolutionMinMeters
-      - multilookFactor
-      - grazingAngleMinDegrees
-      - grazingAngleMaxDegrees
-      title: SpotlightProductConstraintsFields
-      description: Fields for Spotlight product constraints.
+      - allowedProductTypes
+      - constraints
+      title: ScanProductConstraints
+      description: Product constraints for SCAN imaging mode.
+    OrgStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - ARCHIVED
+      title: OrgStatus
+      description: OrgStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ScanProductConstraintsFields:
       properties:
         id:
@@ -169,14 +204,54 @@ components:
       - grazingAngleMaxDegrees
       title: ScanProductConstraintsFields
       description: Fields for Scan product constraints.
-    SICDFocusType:
-      type: string
-      enum:
-      - ONLY_UNFOCUSED
-      - PREFER_FOCUSED
-      - UNFOCUSED_AND_FOCUSED
-      title: SICDFocusType
-      description: SICD Focusing Type
+    GetConstraintsResponse:
+      properties:
+        SPOTLIGHT:
+          $ref: '#/components/schemas/SpotlightProductConstraints'
+        SCAN:
+          $ref: '#/components/schemas/ScanProductConstraints'
+      additionalProperties: false
+      type: object
+      required:
+      - SPOTLIGHT
+      - SCAN
+      title: GetConstraintsResponse
+      description: Response model for the GET /constraints endpoints.
+    SpotlightProductConstraintsFields:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        sceneSize:
+          type: string
+          title: Scenesize
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
+      type: object
+      required:
+      - id
+      - productConstraintType
+      - sceneSize
+      - rangeResolutionMinMeters
+      - multilookFactor
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: SpotlightProductConstraintsFields
+      description: Fields for Spotlight product constraints.
     OrganizationSettings:
       properties:
         organizationId:
@@ -243,81 +318,6 @@ components:
       required:
       - organizationId
       title: OrganizationSettings
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrgStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - ARCHIVED
-      title: OrgStatus
-      description: OrgStatus
-    ScanProductConstraints:
-      properties:
-        allowedProductTypes:
-          items:
-            $ref: '#/components/schemas/TaskProductType'
-          type: array
-          title: Allowedproducttypes
-        constraints:
-          items:
-            $ref: '#/components/schemas/ScanProductConstraintsFields'
-          type: array
-          title: Constraints
-      additionalProperties: false
-      type: object
-      required:
-      - allowedProductTypes
-      - constraints
-      title: ScanProductConstraints
-      description: Product constraints for SCAN imaging mode.
-    SpotlightProductConstraints:
-      properties:
-        allowedProductTypes:
-          items:
-            $ref: '#/components/schemas/TaskProductType'
-          type: array
-          title: Allowedproducttypes
-        constraints:
-          items:
-            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
-          type: array
-          title: Constraints
-      additionalProperties: false
-      type: object
-      required:
-      - allowedProductTypes
-      - constraints
-      title: SpotlightProductConstraints
-      description: Product constraints for Spotlight imaging mode.
-    TaskProductType:
-      type: string
-      enum:
-      - CPHD
-      - GEC
-      - SIDD
-      - SICD
-      - CSI_TIFF
-      - CSI_SIDD
-      - DI_GIF
-      - DI_TIF
-      - CRSD
-      title: TaskProductType
-      description: See https://docs.canopy.umbra.space/docs/delivered-product-types for details.
-    LicenseType:
-      type: string
-      enum:
-      - USGPLUS
-      - CCBY4
-      title: LicenseType
-      description: LicenseType
   securitySchemes:
     bearerAuth:
       type: http

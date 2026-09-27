@@ -67,6 +67,7 @@ tags:
 - Tasking
 - Defense and Intelligence
 - Company
+- Satellite
 apis:
 - aid: umbra:docs-mcp
   name: Umbra Canopy Documentation MCP Server

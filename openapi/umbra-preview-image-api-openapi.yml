@@ -481,19 +481,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ImageType:
-      type: string
-      enum:
-      - png
-      - npy
-      - tif
-      - jpeg
-      - jpg
-      - jp2
-      - webp
-      - pngraw
-      title: ImageType
-      description: Available Output image type.
     ValidationError:
       properties:
         loc:
@@ -515,6 +502,19 @@ components:
       - msg
       - type
       title: ValidationError
+    ImageType:
+      type: string
+      enum:
+      - png
+      - npy
+      - tif
+      - jpeg
+      - jpg
+      - jp2
+      - webp
+      - pngraw
+      title: ImageType
+      description: Available Output image type.
   securitySchemes:
     bearerAuth:
       type: http

@@ -60,62 +60,33 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SpotlightProductConstraintsFields:
+      title: HTTPValidationError
+    GetProductConstraintsResponse:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        productConstraintType:
-          type: string
-          title: Productconstrainttype
-        sceneSize:
-          type: string
-          title: Scenesize
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-        multilookFactor:
-          type: integer
-          title: Multilookfactor
-        grazingAngleMinDegrees:
-          type: integer
-          title: Grazinganglemindegrees
-        grazingAngleMaxDegrees:
-          type: integer
-          title: Grazinganglemaxdegrees
+        SPOTLIGHT:
+          items:
+            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
+          type: array
+          title: Spotlight
+        SCAN:
+          items:
+            $ref: '#/components/schemas/ScanProductConstraintsFields'
+          type: array
+          title: Scan
       type: object
       required:
-      - id
-      - productConstraintType
-      - sceneSize
-      - rangeResolutionMinMeters
-      - multilookFactor
-      - grazingAngleMinDegrees
-      - grazingAngleMaxDegrees
-      title: SpotlightProductConstraintsFields
-      description: Fields for Spotlight product constraints.
+      - SPOTLIGHT
+      - SCAN
+      title: GetProductConstraintsResponse
+      description: Constraints-only response shape for product constraints endpoints.
     ScanProductConstraintsFields:
       properties:
         id:
@@ -164,33 +135,62 @@ components:
       - grazingAngleMaxDegrees
       title: ScanProductConstraintsFields
       description: Fields for Scan product constraints.
-    HTTPValidationError:
+    SpotlightProductConstraintsFields:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GetProductConstraintsResponse:
-      properties:
-        SPOTLIGHT:
-          items:
-            $ref: '#/components/schemas/SpotlightProductConstraintsFields'
-          type: array
-          title: Spotlight
-        SCAN:
-          items:
-            $ref: '#/components/schemas/ScanProductConstraintsFields'
-          type: array
-          title: Scan
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        productConstraintType:
+          type: string
+          title: Productconstrainttype
+        sceneSize:
+          type: string
+          title: Scenesize
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+        multilookFactor:
+          type: integer
+          title: Multilookfactor
+        grazingAngleMinDegrees:
+          type: integer
+          title: Grazinganglemindegrees
+        grazingAngleMaxDegrees:
+          type: integer
+          title: Grazinganglemaxdegrees
       type: object
       required:
-      - SPOTLIGHT
-      - SCAN
-      title: GetProductConstraintsResponse
-      description: Constraints-only response shape for product constraints endpoints.
+      - id
+      - productConstraintType
+      - sceneSize
+      - rangeResolutionMinMeters
+      - multilookFactor
+      - grazingAngleMinDegrees
+      - grazingAngleMaxDegrees
+      title: SpotlightProductConstraintsFields
+      description: Fields for Spotlight product constraints.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     bearerAuth:
       type: http
