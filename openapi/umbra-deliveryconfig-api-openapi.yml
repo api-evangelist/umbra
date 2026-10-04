@@ -115,38 +115,17 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FileNamingConvention:
-      type: string
-      enum:
-      - DEFAULT
-      - NCDRD
-      title: FileNamingConvention
-      description: Controls which file naming convention to use during delivery.
-    PackagingOption:
-      type: string
-      enum:
-      - ZIP_EACH_ASSET_WITH_METADATA
-      - ZIP_ALL_ASSETS_WITH_METADATA
-      title: PackagingOption
-      description: Specifies packaging options available to specify on a delivery config.
-    HTTPValidationError:
+    DeliveryConfigListResponse:
       properties:
-        detail:
+        data:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/DeliveryConfigResponse'
           type: array
-          title: Detail
+          title: Data
       type: object
-      title: HTTPValidationError
-    JsonValue: {}
-    DeliveryConfigStatus:
-      type: string
-      enum:
-      - PENDING
-      - ACTIVE
-      - ERROR
-      - DELETED
-      title: DeliveryConfigStatus
+      required:
+      - data
+      title: DeliveryConfigListResponse
     ValidationError:
       properties:
         loc:
@@ -173,17 +152,77 @@ components:
       - msg
       - type
       title: ValidationError
-    DeliveryConfigListResponse:
+    HTTPValidationError:
       properties:
-        data:
+        detail:
           items:
-            $ref: '#/components/schemas/DeliveryConfigResponse'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Data
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FileNamingConvention:
+      type: string
+      enum:
+      - DEFAULT
+      - NCDRD
+      title: FileNamingConvention
+      description: Controls which file naming convention to use during delivery.
+    JsonValue: {}
+    DeliveryConfigRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: User-supplied human readable name for this config
+        options:
+          oneOf:
+          - $ref: '#/components/schemas/S3UmbraRoleOptions'
+          - $ref: '#/components/schemas/GCSWIFOptions'
+          title: Options
+          description: Custom options for the requested delivery config
+          discriminator:
+            propertyName: deliveryType
+            mapping:
+              GCS_WIF: '#/components/schemas/GCSWIFOptions'
+              S3_UMBRA_ROLE: '#/components/schemas/S3UmbraRoleOptions'
+        sicdXmlMetadata:
+          type: boolean
+          title: Sicdxmlmetadata
+          description: When True, SICD XML metadata will be extracted and delivered with the path suffix _SICD-METADATA.xml
+          default: false
+        fileNamingConvention:
+          anyOf:
+          - $ref: '#/components/schemas/FileNamingConvention'
+          - type: 'null'
+          description: Controls which file naming convention to use during delivery
+          default: DEFAULT
+        packagingOption:
+          anyOf:
+          - $ref: '#/components/schemas/PackagingOption'
+          - type: 'null'
+          description: The packaging option to use for delivery
       type: object
       required:
-      - data
-      title: DeliveryConfigListResponse
+      - name
+      - options
+      title: DeliveryConfigRequest
+      description: Body of POST /delivery-config
+    PackagingOption:
+      type: string
+      enum:
+      - ZIP_EACH_ASSET_WITH_METADATA
+      - ZIP_ALL_ASSETS_WITH_METADATA
+      title: PackagingOption
+      description: Specifies packaging options available to specify on a delivery config.
+    DeliveryConfigStatus:
+      type: string
+      enum:
+      - PENDING
+      - ACTIVE
+      - ERROR
+      - DELETED
+      title: DeliveryConfigStatus
     DeliveryConfigResponse:
       properties:
         id:
@@ -258,45 +297,6 @@ components:
       - packagingOption
       title: DeliveryConfigResponse
       description: Public view of delivery configs returned by all /delivery-config routes
-    DeliveryConfigRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: User-supplied human readable name for this config
-        options:
-          oneOf:
-          - $ref: '#/components/schemas/S3UmbraRoleOptions'
-          - $ref: '#/components/schemas/GCSWIFOptions'
-          title: Options
-          description: Custom options for the requested delivery config
-          discriminator:
-            propertyName: deliveryType
-            mapping:
-              GCS_WIF: '#/components/schemas/GCSWIFOptions'
-              S3_UMBRA_ROLE: '#/components/schemas/S3UmbraRoleOptions'
-        sicdXmlMetadata:
-          type: boolean
-          title: Sicdxmlmetadata
-          description: When True, SICD XML metadata will be extracted and delivered with the path suffix _SICD-METADATA.xml
-          default: false
-        fileNamingConvention:
-          anyOf:
-          - $ref: '#/components/schemas/FileNamingConvention'
-          - type: 'null'
-          description: Controls which file naming convention to use during delivery
-          default: DEFAULT
-        packagingOption:
-          anyOf:
-          - $ref: '#/components/schemas/PackagingOption'
-          - type: 'null'
-          description: The packaging option to use for delivery
-      type: object
-      required:
-      - name
-      - options
-      title: DeliveryConfigRequest
-      description: Body of POST /delivery-config
     GCSWIFOptions:
       properties:
         path:

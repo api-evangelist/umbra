@@ -178,17 +178,141 @@ paths:
     - url: https://api.canopy.umbra.space/v2/stac
 components:
   schemas:
-    Position3D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      - type: number
-        title: Altitude
+    stac_pydantic__api__links__Links:
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/SearchLink'
+        - $ref: '#/components/schemas/PaginationLink'
+        - $ref: '#/components/schemas/ItemsLink'
+        - $ref: '#/components/schemas/Link'
       type: array
-      maxItems: 3
-      minItems: 3
+      title: Links
+    ItemCollection:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - FeatureCollection
+          default: FeatureCollection
+        features:
+          items:
+            $ref: '#/components/schemas/Item'
+          type: array
+          title: Features
+        links:
+          anyOf:
+          - $ref: '#/components/schemas/stac_pydantic__api__links__Links'
+          - type: 'null'
+        numberMatched:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Numbermatched
+        numberReturned:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Numberreturned
+      type: object
+      required:
+      - type
+      - features
+      title: ItemCollection
+      description: 'https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/fragments/itemcollection/README.md
+
+        https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/item-search/README.md#link-relations'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SearchLink:
+      properties:
+        href:
+          type: string
+          pattern: .*\/search(\?.*)?\b
+          title: Href
+        rel:
+          type: string
+          enum:
+          - self
+          - search
+          - next
+          - prev
+          title: Rel
+        type:
+          type: string
+          title: Type
+          default: application/geo+json
+          enum:
+          - application/geo+json
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        label:assets:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label:Assets
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+          title: Method
+          default: GET
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Headers
+        body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Body
+        merge:
+          type: boolean
+          title: Merge
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - href
+      - rel
+      title: SearchLink
+      description: https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/item-search#link-relations
     Item:
       properties:
         bbox:
@@ -283,211 +407,6 @@ components:
       - assets
       - links
       title: Item
-    Provider:
-      properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        roles:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Roles
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - name
-      title: Provider
-      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#provider-object
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ItemsLink:
-      properties:
-        href:
-          type: string
-          pattern: .*\/items(\?.*)?\b
-          title: Href
-        rel:
-          type: string
-          enum:
-          - self
-          - items
-          title: Rel
-        type:
-          type: string
-          title: Type
-          default: application/geo+json
-          enum:
-          - application/geo+json
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        label:assets:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label:Assets
-        method:
-          type: string
-          enum:
-          - GET
-          - POST
-          title: Method
-          default: GET
-        headers:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Headers
-        body:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Body
-        merge:
-          type: boolean
-          title: Merge
-          default: false
-      additionalProperties: true
-      type: object
-      required:
-      - href
-      - rel
-      title: ItemsLink
-    Extent:
-      properties:
-        spatial:
-          $ref: '#/components/schemas/SpatialExtent'
-        temporal:
-          $ref: '#/components/schemas/TimeInterval'
-      type: object
-      required:
-      - spatial
-      - temporal
-      title: Extent
-      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#extent-object
-    PaginationLink:
-      properties:
-        href:
-          type: string
-          minLength: 1
-          title: Href
-        rel:
-          type: string
-          enum:
-          - next
-          - prev
-          title: Rel
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/MimeTypes'
-          - type: 'null'
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        label:assets:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label:Assets
-        method:
-          type: string
-          enum:
-          - GET
-          - POST
-          title: Method
-          default: GET
-        headers:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Headers
-        body:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Body
-        merge:
-          type: boolean
-          title: Merge
-          default: false
-      additionalProperties: true
-      type: object
-      required:
-      - href
-      - rel
-      title: PaginationLink
-      description: https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/item-search/README.md#pagination
-    Link:
-      properties:
-        href:
-          type: string
-          minLength: 1
-          title: Href
-        rel:
-          type: string
-          minLength: 1
-          title: Rel
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/MimeTypes'
-          - type: 'null'
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        label:assets:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label:Assets
-      additionalProperties: true
-      type: object
-      required:
-      - href
-      - rel
-      title: Link
-      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#link-object
     MultiLineString:
       properties:
         bbox:
@@ -534,6 +453,258 @@ components:
       - coordinates
       title: MultiLineString
       description: MultiLineString Model
+    GeometryCollection-Output:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - GeometryCollection
+          default: GeometryCollection
+        geometries:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Output'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          type: array
+          title: Geometries
+      type: object
+      required:
+      - type
+      - geometries
+      title: GeometryCollection
+      description: GeometryCollection Model
+    stac_pydantic__links__Links:
+      items:
+        $ref: '#/components/schemas/Link'
+      type: array
+      title: Links
+    Point:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - Point
+          default: Point
+        coordinates:
+          anyOf:
+          - $ref: '#/components/schemas/Position2D'
+          - $ref: '#/components/schemas/Position3D'
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Point
+      description: Point Model
+    Position2D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      type: array
+      maxItems: 2
+      minItems: 2
+    Link:
+      properties:
+        href:
+          type: string
+          minLength: 1
+          title: Href
+        rel:
+          type: string
+          minLength: 1
+          title: Rel
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/MimeTypes'
+          - type: 'null'
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        label:assets:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label:Assets
+      additionalProperties: true
+      type: object
+      required:
+      - href
+      - rel
+      title: Link
+      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#link-object
+    TimeInterval:
+      properties:
+        interval:
+          items:
+            items:
+              anyOf:
+              - type: string
+              - type: 'null'
+            type: array
+          type: array
+          title: Interval
+      type: object
+      required:
+      - interval
+      title: TimeInterval
+      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#temporal-extent-object
+    MultiPolygon:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - MultiPolygon
+          default: MultiPolygon
+        coordinates:
+          items:
+            items:
+              items:
+                anyOf:
+                - $ref: '#/components/schemas/Position2D'
+                - $ref: '#/components/schemas/Position3D'
+              type: array
+              minItems: 4
+            type: array
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPolygon
+      description: MultiPolygon Model
+    LineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - LineString
+          default: LineString
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          minItems: 2
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: LineString
+      description: LineString Model
     ItemProperties:
       properties:
         title:
@@ -622,6 +793,183 @@ components:
       - datetime
       title: ItemProperties
       description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/item-spec.md#properties-object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PaginationLink:
+      properties:
+        href:
+          type: string
+          minLength: 1
+          title: Href
+        rel:
+          type: string
+          enum:
+          - next
+          - prev
+          title: Rel
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/MimeTypes'
+          - type: 'null'
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        label:assets:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label:Assets
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+          title: Method
+          default: GET
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Headers
+        body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Body
+        merge:
+          type: boolean
+          title: Merge
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - href
+      - rel
+      title: PaginationLink
+      description: https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/item-search/README.md#pagination
+    ItemsLink:
+      properties:
+        href:
+          type: string
+          pattern: .*\/items(\?.*)?\b
+          title: Href
+        rel:
+          type: string
+          enum:
+          - self
+          - items
+          title: Rel
+        type:
+          type: string
+          title: Type
+          default: application/geo+json
+          enum:
+          - application/geo+json
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        label:assets:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label:Assets
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+          title: Method
+          default: GET
+        headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Headers
+        body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Body
+        merge:
+          type: boolean
+          title: Merge
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - href
+      - rel
+      title: ItemsLink
+    MultiPoint:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          enum:
+          - MultiPoint
+          default: MultiPoint
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPoint
+      description: MultiPoint Model
     Polygon:
       properties:
         bbox:
@@ -668,109 +1016,34 @@ components:
       - coordinates
       title: Polygon
       description: Polygon Model
-    TimeInterval:
+    Extent:
       properties:
-        interval:
+        spatial:
+          $ref: '#/components/schemas/SpatialExtent'
+        temporal:
+          $ref: '#/components/schemas/TimeInterval'
+      type: object
+      required:
+      - spatial
+      - temporal
+      title: Extent
+      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#extent-object
+    SpatialExtent:
+      properties:
+        bbox:
           items:
             items:
               anyOf:
-              - type: string
-              - type: 'null'
+              - type: number
+              - type: integer
             type: array
           type: array
-          title: Interval
+          title: Bbox
       type: object
       required:
-      - interval
-      title: TimeInterval
-      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#temporal-extent-object
-    SearchLink:
-      properties:
-        href:
-          type: string
-          pattern: .*\/search(\?.*)?\b
-          title: Href
-        rel:
-          type: string
-          enum:
-          - self
-          - search
-          - next
-          - prev
-          title: Rel
-        type:
-          type: string
-          title: Type
-          default: application/geo+json
-          enum:
-          - application/geo+json
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        label:assets:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label:Assets
-        method:
-          type: string
-          enum:
-          - GET
-          - POST
-          title: Method
-          default: GET
-        headers:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Headers
-        body:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Body
-        merge:
-          type: boolean
-          title: Merge
-          default: false
-      additionalProperties: true
-      type: object
-      required:
-      - href
-      - rel
-      title: SearchLink
-      description: https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/item-search#link-relations
-    Collections:
-      properties:
-        links:
-          $ref: '#/components/schemas/stac_pydantic__api__links__Links'
-        collections:
-          items:
-            $ref: '#/components/schemas/Collection'
-          type: array
-          title: Collections
-        numberMatched:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Numbermatched
-        numberReturned:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Numberreturned
-      type: object
-      required:
-      - links
-      - collections
-      title: Collections
-      description: 'https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features#endpoints
-
-        https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features#collections-collections'
+      - bbox
+      title: SpatialExtent
+      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#spatial-extent-object
     Collection:
       properties:
         id:
@@ -859,54 +1132,34 @@ components:
       - extent
       title: Collection
       description: https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features#collection-collectionscollectionid
-    MultiPolygon:
+    Provider:
       properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
+        name:
           type: string
-          title: Type
-          enum:
-          - MultiPolygon
-          default: MultiPolygon
-        coordinates:
-          items:
-            items:
-              items:
-                anyOf:
-                - $ref: '#/components/schemas/Position2D'
-                - $ref: '#/components/schemas/Position3D'
-              type: array
-              minItems: 4
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        roles:
+          anyOf:
+          - items:
+              type: string
             type: array
-          type: array
-          title: Coordinates
+          - type: 'null'
+          title: Roles
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
       type: object
       required:
-      - type
-      - coordinates
-      title: MultiPolygon
-      description: MultiPolygon Model
+      - name
+      title: Provider
+      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#provider-object
     Range:
       properties:
         minimum:
@@ -927,124 +1180,6 @@ components:
       - maximum
       title: Range
       description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#stats-object
-    MultiPoint:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          enum:
-          - MultiPoint
-          default: MultiPoint
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiPoint
-      description: MultiPoint Model
-    stac_pydantic__api__links__Links:
-      items:
-        anyOf:
-        - $ref: '#/components/schemas/SearchLink'
-        - $ref: '#/components/schemas/PaginationLink'
-        - $ref: '#/components/schemas/ItemsLink'
-        - $ref: '#/components/schemas/Link'
-      type: array
-      title: Links
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ItemCollection:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          enum:
-          - FeatureCollection
-          default: FeatureCollection
-        features:
-          items:
-            $ref: '#/components/schemas/Item'
-          type: array
-          title: Features
-        links:
-          anyOf:
-          - $ref: '#/components/schemas/stac_pydantic__api__links__Links'
-          - type: 'null'
-        numberMatched:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Numbermatched
-        numberReturned:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Numberreturned
-      type: object
-      required:
-      - type
-      - features
-      title: ItemCollection
-      description: 'https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/fragments/itemcollection/README.md
-
-        https://github.com/radiantearth/stac-api-spec/blob/v1.0.0/item-search/README.md#link-relations'
     Asset:
       properties:
         href:
@@ -1079,179 +1214,6 @@ components:
       - href
       title: Asset
       description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/item-spec.md#asset-object
-    Point:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          enum:
-          - Point
-          default: Point
-        coordinates:
-          anyOf:
-          - $ref: '#/components/schemas/Position2D'
-          - $ref: '#/components/schemas/Position3D'
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: Point
-      description: Point Model
-    stac_pydantic__links__Links:
-      items:
-        $ref: '#/components/schemas/Link'
-      type: array
-      title: Links
-    SpatialExtent:
-      properties:
-        bbox:
-          items:
-            items:
-              anyOf:
-              - type: number
-              - type: integer
-            type: array
-          type: array
-          title: Bbox
-      type: object
-      required:
-      - bbox
-      title: SpatialExtent
-      description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#spatial-extent-object
-    LineString:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          enum:
-          - LineString
-          default: LineString
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          minItems: 2
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: LineString
-      description: LineString Model
-    Position2D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      type: array
-      maxItems: 2
-      minItems: 2
-    GeometryCollection-Output:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          enum:
-          - GeometryCollection
-          default: GeometryCollection
-        geometries:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Point'
-            - $ref: '#/components/schemas/MultiPoint'
-            - $ref: '#/components/schemas/LineString'
-            - $ref: '#/components/schemas/MultiLineString'
-            - $ref: '#/components/schemas/Polygon'
-            - $ref: '#/components/schemas/MultiPolygon'
-            - $ref: '#/components/schemas/GeometryCollection-Output'
-            discriminator:
-              propertyName: type
-              mapping:
-                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
-                LineString: '#/components/schemas/LineString'
-                MultiLineString: '#/components/schemas/MultiLineString'
-                MultiPoint: '#/components/schemas/MultiPoint'
-                MultiPolygon: '#/components/schemas/MultiPolygon'
-                Point: '#/components/schemas/Point'
-                Polygon: '#/components/schemas/Polygon'
-          type: array
-          title: Geometries
-      type: object
-      required:
-      - type
-      - geometries
-      title: GeometryCollection
-      description: GeometryCollection Model
     MimeTypes:
       type: string
       enum:
@@ -1283,6 +1245,44 @@ components:
       - application/octet-stream
       title: MimeTypes
       description: https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/item-spec.md#media-types
+    Collections:
+      properties:
+        links:
+          $ref: '#/components/schemas/stac_pydantic__api__links__Links'
+        collections:
+          items:
+            $ref: '#/components/schemas/Collection'
+          type: array
+          title: Collections
+        numberMatched:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Numbermatched
+        numberReturned:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Numberreturned
+      type: object
+      required:
+      - links
+      - collections
+      title: Collections
+      description: 'https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features#endpoints
+
+        https://github.com/radiantearth/stac-api-spec/tree/v1.0.0/ogcapi-features#collections-collections'
+    Position3D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      - type: number
+        title: Altitude
+      type: array
+      maxItems: 3
+      minItems: 3
     ValidationError_2:
       properties:
         loc:

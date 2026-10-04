@@ -143,17 +143,130 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Position3D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      - type: number
-        title: Altitude
-      type: array
-      maxItems: 3
-      minItems: 3
+    SceneSize:
+      type: string
+      enum:
+      - 4x4_KM
+      - 5x5_KM
+      - 10x10_KM
+      - NATURAL_FOOTPRINT
+      title: SceneSize
+      description: The requested Spotlight Scene Size in kilometers.
+    TaskStatusHistory:
+      properties:
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+      type: object
+      required:
+      - status
+      title: TaskStatusHistory
+    ArchiveResellResponse:
+      properties:
+        results:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ArchiveResellSuccessResponseItem'
+            - $ref: '#/components/schemas/ArchiveResellFailureResponseItem'
+          type: array
+          title: Results
+          description: Results for each resell request
+        targetContractId:
+          type: string
+          format: uuid
+          title: Targetcontractid
+          description: UUID of the resell contract
+      type: object
+      required:
+      - results
+      - targetContractId
+      title: ArchiveResellResponse
+      description: Response model for public-facing archive resell requests
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ArchiveResellRequest:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ArchiveResellRequestItem'
+          type: array
+          maxItems: 50
+          minItems: 1
+          title: Items
+          description: Array of archive resell orders. Max of 50 per request
+        targetContractId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Targetcontractid
+          description: UUID of the contract for validation
+      type: object
+      required:
+      - items
+      title: ArchiveResellRequest
+      description: Request model for public-facing archive resell requests
+    MultiLineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiLineString
+        coordinates:
+          items:
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/Position2D'
+              - $ref: '#/components/schemas/Position3D'
+            type: array
+            minItems: 2
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiLineString
+      description: MultiLineString Model
+    TaskType:
+      type: string
+      enum:
+      - STANDARD
+      - ARCHIVE
+      title: TaskType
+      description: TaskType
     Context:
       properties:
         limit:
@@ -172,149 +285,79 @@ components:
       - returned
       title: Context
       description: Contextual information provided to API consumers
-    PostSearchTasksRequest:
+    PaginatedFeatureCollection_Task_:
       properties:
-        limit:
-          anyOf:
-          - type: integer
-            maximum: 200
-            minimum: 1
-          - type: 'null'
-          title: Limit
-          default: 20
-        skip:
-          anyOf:
-          - type: integer
-            minimum: 0
-          - type: 'null'
-          title: Skip
-          default: 0
-        sortBy:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SortByField'
-            type: array
-          - type: 'null'
-          title: Sortby
-        query:
-          $ref: '#/components/schemas/PostSearchTasksQueryModel'
-      type: object
-      required:
-      - query
-      title: PostSearchTasksRequest
-    CommercialTaskRequest:
-      properties:
-        constraints:
-          oneOf:
-          - $ref: '#/components/schemas/ScanConstraints'
-          - $ref: '#/components/schemas/SpotlightConstraints'
-          title: Constraints
-        windowStartAt:
-          type: string
-          format: date-time
-          title: Windowstartat
-        windowEndAt:
-          type: string
-          format: date-time
-          title: Windowendat
-        contractId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Contractid
-          description: Explicit contract chosen for feasibility; if omitted default contract is used
-        imagingMode:
-          anyOf:
-          - $ref: '#/components/schemas/ImagingMode'
-          - type: 'null'
-          description: The 'imagingMode' property is deprecated. It is now derived from the 'constraints' property.
-          deprecated: true
-        scanConstraints:
-          anyOf:
-          - $ref: '#/components/schemas/ScanConstraints'
-          - type: 'null'
-          description: The 'scanConstraints' property is deprecated. Use 'constraints' instead.
-          deprecated: true
-        spotlightConstraints:
-          anyOf:
-          - $ref: '#/components/schemas/SpotlightConstraints'
-          - type: 'null'
-          description: The 'spotlightConstraints' property is deprecated. Use 'constraints' instead.
-          deprecated: true
-        deliveryConfigId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Deliveryconfigid
-        productTypes:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/TaskProductType'
-            type: array
-          - type: 'null'
-          title: Producttypes
-          description: Products delivered to the customer. GEC will always be among delivered products, even if not requested directly. If None, all allowed products for your organization will be delivered.
-        tags:
-          items:
-            type: string
-            maxLength: 255
-            minLength: 1
-            pattern: ^[a-zA-Z0-9_-]+$
-          type: array
-          maxItems: 20
-          minItems: 0
-          title: Tags
-          description: Tags are a set of labels that can be applied to Tasks. Tags are repeatable and can be used across multiple Tasks, allowing customers to categorize, search, and filter their orders effectively.
-        taskName:
-          type: string
-          minLength: 1
-          title: Taskname
-        userOrderId:
-          type: string
-          title: Userorderid
-          default: ''
-        satelliteIds:
-          items:
-            type: string
-          type: array
-          title: Satelliteids
-          description: List of satellites to limit the requested task to. If empty, all applicable satellites for the requesting organization will be considered to fulfill the task. For available satellite ids, see https://docs.canopy.umbra.space/docs/umbra-satellites.
-      type: object
-      required:
-      - constraints
-      - windowStartAt
-      - windowEndAt
-      - taskName
-      title: CommercialTaskRequest
-      deprecationWarning: Having additional properties is deprecated and will be forbidden in the future.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
         type:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Type
+          default: FeatureCollection
+        features:
+          items:
+            $ref: '#/components/schemas/Task'
+          type: array
+          title: Features
+        context:
+          $ref: '#/components/schemas/Context'
       type: object
       required:
-      - loc
-      - msg
+      - features
+      - context
+      title: PaginatedFeatureCollection[Task]
+    GeometryCollection-Output:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+        geometries:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/MultiPoint'
+            - $ref: '#/components/schemas/LineString'
+            - $ref: '#/components/schemas/MultiLineString'
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+            - $ref: '#/components/schemas/GeometryCollection-Output'
+            discriminator:
+              propertyName: type
+              mapping:
+                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+                LineString: '#/components/schemas/LineString'
+                MultiLineString: '#/components/schemas/MultiLineString'
+                MultiPoint: '#/components/schemas/MultiPoint'
+                MultiPolygon: '#/components/schemas/MultiPolygon'
+                Point: '#/components/schemas/Point'
+                Polygon: '#/components/schemas/Polygon'
+          type: array
+          title: Geometries
+      type: object
+      required:
       - type
-      title: ValidationError
+      - geometries
+      title: GeometryCollection
+      description: GeometryCollection Model
     TaskProperties:
       properties:
         createdAt:
@@ -456,6 +499,188 @@ components:
       - imagingMode
       title: TaskProperties
       description: The properties for a Task.
+    Position2D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      type: array
+      maxItems: 2
+      minItems: 2
+    ArchiveResellRequestItem:
+      properties:
+        collectId:
+          type: string
+          format: uuid
+          title: Collectid
+          description: UUID of the collect to resell
+        productTypes:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ResellableTaskProductType'
+            type: array
+          - type: 'null'
+          title: Producttypes
+          description: Optional list of product types to deliver. If none provided, default products are used.
+        deliveryConfigId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Deliveryconfigid
+          description: Optional delivery config ID for the resell
+        userOrderId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Userorderid
+          description: Optional user-provided order identifier
+        taskName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Taskname
+          description: Name of the task. If none provided, a generic name will be auto-generated.
+      type: object
+      required:
+      - collectId
+      title: ArchiveResellRequestItem
+      description: Request model for a single archive resell item
+    PostSearchTasksQueryModel:
+      properties:
+        id:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterUUID'
+          - type: 'null'
+        geometry:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterGeometry'
+          - type: 'null'
+        createdAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        updatedAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_TaskStatus_'
+          - type: 'null'
+        userId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+        deliveryConfigId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterUUID'
+          - type: 'null'
+        tags:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterArray'
+          - type: 'null'
+        taskName:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+        taskType:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_TaskType_'
+          - type: 'null'
+        userOrderId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterString'
+          - type: 'null'
+        imagingMode:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterEnum_ImagingMode_'
+          - type: 'null'
+        windowStartAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        windowEndAt:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterValue'
+          - type: 'null'
+        contractId:
+          anyOf:
+          - $ref: '#/components/schemas/SearchQueryFilterUUID'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      title: PostSearchTasksQueryModel
+    ScanConstraintsResponse:
+      properties:
+        imagingMode:
+          type: string
+          title: Imagingmode
+          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
+          default: SCAN
+        geometry:
+          $ref: '#/components/schemas/LineString'
+          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
+        polarization:
+          $ref: '#/components/schemas/PolarizationEnum'
+          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+          default: VV
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
+          default: 2
+        grazingAngleMinDegrees:
+          type: integer
+          maximum: 89
+          minimum: 0
+          title: Grazinganglemindegrees
+          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 32
+        grazingAngleMaxDegrees:
+          type: integer
+          maximum: 90
+          minimum: 1
+          title: Grazinganglemaxdegrees
+          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 60
+        swathWidthMeters:
+          type: integer
+          maximum: 20000
+          minimum: 1000
+          title: Swathwidthmeters
+          description: The swath width of the scan in meters.
+          default: 8000
+      type: object
+      required:
+      - geometry
+      title: ScanConstraintsResponse
+    ResellableTaskProductType:
+      type: string
+      enum:
+      - GEC
+      - SICD
+      - SIDD
+      - CPHD
+      title: ResellableTaskProductType
+    SearchQueryFilterArray:
+      properties:
+        contains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contains
+        all:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: All
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterArray
     ImagingMode:
       type: string
       enum:
@@ -463,67 +688,13 @@ components:
       - SCAN
       title: ImagingMode
       description: The Imaging Mode for the Task
-    SearchQueryFilterUUID:
-      properties:
-        eq:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Eq
-        ne:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Ne
-      additionalProperties: false
-      type: object
-      title: SearchQueryFilterUUID
-    MultiLineString:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: MultiLineString
-        coordinates:
-          items:
-            items:
-              anyOf:
-              - $ref: '#/components/schemas/Position2D'
-              - $ref: '#/components/schemas/Position3D'
-            type: array
-            minItems: 2
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiLineString
-      description: MultiLineString Model
+    SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+      description: Sort direction
     Contract:
       properties:
         id:
@@ -613,80 +784,6 @@ components:
         saved on the Task and we don''t want to have to frequently update the model to account for fields
 
         that are not directly relevant to this service.'
-    PostSearchTasksQueryModel:
-      properties:
-        id:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterUUID'
-          - type: 'null'
-        geometry:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterGeometry'
-          - type: 'null'
-        createdAt:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterValue'
-          - type: 'null'
-        updatedAt:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterValue'
-          - type: 'null'
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterEnum_TaskStatus_'
-          - type: 'null'
-        userId:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterString'
-          - type: 'null'
-        deliveryConfigId:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterUUID'
-          - type: 'null'
-        tags:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterArray'
-          - type: 'null'
-        taskName:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterString'
-          - type: 'null'
-        taskType:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterEnum_TaskType_'
-          - type: 'null'
-        userOrderId:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterString'
-          - type: 'null'
-        imagingMode:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterEnum_ImagingMode_'
-          - type: 'null'
-        windowStartAt:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterValue'
-          - type: 'null'
-        windowEndAt:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterValue'
-          - type: 'null'
-        contractId:
-          anyOf:
-          - $ref: '#/components/schemas/SearchQueryFilterUUID'
-          - type: 'null'
-      additionalProperties: false
-      type: object
-      title: PostSearchTasksQueryModel
-    SceneSize:
-      type: string
-      enum:
-      - 4x4_KM
-      - 5x5_KM
-      - 10x10_KM
-      - NATURAL_FOOTPRINT
-      title: SceneSize
-      description: The requested Spotlight Scene Size in kilometers.
     SearchQueryFilterEnum_TaskType_:
       properties:
         in_:
@@ -699,86 +796,61 @@ components:
       additionalProperties: false
       type: object
       title: SearchQueryFilterEnum[TaskType]
-    SearchQueryFilterArray:
+    ScanConstraints:
       properties:
-        contains:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contains
-        all:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: All
-      additionalProperties: false
-      type: object
-      title: SearchQueryFilterArray
-    PolarizationEnum:
-      type: string
-      enum:
-      - VV
-      - HH
-      title: Polarization
-      description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-    Polygon:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
+        imagingMode:
           type: string
-          title: Type
-          default: Polygon
-        coordinates:
-          items:
-            items:
-              anyOf:
-              - $ref: '#/components/schemas/Position2D'
-              - $ref: '#/components/schemas/Position3D'
-            type: array
-            minItems: 4
-          type: array
-          title: Coordinates
+          title: Imagingmode
+          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
+          default: SCAN
+        geometry:
+          $ref: '#/components/schemas/LineString'
+          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
+        polarization:
+          $ref: '#/components/schemas/PolarizationEnum'
+          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+          default: VV
+        rangeResolutionMinMeters:
+          type: number
+          title: Rangeresolutionminmeters
+          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
+          default: 2
+        grazingAngleMinDegrees:
+          type: integer
+          maximum: 79
+          minimum: 0
+          title: Grazinganglemindegrees
+          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 32
+        grazingAngleMaxDegrees:
+          type: integer
+          maximum: 80
+          minimum: 1
+          title: Grazinganglemaxdegrees
+          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
+          default: 60
+        swathWidthMeters:
+          type: integer
+          maximum: 10000
+          minimum: 1000
+          title: Swathwidthmeters
+          description: The swath width of the scan in meters.
+          default: 8000
       type: object
       required:
-      - type
-      - coordinates
-      title: Polygon
-      description: Polygon Model
-    TaskStatusHistory:
-      properties:
-        status:
-          $ref: '#/components/schemas/TaskStatus'
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-      type: object
-      required:
-      - status
-      title: TaskStatusHistory
+      - geometry
+      title: ScanConstraints
+    Position3D:
+      prefixItems:
+      - type: number
+        title: Longitude
+      - type: number
+        title: Latitude
+      - type: number
+        title: Altitude
+      type: array
+      maxItems: 3
+      minItems: 3
     ArchiveResellSuccessResponseItem:
       properties:
         collectId:
@@ -853,6 +925,317 @@ components:
       - status
       - message
       title: ArchiveResellSuccessResponseItem
+    MultiPolygon:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiPolygon
+        coordinates:
+          items:
+            items:
+              items:
+                anyOf:
+                - $ref: '#/components/schemas/Position2D'
+                - $ref: '#/components/schemas/Position3D'
+              type: array
+              minItems: 4
+            type: array
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPolygon
+      description: MultiPolygon Model
+    LineString:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: LineString
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          minItems: 2
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: LineString
+      description: LineString Model
+    TaskProductType:
+      type: string
+      enum:
+      - CPHD
+      - GEC
+      - SIDD
+      - SICD
+      - DI_GIF
+      - DI_TIF
+      - CRSD
+      title: TaskProductType
+      description: See https://docs.canopy.umbra.space/docs/delivered-product-types for details.
+    PolarizationEnum:
+      type: string
+      enum:
+      - VV
+      - HH
+      title: Polarization
+      description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
+    CommercialTaskRequest:
+      properties:
+        constraints:
+          oneOf:
+          - $ref: '#/components/schemas/ScanConstraints'
+          - $ref: '#/components/schemas/SpotlightConstraints'
+          title: Constraints
+        windowStartAt:
+          type: string
+          format: date-time
+          title: Windowstartat
+        windowEndAt:
+          type: string
+          format: date-time
+          title: Windowendat
+        contractId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Contractid
+          description: Explicit contract chosen for feasibility; if omitted default contract is used
+        imagingMode:
+          anyOf:
+          - $ref: '#/components/schemas/ImagingMode'
+          - type: 'null'
+          description: The 'imagingMode' property is deprecated. It is now derived from the 'constraints' property.
+          deprecated: true
+        scanConstraints:
+          anyOf:
+          - $ref: '#/components/schemas/ScanConstraints'
+          - type: 'null'
+          description: The 'scanConstraints' property is deprecated. Use 'constraints' instead.
+          deprecated: true
+        spotlightConstraints:
+          anyOf:
+          - $ref: '#/components/schemas/SpotlightConstraints'
+          - type: 'null'
+          description: The 'spotlightConstraints' property is deprecated. Use 'constraints' instead.
+          deprecated: true
+        deliveryConfigId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Deliveryconfigid
+        productTypes:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TaskProductType'
+            type: array
+          - type: 'null'
+          title: Producttypes
+          description: Products delivered to the customer. GEC will always be among delivered products, even if not requested directly. If None, all allowed products for your organization will be delivered.
+        tags:
+          items:
+            type: string
+            maxLength: 255
+            minLength: 1
+            pattern: ^[a-zA-Z0-9_-]+$
+          type: array
+          maxItems: 20
+          minItems: 0
+          title: Tags
+          description: Tags are a set of labels that can be applied to Tasks. Tags are repeatable and can be used across multiple Tasks, allowing customers to categorize, search, and filter their orders effectively.
+        taskName:
+          type: string
+          minLength: 1
+          title: Taskname
+        userOrderId:
+          type: string
+          title: Userorderid
+          default: ''
+        satelliteIds:
+          items:
+            type: string
+          type: array
+          title: Satelliteids
+          description: List of satellites to limit the requested task to. If empty, all applicable satellites for the requesting organization will be considered to fulfill the task. For available satellite ids, see https://docs.canopy.umbra.space/docs/umbra-satellites.
+      type: object
+      required:
+      - constraints
+      - windowStartAt
+      - windowEndAt
+      - taskName
+      title: CommercialTaskRequest
+      deprecationWarning: Having additional properties is deprecated and will be forbidden in the future.
+    Deramp:
+      type: string
+      enum:
+      - AUTO
+      - 'OFF'
+      title: Deramp
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MultiPoint:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: MultiPoint
+        coordinates:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Position2D'
+            - $ref: '#/components/schemas/Position3D'
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: MultiPoint
+      description: MultiPoint Model
+    Polygon:
+      properties:
+        bbox:
+          anyOf:
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 4
+            minItems: 4
+          - prefixItems:
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            - type: number
+            type: array
+            maxItems: 6
+            minItems: 6
+          - type: 'null'
+          title: Bbox
+        type:
+          type: string
+          title: Type
+          default: Polygon
+        coordinates:
+          items:
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/Position2D'
+              - $ref: '#/components/schemas/Position3D'
+            type: array
+            minItems: 4
+          type: array
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Polygon
+      description: Polygon Model
     SearchQueryFilterString:
       properties:
         eq:
@@ -883,114 +1266,6 @@ components:
       additionalProperties: false
       type: object
       title: SearchQueryFilterString
-    SortByField:
-      properties:
-        field:
-          type: string
-          title: Field
-        dir:
-          $ref: '#/components/schemas/SortDirection'
-      type: object
-      required:
-      - field
-      - dir
-      title: SortByField
-    TaskProductType:
-      type: string
-      enum:
-      - CPHD
-      - GEC
-      - SIDD
-      - SICD
-      - DI_GIF
-      - DI_TIF
-      - CRSD
-      title: TaskProductType
-      description: See https://docs.canopy.umbra.space/docs/delivered-product-types for details.
-    TaskStatus:
-      type: string
-      enum:
-      - RECEIVED
-      - REVIEW
-      - ACCEPTED
-      - ACTIVE
-      - SCHEDULED
-      - REJECTED
-      - EXPIRED
-      - TASKED
-      - PROCESSING
-      - PROCESSED
-      - DELIVERING
-      - DELIVERED
-      - CANCEL_REQUESTED
-      - CANCELED
-      - ERROR
-      - ANOMALY
-      - COMPLETED
-      - SUBMITTED
-      - TRANSMITTED
-      - INCOMPLETE
-      title: TaskStatus
-      description: See https://docs.canopy.umbra.space/docs/tasking#task-status for details.
-    SearchQueryFilterValue:
-      properties:
-        eq:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Eq
-        ne:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Ne
-        gt:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Gt
-        lt:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Lt
-        gte:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Gte
-        lte:
-          anyOf:
-          - type: number
-          - type: string
-            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Lte
-      additionalProperties: false
-      type: object
-      title: SearchQueryFilterValue
     SearchQueryFilterEnum_TaskStatus_:
       properties:
         in_:
@@ -1003,80 +1278,6 @@ components:
       additionalProperties: false
       type: object
       title: SearchQueryFilterEnum[TaskStatus]
-    PaginatedFeatureCollection_Task_:
-      properties:
-        type:
-          type: string
-          title: Type
-          default: FeatureCollection
-        features:
-          items:
-            $ref: '#/components/schemas/Task'
-          type: array
-          title: Features
-        context:
-          $ref: '#/components/schemas/Context'
-      type: object
-      required:
-      - features
-      - context
-      title: PaginatedFeatureCollection[Task]
-    SearchQueryFilterEnum_ImagingMode_:
-      properties:
-        in_:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ImagingMode'
-            type: array
-          - type: 'null'
-          title: In
-      additionalProperties: false
-      type: object
-      title: SearchQueryFilterEnum[ImagingMode]
-    ScanConstraintsResponse:
-      properties:
-        imagingMode:
-          type: string
-          title: Imagingmode
-          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
-          default: SCAN
-        geometry:
-          $ref: '#/components/schemas/LineString'
-          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
-        polarization:
-          $ref: '#/components/schemas/PolarizationEnum'
-          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-          default: VV
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
-          default: 2
-        grazingAngleMinDegrees:
-          type: integer
-          maximum: 89
-          minimum: 0
-          title: Grazinganglemindegrees
-          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 32
-        grazingAngleMaxDegrees:
-          type: integer
-          maximum: 90
-          minimum: 1
-          title: Grazinganglemaxdegrees
-          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 60
-        swathWidthMeters:
-          type: integer
-          maximum: 20000
-          minimum: 1000
-          title: Swathwidthmeters
-          description: The swath width of the scan in meters.
-          default: 8000
-      type: object
-      required:
-      - geometry
-      title: ScanConstraintsResponse
     SpotlightConstraints:
       properties:
         imagingMode:
@@ -1137,12 +1338,77 @@ components:
       required:
       - geometry
       title: SpotlightConstraints
-    Deramp:
-      type: string
-      enum:
-      - AUTO
-      - 'OFF'
-      title: Deramp
+    SortByField:
+      properties:
+        field:
+          type: string
+          title: Field
+        dir:
+          $ref: '#/components/schemas/SortDirection'
+      type: object
+      required:
+      - field
+      - dir
+      title: SortByField
+    SearchQueryFilterValue:
+      properties:
+        eq:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Ne
+        gt:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Gt
+        lt:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lt
+        gte:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Gte
+        lte:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lte
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterValue
     SpotlightConstraintsResponse:
       properties:
         imagingMode:
@@ -1203,439 +1469,6 @@ components:
       required:
       - geometry
       title: SpotlightConstraintsResponse
-    ArchiveResellRequest:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ArchiveResellRequestItem'
-          type: array
-          maxItems: 50
-          minItems: 1
-          title: Items
-          description: Array of archive resell orders. Max of 50 per request
-        targetContractId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Targetcontractid
-          description: UUID of the contract for validation
-      type: object
-      required:
-      - items
-      title: ArchiveResellRequest
-      description: Request model for public-facing archive resell requests
-    MultiPolygon:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: MultiPolygon
-        coordinates:
-          items:
-            items:
-              items:
-                anyOf:
-                - $ref: '#/components/schemas/Position2D'
-                - $ref: '#/components/schemas/Position3D'
-              type: array
-              minItems: 4
-            type: array
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiPolygon
-      description: MultiPolygon Model
-    ScanConstraints:
-      properties:
-        imagingMode:
-          type: string
-          title: Imagingmode
-          description: 'The imaging mode for the task. Supported imaging modes include: SPOTLIGHT, SCAN.'
-          default: SCAN
-        geometry:
-          $ref: '#/components/schemas/LineString'
-          description: Starting and ending points for a scan geometry. The first coordinate is the starting point and the second coordinate is the ending point. There must be exactly two coordinates in the geometry.
-        polarization:
-          $ref: '#/components/schemas/PolarizationEnum'
-          description: The first letter indicates the orientation of the wave as it is transmitted. The second letter indicates how the wave is filtered when received.
-          default: VV
-        rangeResolutionMinMeters:
-          type: number
-          title: Rangeresolutionminmeters
-          description: ' Valid range resolutions include: 0.5, 1.0, 2.0. Please query the organization settings endpoint for allowed range resolution values for your organization'
-          default: 2
-        grazingAngleMinDegrees:
-          type: integer
-          maximum: 79
-          minimum: 0
-          title: Grazinganglemindegrees
-          description: The minimum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 32
-        grazingAngleMaxDegrees:
-          type: integer
-          maximum: 80
-          minimum: 1
-          title: Grazinganglemaxdegrees
-          description: The maximum angle between the local tangent plane at the target location and the line of sight vector between the satellite and the target.
-          default: 60
-        swathWidthMeters:
-          type: integer
-          maximum: 10000
-          minimum: 1000
-          title: Swathwidthmeters
-          description: The swath width of the scan in meters.
-          default: 8000
-      type: object
-      required:
-      - geometry
-      title: ScanConstraints
-    MultiPoint:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: MultiPoint
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: MultiPoint
-      description: MultiPoint Model
-    TaskType:
-      type: string
-      enum:
-      - STANDARD
-      - ARCHIVE
-      title: TaskType
-      description: TaskType
-    ArchiveResellFailureResponseItem:
-      properties:
-        collectId:
-          type: string
-          format: uuid
-          title: Collectid
-          description: UUID of the collect
-        status:
-          type: string
-          title: Status
-          description: Status of the resell request
-        message:
-          type: string
-          title: Message
-          description: Success or error message
-      type: object
-      required:
-      - collectId
-      - status
-      - message
-      title: ArchiveResellFailureResponseItem
-    SearchQueryFilterGeometry:
-      properties:
-        intersects:
-          anyOf:
-          - oneOf:
-            - $ref: '#/components/schemas/Point'
-            - $ref: '#/components/schemas/MultiPoint'
-            - $ref: '#/components/schemas/LineString'
-            - $ref: '#/components/schemas/MultiLineString'
-            - $ref: '#/components/schemas/Polygon'
-            - $ref: '#/components/schemas/MultiPolygon'
-            - $ref: '#/components/schemas/GeometryCollection-Input'
-            discriminator:
-              propertyName: type
-              mapping:
-                GeometryCollection: '#/components/schemas/GeometryCollection-Input'
-                LineString: '#/components/schemas/LineString'
-                MultiLineString: '#/components/schemas/MultiLineString'
-                MultiPoint: '#/components/schemas/MultiPoint'
-                MultiPolygon: '#/components/schemas/MultiPolygon'
-                Point: '#/components/schemas/Point'
-                Polygon: '#/components/schemas/Polygon'
-          - type: 'null'
-          title: Intersects
-      additionalProperties: false
-      type: object
-      title: SearchQueryFilterGeometry
-    ArchiveResellRequestItem:
-      properties:
-        collectId:
-          type: string
-          format: uuid
-          title: Collectid
-          description: UUID of the collect to resell
-        productTypes:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ResellableTaskProductType'
-            type: array
-          - type: 'null'
-          title: Producttypes
-          description: Optional list of product types to deliver. If none provided, default products are used.
-        deliveryConfigId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Deliveryconfigid
-          description: Optional delivery config ID for the resell
-        userOrderId:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Userorderid
-          description: Optional user-provided order identifier
-        taskName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Taskname
-          description: Name of the task. If none provided, a generic name will be auto-generated.
-      type: object
-      required:
-      - collectId
-      title: ArchiveResellRequestItem
-      description: Request model for a single archive resell item
-    ArchiveResellResponse:
-      properties:
-        results:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/ArchiveResellSuccessResponseItem'
-            - $ref: '#/components/schemas/ArchiveResellFailureResponseItem'
-          type: array
-          title: Results
-          description: Results for each resell request
-        targetContractId:
-          type: string
-          format: uuid
-          title: Targetcontractid
-          description: UUID of the resell contract
-      type: object
-      required:
-      - results
-      - targetContractId
-      title: ArchiveResellResponse
-      description: Response model for public-facing archive resell requests
-    ResellableTaskProductType:
-      type: string
-      enum:
-      - GEC
-      - SICD
-      - SIDD
-      - CPHD
-      title: ResellableTaskProductType
-    Task:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        type:
-          type: string
-          title: Type
-          default: Feature
-        geometry:
-          oneOf:
-          - $ref: '#/components/schemas/Point'
-          - $ref: '#/components/schemas/MultiPoint'
-          - $ref: '#/components/schemas/LineString'
-          - $ref: '#/components/schemas/MultiLineString'
-          - $ref: '#/components/schemas/Polygon'
-          - $ref: '#/components/schemas/MultiPolygon'
-          - $ref: '#/components/schemas/GeometryCollection-Output'
-          title: Geometry
-          discriminator:
-            propertyName: type
-            mapping:
-              GeometryCollection: '#/components/schemas/GeometryCollection-Output'
-              LineString: '#/components/schemas/LineString'
-              MultiLineString: '#/components/schemas/MultiLineString'
-              MultiPoint: '#/components/schemas/MultiPoint'
-              MultiPolygon: '#/components/schemas/MultiPolygon'
-              Point: '#/components/schemas/Point'
-              Polygon: '#/components/schemas/Polygon'
-        properties:
-          $ref: '#/components/schemas/TaskProperties'
-        bulkTaskId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Bulktaskid
-      type: object
-      required:
-      - geometry
-      - properties
-      title: Task
-      description: 'A reservation for an Opportunity that will generate one or more Collects
-
-
-        It is not necessary to first generate an Opportunity. A Task can be specified
-
-        with a broad window which allows the Umbra scheduler to automatically
-
-        determine when to place the Task.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Point:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: Point
-        coordinates:
-          anyOf:
-          - $ref: '#/components/schemas/Position2D'
-          - $ref: '#/components/schemas/Position3D'
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: Point
-      description: Point Model
-    SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-      description: Sort direction
-    LineString:
-      properties:
-        bbox:
-          anyOf:
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 4
-            minItems: 4
-          - prefixItems:
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            - type: number
-            type: array
-            maxItems: 6
-            minItems: 6
-          - type: 'null'
-          title: Bbox
-        type:
-          type: string
-          title: Type
-          default: LineString
-        coordinates:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Position2D'
-            - $ref: '#/components/schemas/Position3D'
-          type: array
-          minItems: 2
-          title: Coordinates
-      type: object
-      required:
-      - type
-      - coordinates
-      title: LineString
-      description: LineString Model
-    Position2D:
-      prefixItems:
-      - type: number
-        title: Longitude
-      - type: number
-        title: Latitude
-      type: array
-      maxItems: 2
-      minItems: 2
     GeometryCollection-Input:
       properties:
         bbox:
@@ -1691,7 +1524,133 @@ components:
       - geometries
       title: GeometryCollection
       description: GeometryCollection Model
-    GeometryCollection-Output:
+    SearchQueryFilterEnum_ImagingMode_:
+      properties:
+        in_:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ImagingMode'
+            type: array
+          - type: 'null'
+          title: In
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterEnum[ImagingMode]
+    Task:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        type:
+          type: string
+          title: Type
+          default: Feature
+        geometry:
+          oneOf:
+          - $ref: '#/components/schemas/Point'
+          - $ref: '#/components/schemas/MultiPoint'
+          - $ref: '#/components/schemas/LineString'
+          - $ref: '#/components/schemas/MultiLineString'
+          - $ref: '#/components/schemas/Polygon'
+          - $ref: '#/components/schemas/MultiPolygon'
+          - $ref: '#/components/schemas/GeometryCollection-Output'
+          title: Geometry
+          discriminator:
+            propertyName: type
+            mapping:
+              GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+              LineString: '#/components/schemas/LineString'
+              MultiLineString: '#/components/schemas/MultiLineString'
+              MultiPoint: '#/components/schemas/MultiPoint'
+              MultiPolygon: '#/components/schemas/MultiPolygon'
+              Point: '#/components/schemas/Point'
+              Polygon: '#/components/schemas/Polygon'
+        properties:
+          $ref: '#/components/schemas/TaskProperties'
+        bulkTaskId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bulktaskid
+      type: object
+      required:
+      - geometry
+      - properties
+      title: Task
+      description: 'A reservation for an Opportunity that will generate one or more Collects
+
+
+        It is not necessary to first generate an Opportunity. A Task can be specified
+
+        with a broad window which allows the Umbra scheduler to automatically
+
+        determine when to place the Task.'
+    TaskStatus:
+      type: string
+      enum:
+      - RECEIVED
+      - REVIEW
+      - ACCEPTED
+      - ACTIVE
+      - SCHEDULED
+      - REJECTED
+      - EXPIRED
+      - TASKED
+      - PROCESSING
+      - PROCESSED
+      - DELIVERING
+      - DELIVERED
+      - CANCEL_REQUESTED
+      - CANCELED
+      - ERROR
+      - ANOMALY
+      - COMPLETED
+      - SUBMITTED
+      - TRANSMITTED
+      - INCOMPLETE
+      title: TaskStatus
+      description: See https://docs.canopy.umbra.space/docs/tasking#task-status for details.
+    SearchQueryFilterUUID:
+      properties:
+        eq:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Ne
+      additionalProperties: false
+      type: object
+      title: SearchQueryFilterUUID
+    ArchiveResellFailureResponseItem:
+      properties:
+        collectId:
+          type: string
+          format: uuid
+          title: Collectid
+          description: UUID of the collect
+        status:
+          type: string
+          title: Status
+          description: Status of the resell request
+        message:
+          type: string
+          title: Message
+          description: Success or error message
+      type: object
+      required:
+      - collectId
+      - status
+      - message
+      title: ArchiveResellFailureResponseItem
+    Point:
       properties:
         bbox:
           anyOf:
@@ -1718,34 +1677,75 @@ components:
         type:
           type: string
           title: Type
-        geometries:
-          items:
-            oneOf:
+          default: Point
+        coordinates:
+          anyOf:
+          - $ref: '#/components/schemas/Position2D'
+          - $ref: '#/components/schemas/Position3D'
+          title: Coordinates
+      type: object
+      required:
+      - type
+      - coordinates
+      title: Point
+      description: Point Model
+    PostSearchTasksRequest:
+      properties:
+        limit:
+          anyOf:
+          - type: integer
+            maximum: 200
+            minimum: 1
+          - type: 'null'
+          title: Limit
+          default: 20
+        skip:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          title: Skip
+          default: 0
+        sortBy:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SortByField'
+            type: array
+          - type: 'null'
+          title: Sortby
+        query:
+          $ref: '#/components/schemas/PostSearchTasksQueryModel'
+      type: object
+      required:
+      - query
+      title: PostSearchTasksRequest
+    SearchQueryFilterGeometry:
+      properties:
+        intersects:
+          anyOf:
+          - oneOf:
             - $ref: '#/components/schemas/Point'
             - $ref: '#/components/schemas/MultiPoint'
             - $ref: '#/components/schemas/LineString'
             - $ref: '#/components/schemas/MultiLineString'
             - $ref: '#/components/schemas/Polygon'
             - $ref: '#/components/schemas/MultiPolygon'
-            - $ref: '#/components/schemas/GeometryCollection-Output'
+            - $ref: '#/components/schemas/GeometryCollection-Input'
             discriminator:
               propertyName: type
               mapping:
-                GeometryCollection: '#/components/schemas/GeometryCollection-Output'
+                GeometryCollection: '#/components/schemas/GeometryCollection-Input'
                 LineString: '#/components/schemas/LineString'
                 MultiLineString: '#/components/schemas/MultiLineString'
                 MultiPoint: '#/components/schemas/MultiPoint'
                 MultiPolygon: '#/components/schemas/MultiPolygon'
                 Point: '#/components/schemas/Point'
                 Polygon: '#/components/schemas/Polygon'
-          type: array
-          title: Geometries
+          - type: 'null'
+          title: Intersects
+      additionalProperties: false
       type: object
-      required:
-      - type
-      - geometries
-      title: GeometryCollection
-      description: GeometryCollection Model
+      title: SearchQueryFilterGeometry
   securitySchemes:
     bearerAuth:
       type: http
