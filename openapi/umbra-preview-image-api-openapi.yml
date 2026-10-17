@@ -472,28 +472,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ImageType:
-      type: string
-      enum:
-      - png
-      - npy
-      - tif
-      - jpeg
-      - jpg
-      - jp2
-      - webp
-      - pngraw
-      title: ImageType
-      description: Available Output image type.
     ValidationError:
       properties:
         loc:
@@ -515,6 +493,28 @@ components:
       - msg
       - type
       title: ValidationError
+    ImageType:
+      type: string
+      enum:
+      - png
+      - npy
+      - tif
+      - jpeg
+      - jpg
+      - jp2
+      - webp
+      - pngraw
+      title: ImageType
+      description: Available Output image type.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     bearerAuth:
       type: http
